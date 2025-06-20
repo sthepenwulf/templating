@@ -1,0 +1,434 @@
+<head>
+    <meta charset="utf-8">
+    <title>Telecentro Templating</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="BarrientosG">
+    <link rel="stylesheet" href="pagina.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+</head>
+
+<body>
+<div>
+<div>
+  <div id="ContenedorCabecera" onClick="location.href=location.href">
+  <div id="ContenedorCabeceraIzquierda">                  
+</div>
+</div>                   
+
+<div id="menu">
+ 
+<ul id="nav">
+<li><a>SWITCHES</a>
+ <ul>
+ <li><a type="button" onclick="myFunction8()"> SG3210 </a></li>
+ <li><a type="button" onclick="myFunction1()"> SG350 </a></li>
+ <li><a type="button" onclick="myFunction2()"> VPN </a></li>
+ <li><a type="button" onclick="myFunction3()"> QINQ </a></li>
+ </ul>
+</li>
+ 
+<li><a>ROUTERS</a>
+ <ul>
+ <li><a type="button" onclick="myFunction4()"> 881 - YPF S.A </a></li>
+ <li><a type="button" onclick="myFunction5()"> 881 - DIA </a></li>
+ </ul>
+</li>
+ 
+
+<li><a type="button" onclick="myFunction7()">MEDIANT800</a>
+</li>
+
+
+</ul>
+ 
+</div>
+
+
+<div id="tabla1" style="display:none;">
+<div class="container">
+    <form id="contact" >
+        <h3>SG350 ADI/TLS</h3>
+         <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+
+            <input id="ip_mon" placeholder="IP Monitoria" type="text" tabindex="3" required>
+    
+            <input id="mask_mon" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+        
+            <input id="dg_mon" placeholder="Gateway Monitoria" type="text" tabindex="5" required>
+     
+            <input id="vlan" placeholder="VLAN de Servicio" type="text" tabindex="6" required>
+        
+            <input id="description" placeholder="Interface Description" type="text" tabindex="7" required>
+       
+            <input id="service" placeholder="Servicio de Cliente" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <button id="create" type="button">CREAR</button>
+            <a id="downloadlink" style="display: none">Descargar</a>
+         </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_sg350_ADI.js"></script>
+
+<div id="tabla2" style="display:none;">
+<div class="container">
+    <form id="contact" >
+        <h3>SG350 L3VPN</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id_2" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+   
+            <input id="client_name_2" placeholder="Razon Social" type="text" tabindex="2" required>
+     
+            <input id="ip_mon_2" placeholder="IP Monitoria" type="text" tabindex="3" required>
+
+            <input id="mask_mon_2" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+
+            <input id="dg_mon_2" placeholder="Gateway Monitoria" type="text" tabindex="5" required>
+   
+            <input id="vlan_2" placeholder="VLAN de Servicio" type="text" tabindex="6" required>
+   
+            <input id="description_2" placeholder="Interface Description" type="text" tabindex="7" required>
+ 
+            <input id="service_2" placeholder="Servicio de Cliente" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <button id="create2" type="button">CREAR</button>
+            <a id="downloadlink2" style="display: none">Descargar</a>
+        </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_sg350-L3VPN.js"></script>
+
+
+<div id="tabla3" style="display:none;">
+<div class="container">
+    <form id="contact" >
+        <h3>SG350 TLS QinQ</h3>
+      <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id_3" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+        
+            <input id="client_name_3" placeholder="Razon Social" type="text" tabindex="2" required>
+        
+            <input id="ip_mon_3" placeholder="IP Monitoria" type="text" tabindex="3" required>
+
+            <input id="mask_mon_3" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+       
+            <input id="dg_mon_3" placeholder="Gateway Monitoria" type="text" tabindex="5" required>
+     
+            <input id="vlan_3" placeholder="Customer VLAN" type="text" tabindex="6" required>
+    
+            <input id="description_3" placeholder="Interface Description" type="text" tabindex="7" required>
+      
+            <input id="service_3" placeholder="Servicio de Cliente" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <button id="create3" type="button">CREAR</button>
+            <a id="downloadlink3" style="display: none">Descargar</a>
+        </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_sg350-QinQ.js"></script>
+
+<div id="tabla4" style="display:none;">
+<div class="container">
+    <form id="contact" >
+        <h3>C881 - YPF SA</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id_4" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+      
+            <input id="client_name_4" placeholder="Razon Social" type="text" tabindex="2" required>
+    
+            <input id="ip_mon_4" placeholder="IP Monitoria" type="text" tabindex="3" required>
+            <input id="mask_mon_4" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+    
+            <input id="dg_mon_4" placeholder="DG Monitoria" type="text" tabindex="5" required>
+      
+            <input id="vlan_4" placeholder="VLAN de Servicio" type="text" tabindex="6" required>
+        
+            <input id="wan_ip_4" placeholder="IP OSPF 10" type="text" tabindex="7" required>
+            <input id="wan_mask_4" placeholder="Mask" Value="255.255.255.252" type="text" tabindex="8" required>
+      
+            <input id="wan_dg_4" placeholder="IP ROUTE DEFAULT" type="text" tabindex="9" required>
+       
+            <input id="lan_net_4" placeholder="IP BGP" type="text" tabindex="10" required>
+            <input id="lan_mask_4" placeholder="Mask" Value="255.255.255.252" type="text" tabindex="11" required>
+     
+            <input id="lan_ip_4" placeholder="IP VLAN 10 (LAN CLIENTE)" type="text" tabindex="12" required>
+        
+            <input id="lan_dg_4" placeholder="Neighbor IP" type="text" tabindex="13" required>
+       
+            <input id="description_4" placeholder="Interface Description" type="text" tabindex="14" required>
+       
+            <input id="service_4" placeholder="Service" value="L3VPN-10Mbps" type="text" tabindex="15" required>
+        </fieldset>
+        <fieldset>
+            <button id="create4" type="button">CREAR</button>
+            <a id="downloadlink4" style="display: none">Descargar</a>
+        </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_881_YPF.js"></script>
+
+<div id="tabla5" style="display:none;">
+<div class="container">
+    <form id="contact" >
+        <h3>C881 - DIA%</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id_5" placeholder="Client's ID" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+            <input id="client_address_5" placeholder="Client's Address" type="text" tabindex="2" required>
+        </fieldset>
+        <fieldset>
+            <input id="mon_ip_5" placeholder="Monitoria IP address" type="text" tabindex="3" required>
+            <input id="mon_mask_5" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input id="mon_dg_5" placeholder="Monitoria DG address" type="text" tabindex="5" required>
+        </fieldset>
+        <fieldset>
+            <input id="vlan_5" placeholder="Service VLAN" value="" type="text" tabindex="6" required>
+        </fieldset>
+        <fieldset>
+            <input id="wan_ip_5" placeholder="WAN IP Address" type="text" tabindex="7" required>
+            <input id="wan_mask_5" placeholder="Mask" Value="255.255.255.252" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <input id="wan_dg_5" placeholder="WAN DG Address" type="text" tabindex="9" required>
+        </fieldset>
+        <fieldset>
+            <input id="loop_ip_5" placeholder="Loopback IP" type="text" tabindex="10" required>
+        </fieldset>
+        <fieldset>
+            <input id="service_5" placeholder="Service" value="L3VPN-1Mbps" type="text" tabindex="15" required>
+        </fieldset>
+        <fieldset>
+            <button id="create5" type="button">CREAR</button>
+            <a id="downloadlink5" style="display: none">Descargar</a>
+        </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_881_Dia.js"></script>
+
+<div id="tabla6" style="display:none;">
+<div class="container">
+    <form id="contact" >
+        <h3>MEDIANT800</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            
+            <input id="client_id_6" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+        
+            <input id="ip_host_6" placeholder="IP de Host" type="text" tabindex="3" required>
+      
+            <input id="ip_dg_6" placeholder="IP de DG" type="text" tabindex="3" required>
+        
+            <input id="linea_1_6" placeholder="Linea 1" type="text" tabindex="5" required>
+      
+            <input id="linea_2_6" placeholder="Linea 2" type="text" tabindex="6" required>
+      
+            <input id="linea_3_6" placeholder="Linea 3" type="text" tabindex="7" required>
+        
+            <input id="sip_trunk_6" placeholder="IP de SIP TRUNK" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <button id="create6" type="button">CREAR</button>
+            <a id="downloadlink6" style="display: none">Descargar</a>
+      </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_audiocodes.js"></script>
+    
+<div id="tabla7" style="display:none;">
+<div class="container">
+    <form id="contact" >
+        <h3>SG3210 ADI</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id_7" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+            <input id="ip_mon_7" placeholder="IP Monitoria" type="text" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input id="mask_mon_7" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input id="dg_mon_7" placeholder="Gateway Monitoria" type="text" tabindex="5" required>
+        </fieldset>
+        <fieldset>
+            <input id="vlan_7" placeholder="VLAN de Servicio" type="text" tabindex="6" required>
+        </fieldset>
+        <fieldset>
+            <input id="service_7" placeholder="Servicio de Cliente"   type="text" tabindex="7" required>
+        </fieldset>
+        <fieldset>
+            <button id="create7" type="button">CREAR</button>
+            <a id="downloadlink7" style="display: none">Descargar</a>
+      </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_sg3210_ADI.js"></script>
+
+
+
+
+<!-- lo siguiente es para que al elegir una tabla, oculte las demas y no se superpongan -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.0.4.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+
+
+function myFunction1() {
+    var x = document.getElementById('tabla1');
+    var y = document.getElementById('tabla2');
+    var z = document.getElementById('tabla3');
+    var a = document.getElementById('tabla4');
+    var b = document.getElementById('tabla5');
+    var d = document.getElementById('tabla6');
+    var e = document.getElementById('tabla7');
+	x.style.display = 'block';
+	y.style.display = 'none';
+	z.style.display = 'none';
+	a.style.display = 'none';
+	b.style.display = 'none';
+	d.style.display = 'none';
+                e.style.display = 'none';
+}
+
+function myFunction2() {
+    var x = document.getElementById('tabla2');
+    var y = document.getElementById('tabla1');
+    var z = document.getElementById('tabla3');
+    var a = document.getElementById('tabla4');
+    var b = document.getElementById('tabla5');
+    var d = document.getElementById('tabla6');
+    var e = document.getElementById('tabla7');
+	x.style.display = 'block';
+	y.style.display = 'none';
+	z.style.display = 'none';
+	a.style.display = 'none';
+	b.style.display = 'none';
+	d.style.display = 'none';
+                e.style.display = 'none';
+}
+
+function myFunction3() {
+    var x = document.getElementById('tabla3');
+    var y = document.getElementById('tabla1');
+    var z = document.getElementById('tabla2');
+    var a = document.getElementById('tabla4');
+    var b = document.getElementById('tabla5');
+    var d = document.getElementById('tabla6');
+    var e = document.getElementById('tabla7');
+	x.style.display = 'block';
+	y.style.display = 'none';
+	z.style.display = 'none';
+	a.style.display = 'none';
+	b.style.display = 'none';
+	d.style.display = 'none';
+                e.style.display = 'none';
+}
+
+function myFunction4() {
+    var x = document.getElementById('tabla4');
+    var y = document.getElementById('tabla1');
+    var z = document.getElementById('tabla2');
+    var a = document.getElementById('tabla3');
+    var b = document.getElementById('tabla5');
+    var d = document.getElementById('tabla6');
+    var e = document.getElementById('tabla7');
+	x.style.display = 'block';
+	y.style.display = 'none';
+	z.style.display = 'none';
+	a.style.display = 'none';
+	b.style.display = 'none';
+	d.style.display = 'none';
+                e.style.display = 'none';
+}
+
+function myFunction5() {
+    var x = document.getElementById('tabla5');
+    var y = document.getElementById('tabla1');
+    var z = document.getElementById('tabla2');
+    var a = document.getElementById('tabla3');
+    var b = document.getElementById('tabla4');
+    var d = document.getElementById('tabla6');
+    var e = document.getElementById('tabla7');
+	x.style.display = 'block';
+	y.style.display = 'none';
+	z.style.display = 'none';
+	a.style.display = 'none';
+	b.style.display = 'none';
+	d.style.display = 'none';
+                e.style.display = 'none';
+
+
+}
+
+function myFunction7() {
+    var x = document.getElementById('tabla6');
+    var y = document.getElementById('tabla1');
+    var z = document.getElementById('tabla2');
+    var a = document.getElementById('tabla3');
+    var b = document.getElementById('tabla4');
+    var d = document.getElementById('tabla5');
+    var e = document.getElementById('tabla7');
+	x.style.display = 'block';
+	y.style.display = 'none';
+	z.style.display = 'none';
+	a.style.display = 'none';
+	b.style.display = 'none';
+	d.style.display = 'none';
+                e.style.display = 'none';
+
+}
+
+
+function myFunction8() {
+    var x = document.getElementById('tabla7');
+    var y = document.getElementById('tabla2');
+    var z = document.getElementById('tabla3');
+    var a = document.getElementById('tabla4');
+    var b = document.getElementById('tabla5');
+    var d = document.getElementById('tabla6');
+    var e = document.getElementById('tabla1');
+	x.style.display = 'block';
+	y.style.display = 'none';
+	z.style.display = 'none';
+	a.style.display = 'none';
+	b.style.display = 'none';
+	d.style.display = 'none';
+                e.style.display = 'none';
+}
+
+
+
+    
+
+    
+
+    
+    
+
+
+</script>
+
+</div>
+</div>
+</body>

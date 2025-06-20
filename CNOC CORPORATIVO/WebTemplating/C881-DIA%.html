@@ -1,0 +1,82 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Telecentro Templating</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="DangeloG">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<ul>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">SG350</a>
+        <div class="dropdown-content">
+            <a href="sg350.html">ADI/TLS</a>
+            <a href="sg350QinQ.html">ADI/TLS-QinQ</a>
+            <a href="sg350-L3VPN.html">L3VPN</a>
+    </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">C881</a>
+        <div class="dropdown-content">
+            <a href="C881.html">C881 - YPF SA</a>
+            <a href="C881-DIA%.html">DIA%</a>
+    </li>
+    <li><a href="#news">NaDA</a></li>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
+        <div class="dropdown-content">
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+        </div>
+    </li>
+</ul>
+
+<!-- ************* form ************* -->
+<div class="container">
+    <form id="contact" >
+        <h3>C881 - DIA%</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id" placeholder="Client's ID" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+            <input id="client_address" placeholder="Client's Address" type="text" tabindex="2" required>
+        </fieldset>
+        <fieldset>
+            <input id="mon_ip" placeholder="Monitoria IP address" type="text" tabindex="3" required>
+            <input id="mon_mask" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input id="mon_dg" placeholder="Monitoria DG address" type="text" tabindex="5" required>
+        </fieldset>
+        <fieldset>
+            <input id="vlan" placeholder="Service VLAN" value="2306" type="text" tabindex="6" required>
+        </fieldset>
+        <fieldset>
+            <input id="wan_ip" placeholder="WAN IP Address" type="text" tabindex="7" required>
+            <input id="wan_mask" placeholder="Mask" Value="255.255.255.252" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <input id="wan_dg" placeholder="WAN DG Address" type="text" tabindex="9" required>
+        </fieldset>
+        <fieldset>
+            <input id="loop_ip" placeholder="Loopback IP" type="text" tabindex="10" required>
+            <input id="loop_mask" placeholder="Mask" Value="255.255.255.255" type="text" tabindex="11" required>
+        </fieldset>
+        <fieldset>
+            <input id="service" placeholder="Service" value="L3VPN-1Mbps" type="text" tabindex="15" required>
+        </fieldset>
+        <fieldset>
+            <button id="create" type="button">Create</button>
+            <a id="downloadlink" style="display: none">Download</a>
+        </fieldset>
+    </form>
+</div>
+<script src="myscripts_881_Dia.js"></script>
+</body>
+
+</html>

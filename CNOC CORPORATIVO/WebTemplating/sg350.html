@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Telecentro Templating</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="DangeloG">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<ul>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">SG350</a>
+        <div class="dropdown-content">
+            <a href="sg350.html">ADI/TLS</a>
+            <a href="sg350-QinQ.html">ADI/TLS-QinQ</a>
+            <a href="sg350-L3VPN.html">L3VPN</a>
+    </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">C881</a>
+        <div class="dropdown-content">
+            <a href="C881.html">C881 - YPF SA</a>
+            <a href="C881-DIA%.html">DIA%</a>
+    </li>
+    <li><a href="#news">NaDA</a></li>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
+        <div class="dropdown-content">
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+        </div>
+    </li>
+</ul>
+
+<!-- ************* form ************* -->
+<div class="container">
+    <form id="contact" >
+        <h3>SG350 ADI/TLS</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+            <input id="client_name" placeholder="Razon Social" type="text" tabindex="2" required>
+        </fieldset>
+        <fieldset>
+            <input id="ip_mon" placeholder="IP Monitoria" type="text" tabindex="3" required>
+            <input id="mask_mon" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input id="dg_mon" placeholder="Gateway Monitoria" type="text" tabindex="5" required>
+        </fieldset>
+        <fieldset>
+            <input id="vlan" placeholder="VLAN de Servicio" type="text" tabindex="6" required>
+        </fieldset>
+        <fieldset>
+            <input id="description" placeholder="Interface Description" type="text" tabindex="7" required>
+        </fieldset>
+        <fieldset>
+            <input id="service" placeholder="Servicio de Cliente" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <button id="create" type="button">CREAR</button>
+            <a id="downloadlink" style="display: none">Download</a>
+        </fieldset>
+    </form>
+</div>
+<script src="myscripts_sg350.js"></script>
+<h1 align="center";">POWERED BY GUILLOTE.</h1>
+</body>
+</html>

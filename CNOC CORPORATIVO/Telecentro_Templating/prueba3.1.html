@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="refresh" content="200">
+<link href="pagina.css" rel="stylesheet" type="text/css">
+<title>cambiar nombre de titulo</title>
+</head>
+<body>
+
+
+
+<iframe id="html" src="http://m4.telecentro.net.ar/equipos/equipos_estado.php" height="50" width="980"></iframe>
+
+
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+
+<script language="JavaScript" type="text/JavaScript">
+
+var a = getElementsByTagName("body")[0].innerHTML;
+
+var b = a.getElementById("html")[0].contentDocument;
+
+
+
+
+
+
+
+document.getElementById("demo1").innerHTML = b;
+
+
+</script>
+
+
+
+</body>
+</html>

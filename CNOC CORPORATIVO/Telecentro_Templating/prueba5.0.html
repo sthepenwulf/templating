@@ -1,0 +1,46 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="refresh" content="200">
+<link href="pagina.css" rel="stylesheet" type="text/css">
+<title>cambiar nombre de titulo</title>
+</head>
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<form action="http://m4.telecentro.net.ar/equipos/equipos_estado.php" method="post" name="filtro" target="_self">
+<tbody>
+	<tr>
+	    <td>
+		<table width="100%" border="0" cellpadding="1" cellspacing="1" class="body" bgcolor="#666666">
+        	<tbody><tr>
+          <td width="95%" nowrap="nowrap" bgcolor="#CCCCCC">
+<input name="Submit" type="submit" class="sbutton" id="Submit" value="Filtrar">
+<input name="f_equiposest_hostname" type="text" class="inputselect" id="f_equiposest_hostname" size="20" value="">
+</td>
+</td>
+
+<script language="JavaScript" type="text/JavaScript">
+
+// usamos el iframe para acceder al objeto document de http://m4.telecentro.net.ar/equipos/equipos_estado.php
+var iframeDocument = document.getElementById('iframePagina1').contentDocument;
+ 
+// usando el método getElementsByClassName de ese objeto accedemos a 'fteListado'
+var miClass = iframeDocument.getElementsByClassName("fteListado");
+ 
+/*
+Listo, la variable miDiv es una referencia al div en cuestión con todos sus métodos y atributos
+*/
+
+</script>
+
+</tr>
+</tbody>
+
+</form>
+
+</table></table>
+
+<iframe id="iframePagina1" src="http://m4.telecentro.net.ar/equipos/equipos_estado.php"></iframe> 
+
+</html>
+

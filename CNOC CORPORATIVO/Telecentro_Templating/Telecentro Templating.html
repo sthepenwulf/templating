@@ -1,0 +1,262 @@
+<head>
+    <meta charset="utf-8">
+    <title>Telecentro Templating</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="BarrientosG">
+    <link rel="stylesheet" href="pagina.css">
+</head>
+
+<body>
+<div>
+<div>
+  <div id="ContenedorCabecera">
+  <div id="ContenedorCabeceraIzquierda">                       
+</div>
+</div>                   
+
+<div id="menu">
+ 
+<ul id="nav">
+<li><a href="#">ADI/TLS</a>
+ <ul>
+ <li><a type="button" onclick="myFunction1()"> SG300 / SG350 </a></li>
+ <li><a type="button" onclick="myFunction2()"> VPN </a></li>
+ <li><a type="button" onclick="myFunction3()"> QINQ </a></li>
+ </ul>
+</li>
+ 
+<li><a href="#">881</a>
+ <ul>
+ <li><a type="button" onclick="myFunction4()"> 881 - YPF S.A </a></li>
+ <li><a type="button" onclick="myFunction5()"> 881 - DIA </a></li>
+ <li><a href="#">Menu 2 Submenu item 3</a></li>
+ </ul>
+</li>
+ 
+<li><a href="#">A MODIFICAR</a>
+ <ul>
+ <li><a href="#">OPCION 1</a></li>
+ <li><a href="#">OPCION 2</a></li>
+ <li><a href="#">OPCION 3</a></li>
+ </ul>
+</li>
+</ul>
+ 
+</div>
+
+<div id="tabla1" style="display:none;">
+<div class="container">
+    <form id="contact" >
+        <h3>SG350 ADI/TLS</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+            <input id="client_name" placeholder="Razon Social" type="text" tabindex="2" required>
+        </fieldset>
+        <fieldset>
+            <input id="ip_mon" placeholder="IP Monitoria" type="text" tabindex="3" required>
+            <input id="mask_mon" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input id="dg_mon" placeholder="Gateway Monitoria" type="text" tabindex="5" required>
+        </fieldset>
+        <fieldset>
+            <input id="vlan" placeholder="VLAN de Servicio" type="text" tabindex="6" required>
+        </fieldset>
+        <fieldset>
+            <input id="description" placeholder="Interface Description" type="text" tabindex="7" required>
+        </fieldset>
+        <fieldset>
+            <input id="service" placeholder="Servicio de Cliente" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <button id="create" type="button">CREAR</button>
+            <a id="downloadlink" style="display: none">Download</a>
+      </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_sg350.js"></script>
+
+<div id="tabla2" style="display:none;">
+<div class="container">
+    <form id="contact">
+        <h3>SG350 L3VPN</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+            <input id="client_name" placeholder="Razon Social" type="text" tabindex="2" required>
+        </fieldset>
+        <fieldset>
+            <input id="ip_mon" placeholder="IP Monitoria" type="text" tabindex="3" required>
+            <input id="mask_mon" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input id="dg_mon" placeholder="Gateway Monitoria" type="text" tabindex="5" required>
+        </fieldset>
+        <fieldset>
+            <input id="vlan" placeholder="VLAN de Servicio" type="text" tabindex="6" required>
+        </fieldset>
+        <fieldset>
+            <input id="description" placeholder="Interface Description" type="text" tabindex="7" required>
+        </fieldset>
+        <fieldset>
+            <input id="service" placeholder="Servicio de Cliente" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <button id="create" type="button">CREAR</button>
+            <a id="downloadlink" style="display: none">Download</a>
+        </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_sg350-L3VPN.js"></script>
+
+
+<div id="tabla3" style="display:none;">
+<div class="container">
+    <form id="contact">
+        <h3>SG350 TLS QinQ</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id" placeholder="ID de Cliente" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+            <input id="client_name" placeholder="Razon Social" type="text" tabindex="2" required>
+        </fieldset>
+        <fieldset>
+            <input id="ip_mon" placeholder="IP Monitoria" type="text" tabindex="3" required>
+            <input id="mask_mon" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input id="dg_mon" placeholder="Gateway Monitoria" type="text" tabindex="5" required>
+        </fieldset>
+        <fieldset>
+            <input id="vlan" placeholder="Customer VLAN" type="text" tabindex="6" required>
+        </fieldset>
+        <fieldset>
+            <input id="description" placeholder="Interface Description" type="text" tabindex="7" required>
+        </fieldset>
+        <fieldset>
+            <input id="service" placeholder="Servicio de Cliente" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <button id="create" type="button">CREAR</button>
+            <a id="downloadlink" style="display: none">Download</a>
+        </fieldset>
+    </form>
+</div>
+</div>
+<script src="myscripts_sg350-QinQ.js"></script>
+
+<div id="tabla4" style="display:none;">
+<div class="container">
+    <form id="contact" >
+        <h3>C881 - YPF SA</h3>
+        <!-- <h4>Contact us for custom quote</h4> -->
+        <fieldset>
+            <input id="client_id" placeholder="Client's ID" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+            <input id="client_name" placeholder="Client's Name" type="text" tabindex="2" required>
+        </fieldset>
+        <fieldset>
+            <input id="ip_mon" placeholder="Monitoria IP address" type="text" tabindex="3" required>
+            <input id="mask_mon" placeholder="Mask" value="255.255.255.240" type="text" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input id="dg_mon" placeholder="Monitoria DG address" type="text" tabindex="5" required>
+        </fieldset>
+        <fieldset>
+            <input id="vlan" placeholder="Service VLAN" type="text" tabindex="6" required>
+        </fieldset>
+        <fieldset>
+            <input id="wan_ip" placeholder="WAN IP Address" type="text" tabindex="7" required>
+            <input id="wan_mask" placeholder="Mask" Value="255.255.255.252" type="text" tabindex="8" required>
+        </fieldset>
+        <fieldset>
+            <input id="wan_dg" placeholder="WAN DG Address" type="text" tabindex="9" required>
+        </fieldset>
+        <fieldset>
+            <input id="lan_net" placeholder="LAN Network Address" type="text" tabindex="10" required>
+            <input id="lan_mask" placeholder="Mask" Value="255.255.255.252" type="text" tabindex="11" required>
+        </fieldset>
+        <fieldset>
+            <input id="lan_ip" placeholder="LAN IP Address" type="text" tabindex="12" required>
+        </fieldset>
+        <fieldset>
+            <input id="lan_dg" placeholder="LAN DG Address" type="text" tabindex="13" required>
+        </fieldset>
+        <fieldset>
+            <input id="description" placeholder="Interface Description" type="text" tabindex="14" required>
+        </fieldset>
+        <fieldset>
+            <input id="service" placeholder="Service" value="L3VPN-10Mbps" type="text" tabindex="15" required>
+        </fieldset>
+        <fieldset>
+            <button id="create" type="button">Create</button>
+            <a id="downloadlink" style="display: none">Download</a>
+        </fieldset>
+    </form>
+</div>
+<script src="myscripts_881.js"></script>
+
+<!-- lo siguiente es para que al elegir una tabla, oculte las demas y no se superpongan -->
+<script>
+
+
+function myFunction1() {
+    var x = document.getElementById('tabla1');
+    var y = document.getElementById('tabla2');
+    var z = document.getElementById('tabla3');
+    var a = document.getElementById('tabla4');
+        x.style.display = 'block';
+        y.style.display = 'none';
+        z.style.display = 'none';
+        a.style.display = 'none';
+
+}
+
+function myFunction2() {
+    var x = document.getElementById('tabla2');
+    var y = document.getElementById('tabla1');
+    var z = document.getElementById('tabla3');
+    var a = document.getElementById('tabla4');
+        x.style.display = 'block';
+        y.style.display = 'none';
+        z.style.display = 'none';
+        a.style.display = 'none';
+
+}
+
+function myFunction3() {
+    var x = document.getElementById('tabla3');
+    var y = document.getElementById('tabla1');
+    var z = document.getElementById('tabla2');
+    var a = document.getElementById('tabla4');
+        x.style.display = 'block';
+        y.style.display = 'none';
+        z.style.display = 'none';
+        a.style.display = 'none';
+
+}
+
+function myFunction4() {
+    var x = document.getElementById('tabla4');
+    var y = document.getElementById('tabla1');
+    var z = document.getElementById('tabla2');
+    var a = document.getElementById('tabla3');
+        x.style.display = 'block';
+        y.style.display = 'none';
+        z.style.display = 'none';
+        a.style.display = 'none';
+
+}
+
+</script>
+
+<body/>

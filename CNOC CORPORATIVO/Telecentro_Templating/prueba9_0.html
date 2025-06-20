@@ -1,0 +1,143 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href=http://m4.telecentro.net.ar/src/mira.css rel="stylesheet" type="text/css">
+<title>Telecentro - Sistema de Monitoria - Listado de equipos - Estado</title>
+</head>
+<link href="../mira.css" rel="stylesheet" type="text/css">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<form method="post" name="filtro" target="_self">
+<tr><td><table width="100%" border="0" cellpadding="1" cellspacing="1" class="fteListado" bgcolor="#666666">
+        <tr>
+          <td width="38%" nowrap="nowrap" bgcolor="#CCCCCC"><input name="Submit" type="submit" class="sbutton" id="Submit" value="Filtrar" />
+            Filtros:
+            <label>
+            <input name="filtrar_estado_int_conalarm" type="checkbox" id="filtrar_estado_int_conalarm" value="1"  /> 
+             C/alarma </label>
+            <label>
+              <input name="filtrar_estado_int_conerrores" type="checkbox" id="filtrar_estado_int_conerrores" value="1"  />
+              C/errores</label>
+			<label>
+              <input name="filtrar_estado_int_operdown" type="checkbox" id="filtrar_estado_int_operdown" value="1"  />
+              Ca&iacute;das</label>			  
+			<label>
+              <input name="filtrar_estado_int_adminshut" type="checkbox" id="filtrar_estado_int_adminshut" value="1"  />
+              AdminShutdown</label>
+			<font size="2" face="Arial, Helvetica, sans-serif">- Limit:
+    <input name="f_interfaces_limit" type="text" class="inputselect" id="f_interfaces_limit" size="6" value='300' />
+    <label> </label>
+    </font>
+    <div align="right"></div></td>
+          <td width="38%" nowrap="nowrap" bgcolor="#CCCCCC"><div align="right">Interfaces: <strong>3</strong></div></td>
+        </tr>
+      </table>  
+<br />
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td height="40"><table width="100%" height="112" border="0" cellpadding="1" cellspacing="1" bgcolor="#CCCCCC" class="fteListado">
+          <tr bgcolor="#CCCCCC">
+            <td bgcolor="#CCCCCC"><div align="center">
+              <label>
+            <select name="f_interfaces_tipo" class="table_gen">
+              <option value="todas" selected>Todas</option>
+    
+<option value=5 >CLIENTE</option><option value=1 >CORE</option><option value=2 >ITX</option><option value=4 >MONITORIA</option><option value=7 >SISTEMAS</option><option value=3 >TELEFONIA</option><option value=8 >VIDEO</option><option value=9 >WIFI</option>              </select>
+              </label>
+            </div></td>
+            <td><div align="center"><font size="2" face="Arial, Helvetica, sans-serif">
+                <input name="f_interfaces_codigo" type="text" class="inputselect" id="f_interfaces_codigo" size="4" maxlength="10"
+	  value='' />
+            </font></div></td>
+            <td><div align="center"><font size="2" face="Arial, Helvetica, sans-serif">
+              <input name="f_interfaces_region" type="text" class="inputselect" id="f_interfaces_region" size="4"
+	  value='' />
+            </font></div></td>
+            <td><div align="center"><font size="2" face="Arial, Helvetica, sans-serif">
+              <input name="f_interfaces_hub" type="text" class="inputselect" id="f_interfaces_hub" size="4"
+	  value='' />
+            </font></div></td>
+            <td height="24" bgcolor="#CCCCCC"><div align="center">
+                <font size="2" face="Arial, Helvetica, sans-serif">
+                <input name="f_interfaces_hostname" type="text" class="inputselect" id="f_interfaces_hostname" size="10"
+	  value=''	  >
+            </font></div></td>
+            <td bgcolor="#CCCCCC"><div align="center"><font size="2" face="Arial, Helvetica, sans-serif">
+              <input name="f_interfaces_ifdesc" type="text" class="inputselect" id="f_interfaces_ifdesc" size="10"
+	  value='' />
+            </font></div></td>
+            <td bgcolor="#CCCCCC"><div align="center"><font size="2" face="Arial, Helvetica, sans-serif">
+              <input name="f_interfaces_ifalias" type="text" class="inputselect" id="f_interfaces_ifalias" size="20"
+	  value='%fleet%' />
+            </font></div></td>
+            <td bgcolor="#CCCCCC">&nbsp;</td>
+            <td colspan="5" nowrap="nowrap" bgcolor="#CCCCCC"><div align="center">Trafico [Mbps] </div></td>
+            <td colspan="2" bgcolor="#FFFF99"><div align="center"><strong>March</strong></div></td>
+            <td colspan="2"><div align="center">PPS</div></td>
+            <td colspan="2"><div align="center">Discards</div></td>
+            <td colspan="2"><div align="center">Errores </div></td>
+            <td colspan="2"><div align="center">Utilizaci&oacute;n </div></td>
+            </tr>
+          <tr bgcolor="#FFCC66">
+            <td width="5%" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif">Tipo</font></div></td>
+            <td width="5%" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif">Código</font></div></td>
+            <td width="5%" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=region">Regi&oacute;n</a></font></div></td>
+            <td width="5%" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=hub">Hub</a></font></div></td>
+            <td width="6%" height="18" bgcolor="#FFCC66" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=hostname">Hostname</a></font></div></td>
+            <td width="4%" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=interfaz">Interfaz</a></font></div></td>
+            <td width="14%" bgcolor="#FFCC66" ><div align="center"><a href="?orden=comentario"><font size="2" face="Arial, Helvetica, sans-serif">Descripci&oacute;n</font></a></div></td>
+            <td width="2%" ><div align="center"><a href="?orden=operstatus"><font size="1" face="Arial, Helvetica, sans-serif">Estado</font></a></div></td>
+            <td width="1%" nowrap="nowrap" bgcolor="#FFFFCC" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=trafico_bw">Bw</a></font></div></td>
+            <td width="4%" nowrap="nowrap" bgcolor="#FFFFCC" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=trafico_in">In</a><a href="?&amp;orden=trafico_in&ordir="></a></font></div></td>
+            <td width="4%" bgcolor="#FFFFCC" ><div align="center"><a href="?orden=trafico_out">Out</a></div></td>
+            <td width="0%" nowrap="nowrap" bgcolor="#FFFFCC" ><div align="center">
+              <p><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=trafico_in_ipv6">In IPv6</a></font>            </p>
+            </div></td>
+            <td width="4%" bgcolor="#FFFFCC" ><div align="center"><a href="?orden=trafico_out_ipv6">Out IPv6</a></div></td>
+            <td width="3%" nowrap="nowrap" bgcolor="#FFFFCC" ><div align="center"><a href="?orden=mes_p95_in">P95 in </a><br /><a href="?orden=mes_rxacum">RX</a></div></td>
+            <td width="4%" bgcolor="#FFFFCC" ><div align="center"><a href="?orden=mes_p95_out">P95 out </a><br /><a href="?orden=mes_txacum">TX</a><a href="?&amp;orden=trafico_out&ordir="></a></div></td>
+            <td width="2%" nowrap="nowrap" bgcolor="#CCCC99" ><div align="center"><a href="?orden=pps_in"><font size="2" face="Arial, Helvetica, sans-serif">In</font></a></div></td>
+            <td width="3%" nowrap="nowrap" bgcolor="#CCCC99" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=pps_out">Out</a></font></div></td>
+            <td width="2%" nowrap="nowrap" bgcolor="#CCCC99" ><div align="center"><a href="?orden=discards_in"><font size="2" face="Arial, Helvetica, sans-serif">In</font></a></div></td>
+            <td width="3%" nowrap="nowrap" bgcolor="#CCCC99" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=discards_out">Out</a></font></div></td>
+            <td width="2%" nowrap="nowrap" bgcolor="#CCCC99" ><div align="center"><a href="?orden=errores_in"><font size="2" face="Arial, Helvetica, sans-serif">In</font></a></div></td>
+            <td width="3%" nowrap="nowrap" bgcolor="#CCCC99" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=errores_out">Out</a></font></div></td>
+            <td width="2%" nowrap="nowrap" bgcolor="#CCCC99" ><div align="center"><a href="?orden=util_in"><font size="2" face="Arial, Helvetica, sans-serif">In</font></a></div></td>
+            <td width="17%" nowrap="nowrap" bgcolor="#CCCC99" ><div align="center"><font size="2" face="Arial, Helvetica, sans-serif"><a href="?orden=util_out">Out</a></font></div></td>
+            </tr>
+          <tr align="center" bgColor="#EEEEEE" class="fteNodo"><td align=center>CLIENTE</td><td align=center>3805160</td><TD align=CENTER VALIGN=center>Norte</TD><TD align=CENTER VALIGN=center>TI</TD><TD align=CENTER VALIGN=center>TI-ACCESO-N93180-1</TD><TD align=CENTER VALIGN=center>Ethernet1/14</TD><TD align=LEFT nowrap>##CLIENTE##3805160#4035625# FLEET - 10MBPS</td><TD align=CENTER VALIGN=center><img src="http://m4.telecentro.net.ar/imagenes/green_arrow.png" width="14" height="14" /></TD><TD align=CENTER VALIGN=center>1000</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055522';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055522';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055522';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055522';" >0</TD><TD align=CENTER nowrap="nowrap" VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/variables/variables_muestras_traf.php?idinterfaz=31271';" >0 Kbps<br>0 KB</TD><TD align=CENTER nowrap="nowrap" VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/variables/variables_muestras_traf.php?idinterface=31271';" >0 Kbps<br>0 KB</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055524';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055524';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055525';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055525';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055523';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=2055523';" >0</TD><td>0%</td><td>0%</td></tr><tr align="center" bgColor="#DDDDDD" class="fteNodo"><td align=center>CLIENTE</td><td align=center>3805160</td><TD align=CENTER VALIGN=center>Norte</TD><TD align=CENTER VALIGN=center>TI</TD><TD align=CENTER VALIGN=center>TI-PE</TD><TD align=CENTER VALIGN=center>Bundle-Ether30.2170</TD><TD align=LEFT nowrap>##CLIENTE##3805160# FLEET - INTERNET-10M</td><TD align=CENTER VALIGN=center><img src="http://m4.telecentro.net.ar/imagenes/green_arrow.png" width="14" height="14" /></TD><TD align=CENTER VALIGN=center>20000</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351889';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351889';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351889';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351889';" >0</TD><TD align=CENTER nowrap="nowrap" VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/variables/variables_muestras_traf.php?idinterfaz=44718';" >0 Kbps<br>0 KB</TD><TD align=CENTER nowrap="nowrap" VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/variables/variables_muestras_traf.php?idinterface=44718';" >0 Kbps<br>0 KB</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351891';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351891';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351892';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351892';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351890';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351890';" >0</TD><td>0%</td><td>0%</td></tr><tr align="center" bgColor="#EEEEEE" class="fteNodo"><td align=center>CLIENTE</td><td align=center>4035625</td><TD align=CENTER VALIGN=center>Norte</TD><TD align=CENTER VALIGN=center>TI</TD><TD align=CENTER VALIGN=center>TI-PE</TD><TD align=CENTER VALIGN=center>Bundle-Ether30.2276</TD><TD align=LEFT nowrap>##CLIENTE##4035625# FLEET - 10MBPS</td><TD align=CENTER VALIGN=center><img src="http://m4.telecentro.net.ar/imagenes/green_arrow.png" width="14" height="14" /></TD><TD align=CENTER VALIGN=center>20000</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351909';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351909';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351909';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351909';" >0</TD><TD align=CENTER nowrap="nowrap" VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/variables/variables_muestras_traf.php?idinterfaz=44722';" >0 Kbps<br>0 KB</TD><TD align=CENTER nowrap="nowrap" VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/variables/variables_muestras_traf.php?idinterface=44722';" >0 Kbps<br>0 KB</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351911';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351911';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351912';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351912';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351910';" >0</TD><TD align=CENTER VALIGN=center class="LinkTD" onclick="javascript:location.href='http://m4.telecentro.net.ar/graficos/graf.php?idvariable=4351910';" >0</TD><td>0%</td><td>0%</td></tr>      </table>
+	  
+	  
+	  </td>
+    </tr>
+</table>
+
+</td>
+</tr>
+</form>
+</table>
+</body>
+</html>
+
+<a id="demo1" align=CENTER VALIGN=center></a>
+<a id="demo2" align=CENTER VALIGN=center></a>
+<a id="demo3" align=CENTER VALIGN=center></a>
+<a id="demo4" align=CENTER VALIGN=center></a>
+<button id="probar" type="button" onclick="myFunction()">ver grafico</button>
+
+
+<script language="JavaScript" type="text/JavaScript">
+var x = document.querySelectorAll("td");
+document.getElementById("demo1").innerHTML =  x[44].innerHTML;
+document.getElementById("demo2").innerHTML =  x[45].innerHTML;
+document.getElementById("demo3").innerHTML =  x[46].innerHTML;
+document.getElementById("demo4").innerHTML =  x[47].innerHTML;
+
+function myFunction() {
+x[50].onclick();
+}
+
+
+</script>
+
+
+</body>
+</html>

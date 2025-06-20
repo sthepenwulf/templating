@@ -1,0 +1,123 @@
+(function () {
+    var textFile = null,
+        makeTextFile = function (text) {
+            var data = new Blob([text], { type: 'text/plain' });
+
+            // If we are replacing a previously generated file we need to
+            // manually revoke the object URL to avoid memory leaks.
+            if (textFile !== null) {
+                window.URL.revokeObjectURL(textFile);
+            }
+
+            textFile = window.URL.createObjectURL(data);
+
+            return textFile;
+        };
+    console.log("UNO");
+
+	var client_id = 0;
+        var ip_mon_7 = 0;
+        var dg_mon_7 = 0;
+        var mask_mon_7 = 0;
+        var vlan_7 = 0;
+        var service_7 = 0;
+
+
+    var create = document.getElementById('create8');
+
+    create.addEventListener('click', function () {
+
+        console.log("DOS");
+        var client_id_8 = document.getElementById('client_id_8').value;
+        var ip_mon_8 = document.getElementById('ip_mon_8').value;
+        var dg_mon_8 = document.getElementById('dg_mon_8').value;
+        var mask_mon_8 = document.getElementById('mask_mon_8').value;
+        var vlan_8 = document.getElementById('vlan_8').value;
+        var service_8 = document.getElementById('service_8').value;
+
+        var output = Conf t\r
+
+hostname CPE-ISR1111-${client_id_8}\r
+
+vrf definition MONITORIA-CPE
+address-family ipv4
+exit-address-family
+
+ip domain-name telecentro.net.ar
+
+crypto key generate rsa modulus 4096
+ip ssh version 2
+
+username telecentro privilege 15 password 0 Inst4l4c10n3s
+username backups privilege 15 password 0 c0rp0backup!
+
+service password-encryption
+
+line con 0
+login local
+line vty 0 15
+privilege level 15
+login local
+transport input telnet ssh
+
+snmp-server community TELECENTRO-${client_id_8} RO SNMP 
+snmp-server community CpeSnmpTlc!! RO SNMP
+
+ip route vrf MONITORIA-CPE 0.0.0.0 0.0.0.0 ${dg_mon_8}
+
+interface GigabitEthernet0/0/0
+description ##UPLINK##
+no ip address
+negotiation auto
+no shutdown
+exit
+
+vlan 152
+name GESTION
+exit
+
+interface GigabitEthernet0/0/0.152
+description ##MONITORIA## MONITORIA-CPE
+encapsulation dot1Q 152
+vrf forwarding MONITORIA-CPE
+ip address ${ip_mon_8} ${mask_mon_8}
+no shutdown
+exit
+
+vlan 2112
+name {client_id_8}-${service_8}
+exit
+
+router bgp 65501
+ bgp log-neighbor-changes
+ redistribute connected
+ redistribute static
+ neighbor 10.50.5.1 remote-as 27747
+ neighbor 10.50.5.1 send-community
+
+ntp server vrf MONITORIA-CPE 192.168.15.74
+!
+banner motd ^C
+-----------------------------------------------------
+ |__   __| | |                   | |            
+    | | ___| | ___  ___ ___ _ __ | |_ _ __ ___  
+    | |/ _ \ |/ _ \/ __/ _ \ '_ \| __| '__/ _ \ 
+    | |  __/ |  __/ (_|  __/ | | | |_| | | (_) |
+    |_|\___|_|\___|\___\___|_| |_|\__|_|  \___/ 
+                                                
+Este sistema es propiedad de Telecentro S.A.
+ESTA PROHIBIDO EL ACCESO A PERSONAL NO AUTORIZADO.
+Ud. debe  tener permiso explicito para acceder a este
+equipo.  Todas las actividades son monitoreadas y re-
+gistradas. Cualquier violacion de acceso resultara en
+acciones legales.
+-----------------------------------------------------^C
+exit
+
+        var link = document.getElementById('downloadlink8');
+        link.style.display = 'block';
+        link.download = `${client_id_8} - ISR1111.txt`;
+        link.href = makeTextFile(output);
+    }, false);
+})();
+
