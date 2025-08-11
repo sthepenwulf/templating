@@ -43,7 +43,7 @@ vlan 152\r
 name Monitoria\r
 exit\r
 vlan ${vlan_7}\r
-name {client_id_7}-${service_7}\r
+name ${client_id_7}-${service_7}\r
 exit\r
 
 
