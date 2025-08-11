@@ -73,9 +73,10 @@ exit\r
 
 
 interface gigabitEthernet 1/0/1\r
- description ${client_id_7}-${service_7}\r
+ description SERVICIO-ADI\r
   switchport general allowed vlan ${vlan_7} untagged\r
   switchport pvid ${vlan_7}\r
+  no switchport general allowed vlan 1\r
   spanning-tree bpduguard\r
 exit\r
 
