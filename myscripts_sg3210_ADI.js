@@ -85,6 +85,7 @@ interface gigabitEthernet 1/0/9\r
 description UPLINK-A-HUB\r
 switchport general allowed vlan 152,${vlan_7} tagged\r
 switchport pvid ${vlan_7}\r
+no switchport general allowed vlan 1\r
 spanning-tree\r
 exit\r
 
