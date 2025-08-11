@@ -43,7 +43,7 @@ vlan 152\r
 name Monitoria\r
 exit\r
 vlan ${vlan_7}\r
-name ${service_7}\r
+name ${client_id_7}-${service_7}\r
 exit\r
 
 
@@ -89,16 +89,22 @@ exit\r
 
 interface gigabitEthernet 1/0/2\r
 shutdown\r
+exit\r
 interface gigabitEthernet 1/0/3\r
 shutdown\r
+exit\r
 interface gigabitEthernet 1/0/4\r
 shutdown\r
+exit\r
 interface gigabitEthernet 1/0/5\r
 shutdown\r
+exit\r
 interface gigabitEthernet 1/0/6\r
 shutdown\r
+exit\r
 interface gigabitEthernet 1/0/7\r
 shutdown\r
+exit\r
 interface gigabitEthernet 1/0/8\r
 shutdown\r
 exit\r
