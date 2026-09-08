@@ -793,6 +793,38 @@ let currentTemplate = null;
     return users;
 }
 
+    function addUser(
+    username,
+    password,
+    role = "Operador"
+){
+
+    const users =
+        getUsers();
+
+    const exists =
+        users.some(
+            u => u.user === username
+        );
+
+    if(exists){
+        return false;
+    }
+
+    users.push({
+        user: username,
+        password: password,
+        role: role
+    });
+
+    localStorage.setItem(
+        "telecentro_users",
+        JSON.stringify(users)
+    );
+
+    return true;
+}
+
 function login(){
 
     const user =
@@ -880,67 +912,16 @@ msg;
 
 function showSuccess(msg){
 
-    function login(){
-
-    const user =
-        document.getElementById(
-            "loginUser"
-        ).value.trim();
-
-    const password =
-        document.getElementById(
-            "loginPassword"
-        ).value;
-
-    const users =
-        getUsers();
-
-    const found =
-        users.find(u =>
-            u.user === user &&
-            u.password === password
-        );
-
-    if(found){
-
-        sessionStorage.setItem(
-            "currentUser",
-            JSON.stringify(found)
-        );
-
-        document.getElementById(
-            "loginScreen"
-        ).style.display = "none";
-
-        document.getElementById(
-            "appContent"
-        ).style.display = "flex";
-
-        return;
-    }
-
+    const el =
     document.getElementById(
-        "loginError"
-    ).innerText =
-    "Usuario o contraseña incorrectos.";
-}
+        "message"
+    );
 
-    document.getElementById(
-        "loginError"
-    ).innerText =
-    "Usuario o contraseña incorrectos.";
-}
+    el.className =
+    "message success";
 
-const el =
-document.getElementById(
-"message"
-);
-
-el.className =
-"message success";
-
-el.innerText =
-msg;
+    el.innerText =
+    msg;
 }
 
 /* ==========
@@ -2335,56 +2316,44 @@ function clearForm(){
 /* ==========
 DESCARGA
 ========== */
-function loadTemplate(templateName){
+function downloadTemplate(){
 
-    const hayDatosFormulario =
-        Array.from(
-            document.querySelectorAll(
-                "#formContainer input"
-            )
-        ).some(
-            input => input.value.trim() !== ""
+    const txt =
+        document.getElementById(
+            "output"
+        ).value;
+
+    if(!txt.trim()){
+
+        showError(
+            "No hay template generado."
         );
 
-    const hayTemplate =
-        document.getElementById("output")
-        .value.trim() !== "";
-
-    if(hayDatosFormulario || hayTemplate){
-
-        const continuar = confirm(
-            "Hay información cargada. ¿Desea descartarla y cambiar de plantilla?"
-        );
-
-        if(!continuar){
-            return;
-        }
+        return;
     }
 
-    clearFormSilent();
+    const blob =
+        new Blob(
+            [txt],
+            {
+               type:"text/plain"
+            }
+        );
 
-    currentTemplate = templateName;
+    const link =
+        document.createElement("a");
 
-    const tpl =
-        templates[templateName];
+    link.href =
+        URL.createObjectURL(blob);
 
-    document.getElementById(
-        "templateTitle"
-    ).innerText = tpl.title;
+    link.download =
+        `${currentTemplate}.txt`;
 
-    let html = "";
+    link.click();
 
-    tpl.fields.forEach(field=>{
-
-        html += createField(field);
-
-    });
-
-    document.getElementById(
-        "formContainer"
-    ).innerHTML = html;
-
-    applyValidators();
+    URL.revokeObjectURL(
+        link.href
+    );
 }
 /* ==========
 HISTORIAL
