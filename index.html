@@ -343,17 +343,130 @@ grid-template-columns:1fr;
 
 }
 
+/* LOGIN */
+
+.login-overlay{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:#0f172a;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+}
+
+.login-card{
+
+    width:350px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.3);
+
+    display:flex;
+    flex-direction:column;
+
+    gap:15px;
+}
+
+.login-card h2{
+
+    text-align:center;
+}
+
+.login-card input{
+
+    height:42px;
+
+    padding:0 12px;
+
+    border:1px solid #ccc;
+
+    border-radius:8px;
+}
+
+.login-error{
+
+    color:#dc2626;
+
+    text-align:center;
+
+    font-size:14px;
+}
+
+#appContent{
+
+    display:none;
+}
+    
 </style>
 
 </head>
 
 <body>
 
+<div id="loginScreen" class="login-overlay">
+
+    <div class="login-card">
+
+        <h2>🛰 Template Generator</h2>
+
+        <p>
+            Ingrese sus credenciales
+        </p>
+
+        <input
+            type="text"
+            id="loginUser"
+            placeholder="Usuario">
+
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Contraseña">
+
+        <button
+            class="btn btn-primary"
+            onclick="login()">
+
+            Ingresar
+
+        </button>
+
+        <div
+            id="loginError"
+            class="login-error">
+        </div>
+
+    </div>
+
+</div>
+    
 <header class="topbar">
 
+<div>
+
 <h1>
-Template Generator
+🛰 Template Generator
 </h1>
+
+<div id="currentUserLabel"></div>
+
+</div>
 
 <div>
 
@@ -369,7 +482,9 @@ onclick="toggleDarkMode()">
 
 </header>
 
-<div class="layout">
+<div
+class="layout"
+id="appContent">
 
 <aside class="sidebar">
 
@@ -438,6 +553,22 @@ class="nav-item"
 onclick="loadTemplate('mediant')">
 
 Mediant 800
+
+</button>
+
+    <button
+class="btn btn-secondary"
+onclick="showUserAdmin()">
+
+Usuarios
+
+</button>
+
+    <button
+class="btn btn-secondary"
+onclick="logout()">
+
+Salir
 
 </button>
 
@@ -548,6 +679,179 @@ Historial
 
 let currentTemplate = null;
 
+  function getUsers(){
+
+    let users =
+        JSON.parse(
+            localStorage.getItem(
+                "telecentro_users"
+            )
+        );
+
+    if(!users){
+
+        users = [
+
+            {
+                user:"ccerignale",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"felopez",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"mquinones",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"pponce",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"nfreire",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"cmarin",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"maramburu",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"mmsilva",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"esalado",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"aalvarado",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"vocchipinti",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
+
+            {
+                user:"sgomez",
+                password:"Telecentro2026",
+                role:"Administrador"
+            },
+
+            {
+                user:"gbarrientos",
+                password:"Telecentro2026",
+                role:"Administrador"
+            },
+
+            {
+                user:"asoto",
+                password:"Telecentro2026",
+                role:"Administrador"
+            },
+
+            {
+                user:"jgallego",
+                password:"Telecentro2026",
+                role:"Administrador"
+            }
+
+        ];
+
+        localStorage.setItem(
+            "telecentro_users",
+            JSON.stringify(users)
+        );
+    }
+
+    return users;
+}
+
+function login(){
+
+    const user =
+        document.getElementById(
+            "loginUser"
+        ).value.trim();
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+    const users =
+        getUsers();
+
+    const found =
+        users.find(u =>
+            u.user === user &&
+            u.password === password
+        );
+
+    if(found){
+
+        sessionStorage.setItem(
+            "currentUser",
+            JSON.stringify(found)
+        );
+
+        document.getElementById(
+    "currentUserLabel"
+).innerText =
+    `Usuario: ${found.user}`;
+
+        document.getElementById(
+            "loginScreen"
+        ).style.display = "none";
+
+        document.getElementById(
+            "appContent"
+        ).style.display = "flex";
+
+        return;
+    }
+
+    document.getElementById(
+        "loginError"
+    ).innerText =
+    "Usuario o contraseña incorrectos.";
+}    
+
+    function logout(){
+
+    sessionStorage.removeItem(
+        "currentUser"
+    );
+
+    location.reload();
+}
+
 /* ==========
 UTILIDADES
 ========== */
@@ -575,6 +879,57 @@ msg;
 }
 
 function showSuccess(msg){
+
+    function login(){
+
+    const user =
+        document.getElementById(
+            "loginUser"
+        ).value.trim();
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+    const users =
+        getUsers();
+
+    const found =
+        users.find(u =>
+            u.user === user &&
+            u.password === password
+        );
+
+    if(found){
+
+        sessionStorage.setItem(
+            "currentUser",
+            JSON.stringify(found)
+        );
+
+        document.getElementById(
+            "loginScreen"
+        ).style.display = "none";
+
+        document.getElementById(
+            "appContent"
+        ).style.display = "flex";
+
+        return;
+    }
+
+    document.getElementById(
+        "loginError"
+    ).innerText =
+    "Usuario o contraseña incorrectos.";
+}
+
+    document.getElementById(
+        "loginError"
+    ).innerText =
+    "Usuario o contraseña incorrectos.";
+}
 
 const el =
 document.getElementById(
@@ -2074,7 +2429,7 @@ function renderHistory(){
 
 const history =
 JSON.parse(
-localStorage.getItem(
+localStorage.getItem(                                        
 "telecentro_history"
 ) || "[]"
 );
@@ -2162,18 +2517,82 @@ function autoResizeTextarea(){
 INICIO
 ========== */
 
+    function showUserAdmin(){
+
+    const currentUser =
+        JSON.parse(
+            sessionStorage.getItem(
+                "currentUser"
+            )
+        );
+
+    if(
+        !currentUser ||
+        currentUser.role !==
+        "Administrador"
+    ){
+
+        alert(
+            "Solo los administradores pueden gestionar usuarios."
+        );
+
+        return;
+    }
+
+    const username =
+        prompt("Nuevo usuario:");
+
+    if(!username){
+        return;
+    }
+
+    const password =
+        prompt("Contraseña:");
+
+    if(!password){
+        return;
+    }
+
+    addUser(
+        username,
+        password
+    );
+
+    alert(
+        "Usuario creado correctamente."
+    );
+}
+
 window.onload = ()=>{
 
-renderHistory();
+    document.getElementById(
+        "appContent"
+    ).style.display = "none";
 
-loadTemplate("sg350");
+    renderHistory();
 
-document
-.getElementById("output")
-.addEventListener(
-    "input",
-    autoResizeTextarea
-);
+    currentTemplate = "sg350";
+
+    const tpl =
+        templates["sg350"];
+
+    document.getElementById(
+        "templateTitle"
+    ).innerText = tpl.title;
+
+    let html = "";
+
+    tpl.fields.forEach(field=>{
+
+        html += createField(field);
+
+    });
+
+    document.getElementById(
+        "formContainer"
+    ).innerHTML = html;
+
+    applyValidators();
 
 };
 
