@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Telecentro Template Generator</title>
+<title>Template Generator</title>
 
 <style>
 
@@ -503,12 +503,31 @@ body{
     <div>
 
         <h1>
-            🛰 Telecentro Template Generator
+            🛰 Template Generator
         </h1>
 
         <div id="currentUserLabel"></div>
 
     </div>
+
+    <button
+            id="btnUsers"
+            class="btn btn-secondary"
+            style="width:100%;margin-bottom:10px;"
+            onclick="showUserAdmin()">
+
+            Usuarios
+
+        </button>
+
+        <button
+            class="btn btn-secondary"
+            style="width:100%;"
+            onclick="logout()">
+
+            Salir
+
+        </button>
 
     <button
         class="btn btn-secondary"
@@ -578,24 +597,7 @@ style="display:none;">
 
         <hr style="margin:15px 0;">
 
-        <button
-            id="btnUsers"
-            class="btn btn-secondary"
-            style="width:100%;margin-bottom:10px;"
-            onclick="showUserAdmin()">
-
-            Usuarios
-
-        </button>
-
-        <button
-            class="btn btn-secondary"
-            style="width:100%;"
-            onclick="logout()">
-
-            Salir
-
-        </button>
+        
 
     </aside>
 
