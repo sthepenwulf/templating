@@ -4,384 +4,399 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-Template Generator
-</title>
+<title>Telecentro Template Generator</title>
 
 <style>
 
 :root{
 
---primary:#0056d6;
---secondary:#0f172a;
+    --primary:#0056d6;
+    --primary-hover:#0045aa;
 
---sidebar:#081529;
---background:#f4f7fa;
---card:#ffffff;
+    --sidebar:#081529;
 
---success:#16a34a;
---danger:#dc2626;
+    --background:#f4f7fa;
+    --card:#ffffff;
 
---border:#d7dce3;
---text:#222222;
+    --text:#222222;
+    --border:#d7dce3;
+
+    --success:#16a34a;
+    --danger:#dc2626;
 }
 
 .dark{
 
---background:#111827;
---card:#1f2937;
---text:#f3f4f6;
---border:#374151;
+    --background:#111827;
+    --card:#1f2937;
+    --text:#f3f4f6;
+    --border:#374151;
 }
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
 
-font-family:
-Segoe UI,
-Arial,
-sans-serif;
+    font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
 
-background:
-var(--background);
+    background:
+    var(--background);
 
-color:
-var(--text);
+    color:
+    var(--text);
 }
+
+/* =====================
+   TOPBAR
+===================== */
 
 .topbar{
 
-height:70px;
+    height:70px;
 
-background:
-#002f6c;
+    display:flex;
 
-display:flex;
+    justify-content:space-between;
 
-justify-content:
-space-between;
+    align-items:center;
 
-align-items:center;
+    padding:0 20px;
 
-padding:0 20px;
+    background:#002f6c;
 
-color:white;
+    color:white;
 }
 
 .topbar h1{
-font-size:20px;
+
+    font-size:22px;
 }
+
+#currentUserLabel{
+
+    font-size:12px;
+
+    opacity:.9;
+
+    margin-top:4px;
+}
+
+/* =====================
+   LAYOUT
+===================== */
 
 .layout{
 
-display:flex;
+    display:flex;
 
-min-height:
-calc(100vh - 70px);
+    min-height:
+    calc(100vh - 70px);
 }
-
-/* SIDEBAR */
 
 .sidebar{
 
-width:280px;
+    width:280px;
 
-background:
-var(--sidebar);
+    background:
+    var(--sidebar);
 
-padding:20px;
+    color:white;
 
-color:white;
+    padding:20px;
 }
+
+.content{
+
+    flex:1;
+
+    padding:20px;
+}
+
+/* =====================
+   SIDEBAR
+===================== */
 
 .sidebar-title{
 
-font-size:12px;
+    font-size:12px;
 
-text-transform:
-uppercase;
+    text-transform:uppercase;
 
-opacity:.7;
+    opacity:.7;
 
-margin-top:20px;
-margin-bottom:8px;
+    margin-top:18px;
+
+    margin-bottom:8px;
 }
 
 .nav-item{
 
-display:block;
+    width:100%;
 
-width:100%;
+    border:none;
 
-padding:12px;
+    background:none;
 
-margin-bottom:6px;
+    color:white;
 
-background:none;
+    text-align:left;
 
-border:none;
+    padding:12px;
 
-border-radius:8px;
+    margin-bottom:5px;
 
-color:white;
+    border-radius:8px;
 
-text-align:left;
+    cursor:pointer;
 
-cursor:pointer;
-
-transition:.2s;
+    transition:.2s;
 }
 
 .nav-item:hover{
 
-background:
-rgba(255,255,255,.08);
+    background:
+    rgba(255,255,255,.08);
 }
 
-/* CONTENT */
-
-.content{
-
-flex:1;
-
-padding:20px;
-}
+/* =====================
+   CARDS
+===================== */
 
 .card{
 
-background:
-var(--card);
+    background:
+    var(--card);
 
-border-radius:12px;
+    border-radius:12px;
 
-padding:20px;
+    padding:20px;
 
-margin-bottom:20px;
+    margin-bottom:20px;
 
-box-shadow:
-0 2px 12px rgba(0,0,0,.08);
+    box-shadow:
+    0 2px 12px rgba(0,0,0,.08);
 }
 
 .card-title{
 
-font-size:18px;
+    font-size:18px;
 
-font-weight:600;
+    font-weight:600;
 
-margin-bottom:20px;
+    margin-bottom:20px;
 }
 
-/* FORM */
+/* =====================
+   FORMULARIOS
+===================== */
 
 .form-grid{
 
-display:grid;
+    display:grid;
 
-grid-template-columns:
-repeat(2,1fr);
+    grid-template-columns:
+    repeat(2,1fr);
 
-gap:15px;
+    gap:15px;
 }
 
 .form-group{
 
-display:flex;
+    display:flex;
 
-flex-direction:column;
+    flex-direction:column;
 }
 
 .form-group label{
 
-margin-bottom:6px;
+    margin-bottom:6px;
 
-font-size:14px;
+    font-size:14px;
 }
 
 .form-group input{
 
-height:42px;
+    height:42px;
 
-padding:0 12px;
+    border:
+    1px solid var(--border);
 
-border:
-1px solid var(--border);
+    border-radius:8px;
 
-border-radius:8px;
+    padding:0 12px;
+
+    font-size:14px;
 }
 
 .dark .form-group input{
 
-background:#374151;
-color:white;
+    background:#374151;
+
+    color:white;
 }
 
-/* BUTTONS */
+.valid{
+    border:2px solid var(--success)!important;
+}
+
+.invalid{
+    border:2px solid var(--danger)!important;
+}
+
+/* =====================
+   BOTONES
+===================== */
 
 .actions{
 
-display:flex;
+    display:flex;
 
-gap:10px;
+    gap:10px;
 
-flex-wrap:wrap;
+    flex-wrap:wrap;
 }
 
 .btn{
 
-padding:12px 18px;
+    border:none;
 
-border:none;
+    border-radius:8px;
 
-border-radius:8px;
+    padding:12px 18px;
 
-cursor:pointer;
+    cursor:pointer;
 }
 
 .btn-primary{
 
-background:
-var(--primary);
+    background:
+    var(--primary);
 
-color:white;
+    color:white;
+}
+
+.btn-primary:hover{
+
+    background:
+    var(--primary-hover);
 }
 
 .btn-secondary{
 
-background:
-#e5e7eb;
+    background:#e5e7eb;
 }
 
- #btnUsers{
+#btnUsers{
+
     display:none;
 }
 
-/* OUTPUT */
+/* =====================
+   RESULTADO
+===================== */
 
 .output{
 
-width:100%;
+    width:100%;
 
-min-height:45px;
+    min-height:45px;
 
-height:45px;
+    height:45px;
 
-padding:15px;
+    padding:15px;
 
-font-family:
-Consolas,
-monospace;
+    border:
+    1px solid var(--border);
 
-border:
-1px solid var(--border);
+    border-radius:8px;
 
-border-radius:8px;
+    resize:none;
 
-resize:none;
+    overflow:hidden;
 
-overflow:hidden;
+    font-family:
+    Consolas,
+    monospace;
 }
 
-/* MESSAGES */
+/* =====================
+   MENSAJES
+===================== */
 
 .message{
 
-display:none;
+    display:none;
 
-margin-top:15px;
+    margin-top:15px;
 
-padding:12px;
+    padding:12px;
 
-border-radius:8px;
+    border-radius:8px;
 }
 
 .message.success{
 
-display:block;
+    display:block;
 
-background:#e8f5e9;
+    background:#e8f5e9;
 
-color:#1b5e20;
+    color:#1b5e20;
 }
 
 .message.error{
 
-display:block;
+    display:block;
 
-background:#ffebee;
+    background:#ffebee;
 
-color:#b71c1c;
+    color:#b71c1c;
 }
 
-.valid{
-border:2px solid var(--success)!important;
-}
-
-.invalid{
-border:2px solid var(--danger)!important;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-.layout{
-flex-direction:column;
-}
-
-.sidebar{
-width:100%;
-}
-
-.form-grid{
-grid-template-columns:1fr;
-}
-
-}
-
-/* LOGIN */
+/* =====================
+   LOGIN
+===================== */
 
 .login-overlay{
 
     position:fixed;
 
-    top:0;
-    left:0;
-
-    width:100%;
-    height:100%;
+    inset:0;
 
     background:#0f172a;
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
 
-    z-index:9999;
+    z-index:99999;
 }
 
 .login-card{
 
-    width:350px;
+    width:360px;
 
     background:white;
 
+    border-radius:14px;
+
     padding:30px;
 
-    border-radius:12px;
-
     box-shadow:
-    0 10px 30px rgba(0,0,0,.3);
+    0 20px 40px rgba(0,0,0,.3);
 
     display:flex;
+
     flex-direction:column;
 
     gap:15px;
@@ -396,11 +411,11 @@ grid-template-columns:1fr;
 
     height:42px;
 
-    padding:0 12px;
-
     border:1px solid #ccc;
 
     border-radius:8px;
+
+    padding:0 12px;
 }
 
 .login-error{
@@ -412,22 +427,43 @@ grid-template-columns:1fr;
     font-size:14px;
 }
 
-#appContent{
+/* =====================
+   RESPONSIVE
+===================== */
 
-    display:none;
+@media(max-width:900px){
+
+    .layout{
+
+        flex-direction:column;
+    }
+
+    .sidebar{
+
+        width:100%;
+    }
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+    }
 }
-    
+
 </style>
 
 </head>
 
 <body>
 
+<!-- LOGIN -->
+
 <div id="loginScreen" class="login-overlay">
 
     <div class="login-card">
 
-        <h2>🛰 Template Generator</h2>
+        <h2>
+            🛰 Telecentro Template Generator
+        </h2>
 
         <p>
             Ingrese sus credenciales
@@ -459,224 +495,206 @@ grid-template-columns:1fr;
     </div>
 
 </div>
-    
+
+<!-- TOPBAR -->
+
 <header class="topbar">
 
-<div>
+    <div>
 
-<h1>
-🛰 Template Generator
-</h1>
+        <h1>
+            🛰 Telecentro Template Generator
+        </h1>
 
-<div id="currentUserLabel"></div>
+        <div id="currentUserLabel"></div>
 
-</div>
+    </div>
 
-<div>
+    <button
+        class="btn btn-secondary"
+        onclick="toggleDarkMode()">
 
-<button
-class="btn btn-secondary"
-onclick="toggleDarkMode()">
+        🌙 Tema
 
-🌙 Tema
-
-</button>
-
-</div>
+    </button>
 
 </header>
 
+<!-- APP -->
+
 <div
 class="layout"
-id="appContent">
+id="appContent"
+style="display:none;">
 
-<aside class="sidebar">
+    <aside class="sidebar">
 
-<div class="sidebar-title">
-Switches
-</div>
+        <div class="sidebar-title">
+            Switches
+        </div>
 
-<button
-class="nav-item"
-onclick="loadTemplate('sg350')">
+        <button class="nav-item"
+        onclick="loadTemplate('sg350')">
+        SG350 ADI/TLS
+        </button>
 
-SG350 ADI/TLS
+        <button class="nav-item"
+        onclick="loadTemplate('sg3210')">
+        SG3210 ADI
+        </button>
 
-</button>
+        <button class="nav-item"
+        onclick="loadTemplate('vpn')">
+        SG350 VPN
+        </button>
 
-<button
-class="nav-item"
-onclick="loadTemplate('sg3210')">
+        <button class="nav-item"
+        onclick="loadTemplate('qinq')">
+        SG350 QinQ
+        </button>
 
-SG3210 ADI
+        <div class="sidebar-title">
+            Routers
+        </div>
 
-</button>
+        <button class="nav-item"
+        onclick="loadTemplate('c881ypf')">
+        Cisco 881 YPF
+        </button>
 
-<button
-class="nav-item"
-onclick="loadTemplate('vpn')">
+        <button class="nav-item"
+        onclick="loadTemplate('c881dia')">
+        Cisco 881 DIA
+        </button>
 
-SG350 VPN
+        <div class="sidebar-title">
+            Voice
+        </div>
 
-</button>
+        <button class="nav-item"
+        onclick="loadTemplate('mediant')">
+        Mediant 800
+        </button>
 
-<button
-class="nav-item"
-onclick="loadTemplate('qinq')">
+        <hr style="margin:15px 0;">
 
-SG350 QinQ
+        <button
+            id="btnUsers"
+            class="btn btn-secondary"
+            style="width:100%;margin-bottom:10px;"
+            onclick="showUserAdmin()">
 
-</button>
+            Usuarios
 
-<div class="sidebar-title">
-Routers
-</div>
+        </button>
 
-<button
-class="nav-item"
-onclick="loadTemplate('c881ypf')">
+        <button
+            class="btn btn-secondary"
+            style="width:100%;"
+            onclick="logout()">
 
-Cisco 881 YPF
+            Salir
 
-</button>
+        </button>
 
-<button
-class="nav-item"
-onclick="loadTemplate('c881dia')">
+    </aside>
 
-Cisco 881 DIA
+    <main class="content">
 
-</button>
+        <div class="card">
 
-<div class="sidebar-title">
-Voice
-</div>
+            <div
+            class="card-title"
+            id="templateTitle">
 
-<button
-class="nav-item"
-onclick="loadTemplate('mediant')">
+                Seleccione una plantilla
 
-Mediant 800
+            </div>
 
-</button>
+            <div
+            id="formContainer"
+            class="form-grid">
+            </div>
 
-    <button
-id="btnUsers"
-class="btn btn-secondary"
-onclick="showUserAdmin()">
+        </div>
 
-Usuarios
+        <div class="card">
 
-</button>
+            <div class="actions">
 
-    <button
-class="btn btn-secondary"
-onclick="logout()">
+                <button
+                    class="btn btn-primary"
+                    onclick="generateCurrentTemplate()">
 
-Salir
+                    Generar
 
-</button>
+                </button>
 
-</aside>
+                <button
+                    class="btn btn-secondary"
+                    onclick="copyTemplate()">
 
-<main class="content">
+                    Copiar
 
-<div class="card">
+                </button>
 
-<div
-class="card-title"
-id="templateTitle">
+                <button
+                    class="btn btn-secondary"
+                    onclick="downloadTemplate()">
 
-Seleccione una plantilla
+                    Descargar
 
-</div>
+                </button>
 
-<div
-id="formContainer"
-class="form-grid">
-</div>
+                <button
+                    class="btn btn-secondary"
+                    onclick="clearForm()">
 
-</div>
+                    Limpiar Resultado
 
-<div class="card">
+                </button>
 
-<div class="actions">
+                <button
+                    class="btn btn-secondary"
+                    onclick="clearHistory()">
 
-<button
-class="btn btn-primary"
-onclick="generateCurrentTemplate()">
+                    Limpiar Historial
 
-Generar
+                </button>
 
-</button>
+            </div>
 
-<button
-class="btn btn-secondary"
-onclick="copyTemplate()">
+            <div
+            id="message"
+            class="message">
+            </div>
 
-Copiar
+        </div>
 
-</button>
+        <div class="card">
 
-<button
-class="btn btn-secondary"
-onclick="downloadTemplate()">
+            <div class="card-title">
+                Resultado
+            </div>
 
-Descargar
+            <textarea
+                id="output"
+                class="output">
+            </textarea>
 
-</button>
+        </div>
 
-<button
-class="btn btn-secondary"
-onclick="clearForm()">
+        <div
+            id="historyPanel"
+            class="card">
 
-Limpiar Resultado
+            <div class="card-title">
+                Historial
+            </div>
 
-</button>
+        </div>
 
-<button
-class="btn btn-secondary"
-onclick="clearHistory()">
-
-Limpiar Historial
-
-</button>
-
-</div>
-
-<div
-id="message"
-class="message">
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="card-title">
-Resultado
-</div>
-
-<textarea
-id="output"
-class="output">
-</textarea>
-
-</div>
-
-<div
-id="historyPanel"
-class="card">
-
-<div class="card-title">
-
-Historial
-
-</div>
-
-</div>
-
-</main>
+    </main>
 
 </div>
 
@@ -684,7 +702,11 @@ Historial
 
 let currentTemplate = null;
 
-  function getUsers(){
+/* =====================
+   USUARIOS
+===================== */
+
+function getUsers(){
 
     let users =
         JSON.parse(
@@ -702,61 +724,51 @@ let currentTemplate = null;
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"felopez",
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"mquinones",
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"pponce",
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"nfreire",
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"cmarin",
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"maramburu",
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"mmsilva",
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"esalado",
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"aalvarado",
                 password:"Telecentro2026",
                 role:"Operador"
             },
-
             {
                 user:"vocchipinti",
                 password:"Telecentro2026",
@@ -768,23 +780,20 @@ let currentTemplate = null;
                 password:"Telecentro2026",
                 role:"Administrador"
             },
-
             {
                 user:"gbarrientos",
                 password:"Telecentro2026",
                 role:"Administrador"
             },
-
             {
                 user:"asoto",
                 password:"Telecentro2026",
                 role:"Administrador"
             },
-
             {
                 user:"jgallego",
                 password:"Telecentro2026",
-                role:"Administrador"
+                role:"Operador"
             }
 
         ];
@@ -798,14 +807,13 @@ let currentTemplate = null;
     return users;
 }
 
-    function addUser(
+function addUser(
     username,
     password,
     role = "Operador"
 ){
 
-    const users =
-        getUsers();
+    const users = getUsers();
 
     const exists =
         users.some(
@@ -830,6 +838,10 @@ let currentTemplate = null;
     return true;
 }
 
+/* =====================
+   LOGIN
+===================== */
+
 function login(){
 
     const user =
@@ -846,50 +858,52 @@ function login(){
         getUsers();
 
     const found =
-        users.find(u =>
-            u.user === user &&
-            u.password === password
+        users.find(
+            u =>
+                u.user === user &&
+                u.password === password
         );
 
-    if(found){
-
-        sessionStorage.setItem(
-            "currentUser",
-            JSON.stringify(found)
-        );
-
-        if(found.role === "Administrador"){
-
-    document.getElementById(
-        "btnUsers"
-    ).style.display = "block";
-
-}
-`
+    if(!found){
 
         document.getElementById(
-    "currentUserLabel"
-).innerText =
-    `Usuario: ${found.user}`;
-
-        document.getElementById(
-            "loginScreen"
-        ).style.display = "none";
-
-        document.getElementById(
-            "appContent"
-        ).style.display = "flex";
+            "loginError"
+        ).innerText =
+        "Usuario o contraseña incorrectos.";
 
         return;
     }
 
-    document.getElementById(
-        "loginError"
-    ).innerText =
-    "Usuario o contraseña incorrectos.";
-}    
+    sessionStorage.setItem(
+        "currentUser",
+        JSON.stringify(found)
+    );
 
-    function logout(){
+    document.getElementById(
+        "currentUserLabel"
+    ).innerText =
+    `Usuario: ${found.user}`;
+
+    if(
+        found.role ===
+        "Administrador"
+    ){
+
+        document.getElementById(
+            "btnUsers"
+        ).style.display = "block";
+    }
+
+    document.getElementById(
+        "loginScreen"
+    ).style.display = "none";
+
+    document.getElementById(
+        "appContent"
+    ).style.display = "flex";
+}
+
+function logout(){
 
     sessionStorage.removeItem(
         "currentUser"
@@ -898,49 +912,104 @@ function login(){
     location.reload();
 }
 
-/* ==========
-UTILIDADES
-========== */
+function showUserAdmin(){
+
+    const currentUser =
+        JSON.parse(
+            sessionStorage.getItem(
+                "currentUser"
+            )
+        );
+
+    if(
+        !currentUser ||
+        currentUser.role !==
+        "Administrador"
+    ){
+
+        showError(
+            "No posee permisos para administrar usuarios."
+        );
+
+        return;
+    }
+
+    const username =
+        prompt("Nuevo usuario:");
+
+    if(!username){
+        return;
+    }
+
+    const password =
+        prompt("Contraseña:");
+
+    if(!password){
+        return;
+    }
+
+    const created =
+        addUser(
+            username,
+            password
+        );
+
+    if(!created){
+
+        showError(
+            "El usuario ya existe."
+        );
+
+        return;
+    }
+
+    showSuccess(
+        "Usuario creado correctamente."
+    );
+}
+
+/* =====================
+   UTILIDADES
+===================== */
 
 function toggleDarkMode(){
 
-document.body
-.classList
-.toggle("dark");
-
+    document.body
+    .classList
+    .toggle("dark");
 }
 
 function showError(msg){
 
-const el =
-document.getElementById(
-"message"
-);
+    const el =
+        document.getElementById(
+            "message"
+        );
 
-el.className =
-"message error";
+    el.className =
+        "message error";
 
-el.innerText =
-msg;
+    el.innerText =
+        msg;
 }
 
 function showSuccess(msg){
 
     const el =
-    document.getElementById(
-        "message"
-    );
+        document.getElementById(
+            "message"
+        );
 
     el.className =
-    "message success";
+        "message success";
 
     el.innerText =
-    msg;
+        msg;
 }
 
-/* ==========
-VALIDACIONES
-========== */
+/* =====================
+   VALIDACIONES
+===================== */
 
 const validMasks = [
 
@@ -974,172 +1043,126 @@ const validMasks = [
 
 function validateIP(ip){
 
-const parts =
-ip.trim().split(".");
+    const parts =
+        ip.trim().split(".");
 
-if(parts.length !== 4){
-return false;
-}
+    if(parts.length !== 4){
+        return false;
+    }
 
-for(const part of parts){
+    for(const part of parts){
 
-if(!/^\d+$/.test(part)){
-return false;
-}
+        if(!/^\d+$/.test(part)){
+            return false;
+        }
 
-const n =
-parseInt(part,10);
+        const n =
+            parseInt(part,10);
 
-if(n < 0 || n > 255){
-return false;
-}
+        if(
+            n < 0 ||
+            n > 255
+        ){
+            return false;
+        }
 
-if(
-part.length > 1 &&
-part.startsWith("0")
-){
-return false;
-}
+        if(
+            part.length > 1 &&
+            part.startsWith("0")
+        ){
+            return false;
+        }
+    }
 
-}
-
-return true;
+    return true;
 }
 
 function validateMask(mask){
 
-return validMasks.includes(
-mask.trim()
-);
-
+    return validMasks.includes(
+        mask.trim()
+    );
 }
 
 function validateVlan(vlan){
 
-if(!/^\d+$/.test(vlan)){
-return false;
-}
+    if(!/^\d+$/.test(vlan)){
+        return false;
+    }
 
-const n =
-Number(vlan);
+    const n =
+        Number(vlan);
 
-return (
-n >= 1 &&
-n <= 4094
-);
-
-}
-
-function validateService(service){
-
-    return !/\s/.test(service);
-
-}
-
-function ipToInt(ip){
-
-return ip
-.split(".")
-.reduce(
-(acc,val)=>
-(acc << 8) +
-parseInt(val,10),
-0
-) >>> 0;
-
-}
-
-function isNetworkOrBroadcast(
-ip,
-mask
-){
-
-if(
-!validateIP(ip) ||
-!validateMask(mask)
-){
-return false;
-}
-
-const ipNum =
-ipToInt(ip);
-
-const maskNum =
-ipToInt(mask);
-
-const network =
-ipNum & maskNum;
-
-const broadcast =
-network |
-(~maskNum >>> 0);
-
-return (
-ipNum === network ||
-ipNum === broadcast
-);
-
+    return (
+        n >= 1 &&
+        n <= 4094
+    );
 }
 
 function validateField(
-value,
-fieldId
+    value,
+    fieldId
 ){
 
-const id =
-fieldId.toLowerCase();
+    const id =
+        fieldId.toLowerCase();
 
-if(
-id.includes("ip") ||
-id.includes("gateway")
-){
+    if(
+        id.includes("ip") ||
+        id.includes("gateway")
+    ){
 
-return validateIP(value);
+        return validateIP(value);
+    }
 
+    if(
+        id.includes("mask")
+    ){
+
+        return validateMask(value);
+    }
+
+    if(
+        id === "vlan" ||
+        id === "customervlan"
+    ){
+
+        return validateVlan(value);
+    }
+
+    return true;
 }
 
-if(
-id.includes("mask")
-){
+function autoResizeTextarea(){
 
-return validateMask(value);
+    const textarea =
+        document.getElementById(
+            "output"
+        );
 
+    textarea.style.height =
+        "45px";
+
+    textarea.style.height =
+        textarea.scrollHeight +
+        "px";
 }
 
-if(
-id === "vlan" ||
-id === "customervlan"
-){
-
-return validateVlan(value);
-
-}
-
-if(id === "service"){
-
-    return validateService(value);
-
-}
-
-return true;
-}
-
-/* ==========
-FORM BUILDER
-========== */
+ /* =====================
+   FORM BUILDER
+===================== */
 
 function createField(field){
 
     const placeholder =
-        field.placeholder || field.label;
+        field.placeholder ||
+        field.label;
 
     return `
     <div class="form-group">
 
         <label>
-
         ${field.label}
-
         </label>
 
         <input
@@ -1150,341 +1173,580 @@ function createField(field){
     `;
 }
 
-/* ==========
-PLANTILLAS
-========== */
+function applyValidators(){
+
+    document
+    .querySelectorAll(
+        "#formContainer input"
+    )
+    .forEach(input => {
+
+        input.addEventListener(
+            "input",
+            () => {
+
+                /* remplazar espacios */
+                if(
+                    input.id ===
+                    "service"
+                ){
+
+                    input.value =
+                    input.value.replace(
+                        /\s+/g,
+                        "_"
+                    );
+                }
+
+                const value =
+                    input.value.trim();
+
+                if(value === ""){
+
+                    input.classList.remove(
+                        "valid",
+                        "invalid"
+                    );
+
+                    return;
+                }
+
+                if(
+                    validateField(
+                        value,
+                        input.id
+                    )
+                ){
+
+                    input.classList.add(
+                        "valid"
+                    );
+
+                    input.classList.remove(
+                        "invalid"
+                    );
+                }
+                else{
+
+                    input.classList.add(
+                        "invalid"
+                    );
+
+                    input.classList.remove(
+                        "valid"
+                    );
+                }
+            }
+        );
+    });
+}
+
+function getData(){
+
+    const data = {};
+
+    document
+    .querySelectorAll(
+        "#formContainer input"
+    )
+    .forEach(field => {
+
+        data[
+            field.id
+        ] =
+        field.value.trim();
+
+    });
+
+    return data;
+}
+
+/* =====================
+   TEMPLATES
+===================== */
 
 const templates = {
 
-sg350:{
+    sg350:{
 
-title:
-"SG350 ADI/TLS",
+        title:
+        "SG350 ADI/TLS",
 
-fields:[
+        fields:[
 
-{id:"clientId",label:"ID Cliente"},
-{id:"ipMon",label:"IP Monitoria"},
-{id:"maskMon",label:"Mascara"},
-{id:"gatewayMon",label:"Gateway Monitoria"},
-{id:"vlan",label:"VLAN"},
-{id:"description",label:"Descripcion"},
-{id:"service",label:"Servicio",placeholder:"Sin espacios. Ej: ADI_100MB"}
+            {
+                id:"clientId",
+                label:"ID Cliente"
+            },
 
-]
+            {
+                id:"ipMon",
+                label:"IP Monitoria"
+            },
 
-},
+            {
+                id:"maskMon",
+                label:"Mascara",
+                placeholder:
+                "255.255.255.240"
+            },
 
-sg3210:{
+            {
+                id:"gatewayMon",
+                label:"Gateway Monitoria"
+            },
 
-title:
-"SG3210 ADI",
+            {
+                id:"vlan",
+                label:"VLAN"
+            },
 
-fields:[
+            {
+                id:"description",
+                label:"Descripcion"
+            },
 
-{id:"clientId",label:"ID Cliente"},
-{id:"ipMon",label:"IP Monitoria"},
-{id:"maskMon",label:"Mascara"},
-{id:"gatewayMon",label:"Gateway Monitoria"},
-{id:"vlan",label:"VLAN"},
-{id:"service",label:"Servicio",placeholder:"Sin espacios. Ej: ADI_100MB"}
+            {
+                id:"service",
+                label:"Servicio",
+                placeholder:
+                "ADI_100MB"
+            }
 
-]
+        ]
+    },
 
-},
+    sg3210:{
 
-vpn:{
+        title:
+        "SG3210 ADI",
 
-title:
-"SG350 L3VPN",
+        fields:[
 
-fields:[
+            {
+                id:"clientId",
+                label:"ID Cliente"
+            },
 
-{id:"clientId",label:"ID Cliente"},
-{id:"clientName",label:"Razon Social"},
-{id:"ipMon",label:"IP Monitoria"},
-{id:"maskMon",label:"Mascara"},
-{id:"gatewayMon",label:"Gateway"},
-{id:"vlan",label:"VLAN"},
-{id:"description",label:"Descripcion"},
-{id:"service",label:"Servicio",placeholder:"Sin espacios. Ej: ADI_100MB"}
+            {
+                id:"ipMon",
+                label:"IP Monitoria"
+            },
 
-]
+            {
+                id:"maskMon",
+                label:"Mascara"
+            },
 
-},
+            {
+                id:"gatewayMon",
+                label:"Gateway Monitoria"
+            },
 
-qinq:{
+            {
+                id:"vlan",
+                label:"VLAN"
+            },
 
-title:
-"SG350 QinQ",
+            {
+                id:"service",
+                label:"Servicio",
+                placeholder:
+                "ADI_100MB"
+            }
 
-fields:[
+        ]
+    },
 
-{id:"clientId",label:"ID Cliente"},
-{id:"clientName",label:"Razon Social"},
-{id:"ipMon",label:"IP Monitoria"},
-{id:"maskMon",label:"Mascara"},
-{id:"gatewayMon",label:"Gateway"},
-{id:"customerVlan",label:"Customer VLAN"},
-{id:"description",label:"Descripcion"},
-{id:"service",label:"Servicio",placeholder:"Sin espacios. Ej: ADI_100MB"}
+    vpn:{
 
-]
+        title:
+        "SG350 L3VPN",
 
-},
+        fields:[
 
-c881ypf:{
+            {
+                id:"clientId",
+                label:"ID Cliente"
+            },
 
-title:
-"Cisco 881 YPF",
+            {
+                id:"clientName",
+                label:"Razon Social"
+            },
 
-fields:[
+            {
+                id:"ipMon",
+                label:"IP Monitoria"
+            },
 
-{id:"clientId",label:"ID Cliente"},
-{id:"clientName",label:"Razon Social"},
-{id:"ipMon",label:"IP Monitoria"},
-{id:"maskMon",label:"Mascara"},
-{id:"gatewayMon",label:"Gateway Monitoria"},
-{id:"vlan",label:"VLAN"},
-{id:"wanIp",label:"IP OSPF"},
-{id:"wanMask",label:"Mascara WAN"},
-{id:"wanGateway",label:"Default Route"},
-{id:"bgpIp",label:"Network BGP"},
-{id:"bgpMask",label:"Mascara BGP"},
-{id:"lanIp",label:"IP LAN"},
-{id:"neighborIp",label:"Neighbor BGP"},
-{id:"service",label:"Servicio",placeholder:"Sin espacios. Ej: ADI_100MB"}
+            {
+                id:"maskMon",
+                label:"Mascara"
+            },
 
-]
+            {
+                id:"gatewayMon",
+                label:"Gateway Monitoria"
+            },
 
-},
+            {
+                id:"vlan",
+                label:"VLAN"
+            },
 
-c881dia:{
+            {
+                id:"description",
+                label:"Descripcion"
+            },
 
-title:
-"Cisco 881 DIA",
+            {
+                id:"service",
+                label:"Servicio",
+                placeholder:
+                "L3VPN_10MB"
+            }
 
-fields:[
+        ]
+    },
 
-{id:"clientId",label:"ID Cliente"},
-{id:"address",label:"Direccion"},
-{id:"monitorIp",label:"IP Monitoria"},
-{id:"monitorMask",label:"Mascara"},
-{id:"monitorGateway",label:"Gateway"},
-{id:"vlan",label:"VLAN"},
-{id:"wanIp",label:"WAN IP"},
-{id:"wanMask",label:"WAN Mask"},
-{id:"wanGateway",label:"WAN Gateway"},
-{id:"loopbackIp",label:"Loopback NAT"},
-{id:"loopbackMask",label:"Mascara NAT"},
-{id:"service",label:"Servicio",placeholder:"Sin espacios. Ej: ADI_100MB"}
+    qinq:{
 
-]
+        title:
+        "SG350 QinQ",
 
-},
+        fields:[
 
-mediant:{
+            {
+                id:"clientId",
+                label:"ID Cliente"
+            },
 
-title:
-"Mediant 800",
+            {
+                id:"clientName",
+                label:"Razon Social"
+            },
 
-fields:[
+            {
+                id:"ipMon",
+                label:"IP Monitoria"
+            },
 
-{id:"clientId",label:"Nombre Equipo"},
-{id:"hostIp",label:"Host IP"},
-{id:"gatewayIp",label:"Gateway"},
-{id:"linea1",label:"Linea 1"},
-{id:"linea2",label:"Linea 2"},
-{id:"linea3",label:"Linea 3"},
-{id:"sipTrunk",label:"SIP Trunk"}
+            {
+                id:"maskMon",
+                label:"Mascara"
+            },
 
-]
+            {
+                id:"gatewayMon",
+                label:"Gateway Monitoria"
+            },
 
-}
+            {
+                id:"customerVlan",
+                label:"Customer VLAN"
+            },
 
+            {
+                id:"description",
+                label:"Descripcion"
+            },
+
+            {
+                id:"service",
+                label:"Servicio",
+                placeholder:
+                "QINQ_100MB"
+            }
+
+        ]
+    },
+
+    c881ypf:{
+
+        title:
+        "Cisco 881 YPF",
+
+        fields:[
+
+            {
+                id:"clientId",
+                label:"ID Cliente"
+            },
+
+            {
+                id:"clientName",
+                label:"Razon Social"
+            },
+
+            {
+                id:"ipMon",
+                label:"IP Monitoria"
+            },
+
+            {
+                id:"maskMon",
+                label:"Mascara"
+            },
+
+            {
+                id:"gatewayMon",
+                label:"Gateway Monitoria"
+            },
+
+            {
+                id:"vlan",
+                label:"VLAN"
+            },
+
+            {
+                id:"wanIp",
+                label:"IP OSPF"
+            },
+
+            {
+                id:"wanMask",
+                label:"Mascara WAN"
+            },
+
+            {
+                id:"wanGateway",
+                label:"Default Route"
+            },
+
+            {
+                id:"bgpIp",
+                label:"Network BGP"
+            },
+
+            {
+                id:"bgpMask",
+                label:"Mascara BGP"
+            },
+
+            {
+                id:"lanIp",
+                label:"IP LAN"
+            },
+
+            {
+                id:"neighborIp",
+                label:"Neighbor BGP"
+            },
+
+            {
+                id:"service",
+                label:"Servicio",
+                placeholder:
+                "L3VPN_10MB"
+            }
+
+        ]
+    },
+
+    c881dia:{
+
+        title:
+        "Cisco 881 DIA",
+
+        fields:[
+
+            {
+                id:"clientId",
+                label:"ID Cliente"
+            },
+
+            {
+                id:"address",
+                label:"Direccion"
+            },
+
+            {
+                id:"monitorIp",
+                label:"IP Monitoria"
+            },
+
+            {
+                id:"monitorMask",
+                label:"Mascara"
+            },
+
+            {
+                id:"monitorGateway",
+                label:"Gateway"
+            },
+
+            {
+                id:"vlan",
+                label:"VLAN"
+            },
+
+            {
+                id:"wanIp",
+                label:"WAN IP"
+            },
+
+            {
+                id:"wanMask",
+                label:"WAN Mask"
+            },
+
+            {
+                id:"wanGateway",
+                label:"WAN Gateway"
+            },
+
+            {
+                id:"loopbackIp",
+                label:"Loopback NAT"
+            },
+
+            {
+                id:"loopbackMask",
+                label:"Mascara NAT"
+            },
+
+            {
+                id:"service",
+                label:"Servicio",
+                placeholder:
+                "DIA_50MB"
+            }
+
+        ]
+    },
+
+    mediant:{
+
+        title:
+        "Mediant 800",
+
+        fields:[
+
+            {
+                id:"clientId",
+                label:"Nombre Equipo"
+            },
+
+            {
+                id:"hostIp",
+                label:"Host IP"
+            },
+
+            {
+                id:"gatewayIp",
+                label:"Gateway"
+            },
+
+            {
+                id:"linea1",
+                label:"Linea 1"
+            },
+
+            {
+                id:"linea2",
+                label:"Linea 2"
+            },
+
+            {
+                id:"linea3",
+                label:"Linea 3"
+            },
+
+            {
+                id:"sipTrunk",
+                label:"IP SIP Trunk"
+            }
+
+        ]
+    }
 };
 
-/* ==========
-LOAD TEMPLATE
-========== */
+/* =====================
+   LOAD TEMPLATE
+===================== */
 
 function loadTemplate(
-templateName
+    templateName
 ){
 
-currentTemplate =
-templateName;
-
-const tpl =
-templates[
-templateName
-];
-
-document
-.getElementById(
-"templateTitle"
-)
-.innerText =
-tpl.title;
-
-let html = "";
-
-tpl.fields
-.forEach(field=>{
-
-html +=
-createField(field);
-
-});
-
-function clearForm(){
-
-    const hayDatosFormulario =
+    const hayDatos =
         Array.from(
             document.querySelectorAll(
                 "#formContainer input"
             )
         ).some(
-            input => input.value.trim() !== ""
+            i => i.value.trim() !== ""
         );
 
-    const hayTemplate =
-        document.getElementById("output")
-        .value.trim() !== "";
+    const hayResultado =
+        document
+        .getElementById(
+            "output"
+        )
+        .value
+        .trim() !== "";
 
-    if(!hayDatosFormulario && !hayTemplate){
-        return;
+    if(
+        hayDatos ||
+        hayResultado
+    ){
+
+        const continuar =
+            confirm(
+                "Hay datos cargados. ¿Desea descartarlos?"
+            );
+
+        if(
+            !continuar
+        ){
+            return;
+        }
+
+        clearFormSilent();
     }
 
-    const confirmar = confirm(
-        "¿Desea limpiar el formulario y borrar el template generado?"
+    currentTemplate =
+        templateName;
+
+    const tpl =
+        templates[
+            templateName
+        ];
+
+    document
+    .getElementById(
+        "templateTitle"
+    )
+    .innerText =
+        tpl.title;
+
+    let html = "";
+
+    tpl.fields.forEach(
+        field => {
+
+            html +=
+            createField(
+                field
+            );
+
+        }
     );
 
-    if(!confirmar){
-        return;
-    }
+    document
+    .getElementById(
+        "formContainer"
+    )
+    .innerHTML =
+        html;
 
-    clearFormSilent();
-
-    showSuccess(
-        "Formulario limpiado."
-    );
+    applyValidators();
 }
 
-document
-.getElementById(
-"formContainer"
-)
-.innerHTML = html;
-
-applyValidators();
-}
-
-function applyValidators(){
-
-document
-.querySelectorAll(
-"#formContainer input"
-)
-.forEach(input=>{
-
-input.addEventListener(
-"input",
-()=>{
-
-if(input.id === "service"){
-
-    input.value =
-        input.value.replace(/\s+/g, "_");
-
-}
-
-const value =
-input.value.trim();
-
-if(
-value === ""
-){
-input.classList.remove(
-"valid",
-"invalid"
-);
-
-document
-.querySelectorAll("#service")
-.forEach(input => {
-
-    input.addEventListener("input", () => {
-
-        input.value = input.value.replace(/\s+/g, "_");
-
-    });
-
-});
-
-return;
-}
-
-if(
-validateField(
-value,
-input.id
-)
-){
-
-input.classList.add(
-"valid"
-);
-
-input.classList.remove(
-"invalid"
-);
-}
-else{
-
-input.classList.add(
-"invalid"
-);
-
-input.classList.remove(
-"valid"
-);
-
-if(id === "service"){
-    return validateService(value);
-}
-
-}
-
-});
-
-});
-
-}
-
-function getData(){
-
-const data = {};
-
-document
-.querySelectorAll(
-"#formContainer input"
-)
-.forEach(field=>{
-
-data[
-field.id
-] =
-field.value.trim();
-
-});
-
-return data;
-}
-
-/* ==========
-GENERADOR SG350 ADI
-========== */
+/* =====================
+   GENERADOR SG350
+===================== */
 
 function generateSG350(d){
 
@@ -1492,174 +1754,59 @@ return `conf t
 
 hostname CPE-SG350-${d.clientId}
 
-username telecentro privilege 15 password Inst4l4c10n3s
-username backups privilege 15 password c0rp0backup!
-
-enable password Inst4l4c10n3s
-
-ip ssh server
-
-ip ssh-client username telecentro
-ip ssh-client password Inst4l4c10n3s
-
-ip access-list extended 152
-
-permit ip 192.168.0.0 0.0.255.255 any
-permit ip 10.210.0.0 0.0.255.255 any
-deny ip any any
-
 vlan 152
 vlan ${d.vlan}
 
 interface vlan 152
-name MONITORIA-CPE
 ip address ${d.ipMon} ${d.maskMon}
-exit
 
 ip default-gateway ${d.gatewayMon}
 
 interface gigabitethernet9
-
 description ##CLIENTE##${d.description}
-
 switchport mode trunk
 switchport trunk allowed vlan add 152,${d.vlan}
 
-no macro auto smartport
-no shutdown
-
-exit
-
 interface gigabitethernet1
-
 description ##CLIENTE##${d.service}
-
 switchport mode access
 switchport access vlan ${d.vlan}
 
-no macro auto smartport
-no shutdown
+snmp-server community TELECENTRO-${d.clientId} ro
 
-exit
-
-interface vlan 1
-shutdown
-
-exit
-
-snmp-server server
-
-snmp-server community TELECENTRO-${d.clientId} ro view Default
-snmp-server community CpeSnmpTlc!! ro view Default
-
-sntp server 192.168.15.74
-clock source sntp
-clock timezone 1 -3
-
-exit
-`;
+exit`;
 }
 
-/* ==========
-GENERADOR SG3210
-========== */
+/* =====================
+   GENERADOR SG3210
+===================== */
 
 function generateSG3210(d){
 
 return `enable
 configure
 
-jumbo-size 9216
-
 hostname CPE-SG3210-${d.clientId}
 
 vlan 152
-name Monitoria
-exit
 
 vlan ${d.vlan}
 name ${d.service}
-exit
-
-user name telecentro privilege admin secret Inst4l4c10n3s
-user name backups privilege admin secret c0rp0backup!
-
-service password-encryption
-
-ip ssh server
-
-telnet disable
-
-snmp-server community CpeSnmpTlc read-only
-snmp-server community TELECENTRO-${d.clientId} read-only
 
 ip route 0.0.0.0 0.0.0.0 ${d.gatewayMon}
 
 interface vlan 152
-description MONITORIA
 ip address ${d.ipMon} ${d.maskMon}
-exit
 
 interface gigabitEthernet 1/0/1
 description ${d.clientId}-${d.service}
-switchport general allowed vlan ${d.vlan} untagged
-switchport pvid ${d.vlan}
-spanning-tree bpduguard
-exit
 
-interface gigabitEthernet 1/0/9
-description UPLINK-A-HUB
-switchport general allowed vlan 152,${d.vlan} tagged
-switchport pvid ${d.vlan}
-spanning-tree
-exit
-
-interface gigabitEthernet 1/0/2
-shutdown
-exit
-
-interface gigabitEthernet 1/0/3
-shutdown
-exit
-
-interface gigabitEthernet 1/0/4
-shutdown
-exit
-
-interface gigabitEthernet 1/0/5
-shutdown
-exit
-
-interface gigabitEthernet 1/0/6
-shutdown
-exit
-
-interface gigabitEthernet 1/0/7
-shutdown
-exit
-
-interface gigabitEthernet 1/0/8
-shutdown
-exit
-
-interface vlan 1
-shutdown
-exit
-
-spanning-tree
-spanning-tree mode rstp
-
-system-time ntp UTC-03:00 192.168.15.74 192.168.15.74 12
-
-end
-
-copy running-config startup-config
-`;
+copy running-config startup-config`;
 }
 
-/* ==========
-GENERADOR SG350 L3VPN
-========== */
+/* =====================
+   GENERADOR VPN
+===================== */
 
 function generateVPN(d){
 
@@ -1667,32 +1814,12 @@ return `conf t
 
 hostname ${d.clientName}-${d.clientId}
 
-username telecentro privilege 15 password Inst4l4c10n3s
-username backups privilege 15 password c0rp0backup!
-
-enable password Inst4l4c10n3s
-
-ip ssh server
-
-ip ssh-client username telecentro
-ip ssh-client password Inst4l4c10n3s
-
-ip access-list extended 152
-
-permit ip 192.168.0.0 0.0.255.255 any
-permit ip 10.210.0.0 0.0.255.255 any
-deny ip any any
-
 vlan 152
 vlan ${d.vlan}
 
 interface vlan 152
 
-name MONITORIA-CPE
-
 ip address ${d.ipMon} ${d.maskMon}
-
-exit
 
 ip default-gateway ${d.gatewayMon}
 
@@ -1701,44 +1828,23 @@ interface gigabitethernet9
 description ##CLIENTE##${d.description}
 
 switchport mode trunk
+
 switchport trunk allowed vlan add 152,${d.vlan}
-
-no shutdown
-
-exit
 
 interface gigabitethernet1
 
 description ##CLIENTE##${d.service}
 
 switchport mode trunk
+
 switchport trunk allowed vlan add 152,${d.vlan}
 
-no shutdown
-
-exit
-
-interface vlan 1
-shutdown
-
-exit
-
-snmp-server server
-
-snmp-server community TELECENTRO-${d.clientId} ro view Default
-snmp-server community CpeSnmpTlc!! ro view Default
-
-sntp server 192.168.15.74
-clock source sntp
-clock timezone 1 -3
-
-exit
-`;
+exit`;
 }
 
-/* ==========
-GENERADOR SG350 QINQ
-========== */
+/* =====================
+   GENERADOR QINQ
+===================== */
 
 function generateQinQ(d){
 
@@ -1746,32 +1852,12 @@ return `conf t
 
 hostname ${d.clientName}-${d.clientId}
 
-username telecentro privilege 15 password Inst4l4c10n3s
-username backups privilege 15 password c0rp0backup!
-
-enable password Inst4l4c10n3s
-
-ip ssh server
-
-ip ssh-client username telecentro
-ip ssh-client password Inst4l4c10n3s
-
-ip access-list extended 152
-
-permit ip 192.168.0.0 0.0.255.255 any
-permit ip 10.210.0.0 0.0.255.255 any
-deny ip any any
-
 vlan 152
 vlan ${d.customerVlan}
 
 interface vlan 152
 
-name MONITORIA-CPE
-
 ip address ${d.ipMon} ${d.maskMon}
-
-exit
 
 ip default-gateway ${d.gatewayMon}
 
@@ -1783,10 +1869,6 @@ switchport mode trunk
 
 switchport trunk allowed vlan add 152,${d.customerVlan}
 
-no shutdown
-
-exit
-
 interface gigabitethernet1
 
 description ##CLIENTE##${d.service}
@@ -1795,31 +1877,12 @@ switchport mode customer
 
 switchport customer vlan ${d.customerVlan}
 
-no shutdown
-
-exit
-
-interface vlan 1
-shutdown
-
-exit
-
-snmp-server server
-
-snmp-server community TELECENTRO-${d.clientId} ro view Default
-snmp-server community CpeSnmpTlc!! ro view Default
-
-sntp server 192.168.15.74
-clock source sntp
-clock timezone 1 -3
-
-exit
-`;
+exit`;
 }
 
-/* ==========
-GENERADOR CISCO 881 YPF
-========== */
+ /* =====================
+   GENERADOR CISCO 881 YPF
+===================== */
 
 function generateCisco881YPF(d){
 
@@ -1828,102 +1891,78 @@ return `conf t
 hostname ${d.clientId}-${d.clientName}
 
 vrf definition MONITORIA-CPE
-address-family ipv4
-exit-address-family
+ address-family ipv4
+ exit-address-family
 
 logging buffered 200000
 
 ip domain name telecentro.net.ar
-no ip domain-lookup
-
-username telecentro privilege 15 password Inst4l4c10n3s
-username backups privilege 15 password c0rp0backup!
-
-service password-encryption
 
 vlan 10
-name LAN
+ name LAN
 
 vlan 152
-name MONITORIA
+ name MONITORIA
 
 vlan ${d.vlan}
-name L3VPN
-
-ip ssh version 2
+ name L3VPN
 
 interface vlan 10
 
-ip address ${d.lanIp} 255.255.255.252
-
-exit
-
-interface Fa4
-
-no shutdown
+ ip address ${d.lanIp} 255.255.255.252
 
 exit
 
 interface Fa4.152
 
-description MONITORIA-CPE
+ encapsulation dot1Q 152
 
-encapsulation dot1Q 152
+ vrf forwarding MONITORIA-CPE
 
-vrf forwarding MONITORIA-CPE
-
-ip address ${d.ipMon} ${d.maskMon}
+ ip address ${d.ipMon} ${d.maskMon}
 
 exit
 
 interface Fa4.${d.vlan}
 
-description ##CLIENTE##${d.service}
+ description ##CLIENTE##${d.service}
 
-encapsulation dot1Q ${d.vlan}
+ encapsulation dot1Q ${d.vlan}
 
-ip address ${d.wanIp} 255.255.255.252
+ ip address ${d.wanIp} ${d.wanMask}
 
-ip ospf network point-to-point
-ip ospf hello-interval 5
+ ip ospf network point-to-point
+
+ ip ospf hello-interval 5
 
 exit
 
 router ospf 10
 
-router-id ${d.wanIp}
+ router-id ${d.wanIp}
 
-network ${d.wanIp} 0.0.0.0 area 0
-
-redistribute bgp 27747 subnets
+ network ${d.wanIp} 0.0.0.0 area 0
 
 ip route 0.0.0.0 0.0.0.0 ${d.wanGateway}
 
 ip route vrf MONITORIA-CPE 0.0.0.0 0.0.0.0 ${d.gatewayMon}
 
-logging host 192.168.15.100
-
-snmp-server community TELECENTRO-${d.clientId} RO SNMP
-
-snmp-server community CpeSnmpTlc!! ro
-
 router bgp 27747
 
-network ${d.bgpIp} mask 255.255.255.252
+ network ${d.bgpIp} mask ${d.bgpMask}
 
-neighbor ${d.neighborIp} remote-as 65103
+ neighbor ${d.neighborIp} remote-as 65103
 
-redistribute ospf 10 match internal external 1 external 2
-
-ntp server vrf MONITORIA-CPE 192.168.15.74
+snmp-server community TELECENTRO-${d.clientId} RO
 
 clock timezone GMT -3
-`;
+
+end`;
 }
 
-/* ==========
-GENERADOR CISCO 881 DIA
-========== */
+/* =====================
+   GENERADOR CISCO 881 DIA
+===================== */
 
 function generateCisco881DIA(d){
 
@@ -1933,122 +1972,60 @@ hostname ${d.clientId}-DIA-881
 
 ip vrf MONITORIA-CPE
 
-no ip domain lookup
-
-ip domain name www.telecentro.com.ar
-
-ip cef
-
-username telecentro privilege 15 password 0 Inst4l4c10n3s
-username backups privilege 15 password 0 c0rp0backup!
-
-vlan 10
- name LAN
-
 vlan 152
  name MONITORIA
 
 vlan ${d.vlan}
  name VPN
 
-crypto key generate rsa
-
-ip ssh version 2
-
 interface Loopback1
 
-description NAT
-
-ip address ${d.loopbackIp} ${d.loopbackMask}
-
-interface FastEthernet4
-
-no shutdown
+ ip address ${d.loopbackIp} ${d.loopbackMask}
 
 interface FastEthernet4.152
 
-description MONITORIA-CPE
+ encapsulation dot1Q 152
 
-encapsulation dot1Q 152
+ ip vrf forwarding MONITORIA-CPE
 
-ip vrf forwarding MONITORIA-CPE
-
-ip address ${d.monitorIp} ${d.monitorMask}
+ ip address ${d.monitorIp} ${d.monitorMask}
 
 interface FastEthernet4.${d.vlan}
 
-description VPN
+ encapsulation dot1Q ${d.vlan}
 
-encapsulation dot1Q ${d.vlan}
+ ip address ${d.wanIp} ${d.wanMask}
 
-ip address ${d.wanIp} ${d.wanMask}
-
-ip nat outside
-
-interface Vlan10
-
-ip address 10.10.10.252 255.255.255.0
-
-ip nat inside
+ ip nat outside
 
 ip route 0.0.0.0 0.0.0.0 ${d.wanGateway}
 
 ip route vrf MONITORIA-CPE 0.0.0.0 0.0.0.0 ${d.monitorGateway}
 
-ip access-list standard DIA-LAN
-
-permit 10.10.10.0 0.0.0.255
-
-ip nat inside source list DIA-LAN interface Loopback1 overload
-
-snmp-server community DIA-RO RO
 snmp-server community TELECENTRO-${d.clientId} RO
-snmp-server community CpeSnmpTlc!! ro
-
-banner motd ^C
-
------------------------------------------------------
-Este sistema es propiedad de Telecentro S.A.
-ESTA PROHIBIDO EL ACCESO A PERSONAL NO AUTORIZADO.
-Ud. debe tener permiso explicito para acceder.
------------------------------------------------------
-
-^C
 
 ntp server vrf MONITORIA-CPE 192.168.15.74
 
 clock timezone GMT -3
 
-end
-`;
+end`;
 }
 
-/* ==========
-GENERADOR MEDIANT 800
-========== */
+/* =====================
+   GENERADOR MEDIANT800
+===================== */
 
 function generateMediant800(d){
 
 return `;****************
-;** Ini File **
+; AudioCodes Mediant
 ;****************
 
 [SYSTEM Params]
 
-NTPServerUTCOffset = -10800
+NTPServerUTCOffset=-10800
 
 [InterfaceTable]
-
-FORMAT InterfaceTable_Index =
-InterfaceTable_ApplicationTypes,
-InterfaceTable_InterfaceMode,
-InterfaceTable_IPAddress,
-InterfaceTable_PrefixLength,
-InterfaceTable_Gateway,
-InterfaceTable_InterfaceName,
-InterfaceTable_PrimaryDNSServerIPAddress,
-InterfaceTable_SecondaryDNSServerIPAddress,
-InterfaceTable_UnderlyingDevice;
 
 InterfaceTable 0 =
 5,
@@ -2056,280 +2033,168 @@ InterfaceTable 0 =
 ${d.hostIp},
 30,
 ${d.gatewayIp},
-"Voice",
-0.0.0.0,
-0.0.0.0,
-"vlan 1";
+"Voice"
 
 [ProxyIp]
-
-FORMAT ProxyIp_Index =
-ProxyIp_ProxySetId,
-ProxyIp_ProxyIpIndex,
-ProxyIp_IpAddress,
-ProxyIp_TransportType;
 
 ProxyIp 0 =
 "1",
 0,
 "${d.sipTrunk}",
-0;
+0
 
 [TrunkGroup]
-
-FORMAT TrunkGroup_Index =
-TrunkGroup_TrunkGroupNum,
-TrunkGroup_FirstTrunkId,
-TrunkGroup_FirstBChannel,
-TrunkGroup_LastBChannel,
-TrunkGroup_FirstPhoneNumber,
-TrunkGroup_ProfileName,
-TrunkGroup_LastTrunkId,
-TrunkGroup_Module;
 
 TrunkGroup 2 =
 21,
 255,
 1,
 1,
-"${d.linea1}",
-"",
-255,
-2;
+"${d.linea1}"
 
 TrunkGroup 3 =
 22,
 255,
 2,
 2,
-"${d.linea2}",
-"",
-255,
-2;
+"${d.linea2}"
 
 TrunkGroup 4 =
 23,
 255,
 3,
 3,
-"${d.linea3}",
-"",
-255,
-2;
+"${d.linea3}"
 `;
 }
 
-/* ==========
-GENERADOR PRINCIPAL
-========== */
+/* =====================
+   GENERADOR PRINCIPAL
+===================== */
 
 function generateCurrentTemplate(){
 
-if(!currentTemplate){
+    if(!currentTemplate){
 
-showError(
-"Seleccione una plantilla."
-);
-
-return;
-}
-
-const data = getData();
-
-if(
-    data.service &&
-    /\s/.test(data.service)
-){
-
-    showError(
-        "El campo Servicio no puede contener espacios. Ejemplo: ADI_100MB"
-    );
-
-    return;
-}
-
-for(const key in data){
-
-if(data[key] === ""){
-
-showError(
-"Complete todos los campos."
-);
-
-return;
-}
-
-}
-
-let output = "";
-
-switch(currentTemplate){
-
-case "sg350":
-output =
-generateSG350(data);
-break;
-
-case "sg3210":
-output =
-generateSG3210(data);
-break;
-
-case "vpn":
-output =
-generateVPN(data);
-break;
-
-case "qinq":
-output =
-generateQinQ(data);
-break;
-
-case "c881ypf":
-output =
-generateCisco881YPF(data);
-break;
-
-case "c881dia":
-output =
-generateCisco881DIA(data);
-break;
-
-case "mediant":
-output =
-generateMediant800(data);
-break;
-
-default:
-
-showError(
-"Plantilla desconocida."
-);
-
-return;
-}
-
-const outputArea =
-    document.getElementById("output");
-
-outputArea.value = output;
-
-outputArea.style.height = "45px";
-outputArea.style.height =
-    outputArea.scrollHeight + "px";
-
-saveHistory(
-currentTemplate,
-data.clientId || ""
-);
-
-showSuccess(
-"Template generado correctamente."
-);
-
-}
-
-function clearFormSilent(){
-
-    document
-    .querySelectorAll(
-        "#formContainer input"
-    )
-    .forEach(input => {
-
-        input.value = "";
-
-        input.classList.remove(
-            "valid",
-            "invalid"
+        showError(
+            "Seleccione una plantilla."
         );
 
-    });
+        return;
+    }
 
-    document
-    .getElementById("output")
-    .value = "";
+    const data =
+        getData();
 
-    document
-    .getElementById("message")
-    .className = "message";
+    for(const key in data){
 
-    document
-    .getElementById("message")
-    .innerText = "";
+        if(
+            data[key] === ""
+        ){
+
+            showError(
+                "Complete todos los campos."
+            );
+
+            return;
+        }
+    }
+
+    let output = "";
+
+    switch(currentTemplate){
+
+        case "sg350":
+            output =
+            generateSG350(data);
+        break;
+
+        case "sg3210":
+            output =
+            generateSG3210(data);
+        break;
+
+        case "vpn":
+            output =
+            generateVPN(data);
+        break;
+
+        case "qinq":
+            output =
+            generateQinQ(data);
+        break;
+
+        case "c881ypf":
+            output =
+            generateCisco881YPF(data);
+        break;
+
+        case "c881dia":
+            output =
+            generateCisco881DIA(data);
+        break;
+
+        case "mediant":
+            output =
+            generateMediant800(data);
+        break;
+    }
+
+    const outputArea =
+        document.getElementById(
+            "output"
+        );
+
+    outputArea.value =
+        output;
+
+    autoResizeTextarea();
+
+    saveHistory(
+        currentTemplate,
+        data.clientId || ""
+    );
+
+    showSuccess(
+        "Template generado correctamente."
+    );
 }
 
-/* ==========
-PORTAPAPELES
-========== */
+/* =====================
+   PORTAPAPELES
+===================== */
 
 function copyTemplate(){
 
-const txt =
-document
-.getElementById("output")
-.value;
+    const txt =
+        document.getElementById(
+            "output"
+        ).value;
 
-if(!txt.trim()){
+    if(!txt.trim()){
 
-showError(
-"No hay contenido."
-);
-
-return;
-}
-
-navigator.clipboard
-.writeText(txt)
-.then(()=>{
-
-showSuccess(
-"Copiado al portapapeles."
-);
-
-});
-}
-
-function clearForm(){
-
-    const hayDatosFormulario =
-        Array.from(
-            document.querySelectorAll(
-                "#formContainer input"
-            )
-        ).some(
-            input => input.value.trim() !== ""
+        showError(
+            "No hay resultado para copiar."
         );
 
-    const hayTemplate =
-        document.getElementById("output")
-        .value.trim() !== "";
-
-    if(
-        !hayDatosFormulario &&
-        !hayTemplate
-    ){
         return;
     }
 
-    const confirmar = confirm(
-        "¿Desea limpiar el formulario y borrar el template generado?"
-    );
+    navigator.clipboard
+    .writeText(txt)
+    .then(() => {
 
-    if(!confirmar){
-        return;
-    }
+        showSuccess(
+            "Copiado al portapapeles."
+        );
 
-    clearFormSilent();
-
-    showSuccess(
-        "Formulario limpiado."
-    );
+    });
 }
 
-/* ==========
-DESCARGA
-========== */
+/* =====================
+   DESCARGA
+===================== */
+
 function downloadTemplate(){
 
     const txt =
@@ -2350,15 +2215,19 @@ function downloadTemplate(){
         new Blob(
             [txt],
             {
-               type:"text/plain"
+                type:"text/plain"
             }
         );
 
     const link =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
     link.href =
-        URL.createObjectURL(blob);
+        URL.createObjectURL(
+            blob
+        );
 
     link.download =
         `${currentTemplate}.txt`;
@@ -2369,215 +2238,203 @@ function downloadTemplate(){
         link.href
     );
 }
-/* ==========
-HISTORIAL
-========== */
 
-function saveHistory(
-template,
-client
-){
+/* =====================
+   LIMPIEZA
+===================== */
 
-const history =
-JSON.parse(
-localStorage.getItem(
-"telecentro_history"
-) || "[]"
-);
+function clearFormSilent(){
 
-history.unshift({
+    document
+    .querySelectorAll(
+        "#formContainer input"
+    )
+    .forEach(input => {
 
-date:
-new Date()
-.toLocaleString(),
+        input.value = "";
 
-template,
-client
+        input.classList.remove(
+            "valid",
+            "invalid"
+        );
+    });
 
-});
+    document
+    .getElementById(
+        "output"
+    )
+    .value = "";
 
-if(history.length > 20){
-history.length = 20;
+    document
+    .getElementById(
+        "message"
+    )
+    .className =
+    "message";
 }
 
-localStorage.setItem(
-"telecentro_history",
-JSON.stringify(history)
-);
+function clearForm(){
 
-renderHistory();
+    const hayDatos =
+        Array.from(
+            document.querySelectorAll(
+                "#formContainer input"
+            )
+        ).some(
+            e =>
+            e.value.trim() !== ""
+        );
+
+    const hayResultado =
+        document.getElementById(
+            "output"
+        ).value.trim() !== "";
+
+    if(
+        !hayDatos &&
+        !hayResultado
+    ){
+        return;
+    }
+
+    if(
+        !confirm(
+            "¿Desea limpiar el formulario?"
+        )
+    ){
+        return;
+    }
+
+    clearFormSilent();
+
+    showSuccess(
+        "Formulario limpiado."
+    );
+}
+
+/* =====================
+   HISTORIAL
+===================== */
+
+function saveHistory(
+    template,
+    client
+){
+
+    const history =
+        JSON.parse(
+            localStorage.getItem(
+                "telecentro_history"
+            ) || "[]"
+        );
+
+    history.unshift({
+
+        date:
+        new Date()
+        .toLocaleString(),
+
+        template,
+        client
+    });
+
+    if(
+        history.length > 20
+    ){
+        history.length = 20;
+    }
+
+    localStorage.setItem(
+        "telecentro_history",
+        JSON.stringify(history)
+    );
+
+    renderHistory();
 }
 
 function renderHistory(){
 
-const history =
-JSON.parse(
-localStorage.getItem(                                        
-"telecentro_history"
-) || "[]"
-);
+    const history =
+        JSON.parse(
+            localStorage.getItem(
+                "telecentro_history"
+            ) || "[]"
+        );
 
-let html = `
-<div class="card-title">
-Historial
-</div>
-`;
+    let html = `
+        <div class="card-title">
+            Historial
+        </div>
+    `;
 
-if(history.length === 0){
+    history.forEach(item => {
 
-html += `
-<p>
-Sin registros
-</p>
-`;
-}
-else{
+        html += `
+        <div style="margin-bottom:8px;">
 
-html += "<ul>";
+            ${item.date}
 
-history.forEach(item=>{
+            <br>
 
-html += `
-<li>
+            <strong>
+            ${item.template}
+            </strong>
 
-${item.date}
+            - ${item.client}
 
-|
+        </div>
+        `;
+    });
 
-<strong>
-${item.template}
-</strong>
-
-|
-
-${item.client}
-
-</li>
-`;
-});
-
-html += "</ul>";
-}
-
-document
-.getElementById(
-"historyPanel"
-)
-.innerHTML = html;
+    document
+    .getElementById(
+        "historyPanel"
+    )
+    .innerHTML = html;
 }
 
 function clearHistory(){
 
-localStorage.removeItem(
-"telecentro_history"
-);
-
-renderHistory();
-
-showSuccess(
-"Historial eliminado."
-);
-
-}
-
-function validateService(service){
-
-    return !/\s/.test(service);
-}
-
-function autoResizeTextarea(){
-
-    const textarea =
-        document.getElementById("output");
-
-    textarea.style.height = "45px";
-    textarea.style.height =
-        textarea.scrollHeight + "px";
-}
-
-
-/* ==========
-INICIO
-========== */
-
-    function showUserAdmin(){
-
-    const currentUser =
-        JSON.parse(
-            sessionStorage.getItem(
-                "currentUser"
-            )
-        );
-
-    if(
-        !currentUser ||
-        currentUser.role !==
-        "Administrador"
-    ){
-
-        alert(
-            "Solo los administradores pueden gestionar usuarios."
-        );
-
-        return;
-    }
-
-    const username =
-        prompt("Nuevo usuario:");
-
-    if(!username){
-        return;
-    }
-
-    const password =
-        prompt("Contraseña:");
-
-    if(!password){
-        return;
-    }
-
-    addUser(
-        username,
-        password
+    localStorage.removeItem(
+        "telecentro_history"
     );
-
-    alert(
-        "Usuario creado correctamente."
-    );
-}
-
-window.onload = ()=>{
-
-    document.getElementById(
-        "appContent"
-    ).style.display = "none";
 
     renderHistory();
 
-    currentTemplate = "sg350";
+    showSuccess(
+        "Historial eliminado."
+    );
+}
 
-    const tpl =
-        templates["sg350"];
+/* =====================
+   INICIO
+===================== */
 
-    document.getElementById(
-        "templateTitle"
-    ).innerText = tpl.title;
+window.onload = () => {
 
-    let html = "";
+    renderHistory();
 
-    tpl.fields.forEach(field=>{
+    currentTemplate =
+        "sg350";
 
-        html += createField(field);
+    loadTemplate(
+        "sg350"
+    );
 
-    });
-
-    document.getElementById(
-        "formContainer"
-    ).innerHTML = html;
-
-    applyValidators();
-
+    document
+    .getElementById(
+        "output"
+    )
+    .addEventListener(
+        "input",
+        autoResizeTextarea
+    );
 };
+
+</script>
+
+</body>
+</html>
 
 </script>
 
