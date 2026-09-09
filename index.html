@@ -2708,21 +2708,29 @@ function renderHistory(){
     history.forEach(item => {
 
         html += `
-        <div style="margin-bottom:8px;">
+<div style="
+    margin-bottom:15px;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+">
 
-            ${item.date}
+    <div>
+        <strong>Fecha:</strong>
+        ${item.date}
+    </div>
 
-            <br>
+    <div>
+        <strong>Plantilla:</strong>
+        ${item.template}
+    </div>
 
-            <strong>
-            ${item.template}
-            </strong>
+    <div>
+        <strong>Cliente:</strong>
+        ${item.client}
+    </div>
 
-            - ${item.client}
-
-        </div>
-        `;
-    });
+</div>
+`;
 
     document
     .getElementById(
