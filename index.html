@@ -260,6 +260,10 @@ background:
 #e5e7eb;
 }
 
+ #btnUsers{
+    display:none;
+}
+
 /* OUTPUT */
 
 .output{
@@ -557,6 +561,7 @@ Mediant 800
 </button>
 
     <button
+id="btnUsers"
 class="btn btn-secondary"
 onclick="showUserAdmin()">
 
@@ -852,6 +857,15 @@ function login(){
             "currentUser",
             JSON.stringify(found)
         );
+
+        if(found.role === "Administrador"){
+
+    document.getElementById(
+        "btnUsers"
+    ).style.display = "block";
+
+}
+`
 
         document.getElementById(
     "currentUserLabel"
