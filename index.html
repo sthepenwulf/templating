@@ -300,6 +300,10 @@ body{
     display:none;
 }
 
+#btnClearHistory{
+    display:none;
+}
+
 /* =====================
    RESULTADO
 ===================== */
@@ -647,6 +651,7 @@ style="display:none;">
                 </button>
 
                 <button
+                    id="btnClearHistory"
                     class="btn btn-secondary"
                     onclick="clearForm()">
 
@@ -885,14 +890,18 @@ function login(){
     `Usuario: ${found.user}`;
 
     if(
-        found.role ===
-        "Administrador"
-    ){
+    found.role ===
+    "Administrador"
+){
 
-        document.getElementById(
-            "btnUsers"
-        ).style.display = "block";
-    }
+    document.getElementById(
+        "btnUsers"
+    ).style.display = "block";
+
+    document.getElementById(
+        "btnClearHistory"
+    ).style.display = "inline-block";
+}
 
     document.getElementById(
         "loginScreen"
@@ -2395,6 +2404,35 @@ function renderHistory(){
 
 function clearHistory(){
 
+    const currentUser =
+        JSON.parse(
+            sessionStorage.getItem(
+                "currentUser"
+            )
+        );
+
+    if(
+        !currentUser ||
+        currentUser.role !==
+        "Administrador"
+    ){
+
+        showError(
+            "No posee permisos para eliminar el historial."
+        );
+
+        return;
+    }
+
+    const confirmar =
+        confirm(
+            "¿Desea eliminar todo el historial?"
+        );
+
+    if(!confirmar){
+        return;
+    }
+
     localStorage.removeItem(
         "telecentro_history"
     );
@@ -2405,7 +2443,6 @@ function clearHistory(){
         "Historial eliminado."
     );
 }
-
 /* =====================
    INICIO
 ===================== */
