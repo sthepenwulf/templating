@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Template Generator</title>
+<title>Telecentro Template Generator</title>
 
 <style>
 
 :root{
-
     --primary:#0056d6;
     --primary-hover:#0045aa;
 
@@ -20,7 +17,7 @@
     --background:#f4f7fa;
     --card:#ffffff;
 
-    --text:#222222;
+    --text:#222;
     --border:#d7dce3;
 
     --success:#16a34a;
@@ -28,7 +25,6 @@
 }
 
 .dark{
-
     --background:#111827;
     --card:#1f2937;
     --text:#f3f4f6;
@@ -42,52 +38,24 @@
 }
 
 body{
-
-    font-family:
-    "Segoe UI",
-    Arial,
-    sans-serif;
-
-    background:
-    var(--background);
-
-    color:
-    var(--text);
+    font-family:Segoe UI,Arial,sans-serif;
+    background:var(--background);
+    color:var(--text);
 }
 
-/* =====================
-   TOPBAR
-===================== */
+/* HEADER */
 
 .topbar{
-
     height:70px;
+    background:#002f6c;
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
 
     padding:0 20px;
 
-    background:#002f6c;
-
     color:white;
-}
-
-.topbar h1{
-
-    font-size:22px;
-}
-
-#currentUserLabel{
-
-    font-size:12px;
-
-    opacity:.9;
-
-    margin-top:4px;
 }
 
 .topbar-left{
@@ -97,65 +65,49 @@ body{
 
 .topbar-right{
     display:flex;
-    align-items:center;
     gap:10px;
-    margin-left:auto;
+    align-items:center;
 }
-    
-/* =====================
-   LAYOUT
-===================== */
+
+#currentUserLabel{
+    font-size:12px;
+}
+
+/* LAYOUT */
 
 .layout{
-
     display:flex;
-
-    min-height:
-    calc(100vh - 70px);
+    min-height:calc(100vh - 70px);
 }
 
 .sidebar{
-
     width:280px;
-
-    background:
-    var(--sidebar);
-
+    background:var(--sidebar);
     color:white;
-
     padding:20px;
 }
 
 .content{
-
     flex:1;
-
     padding:20px;
 }
 
-/* =====================
-   SIDEBAR
-===================== */
+/* MENU */
 
 .sidebar-title{
+    margin-top:20px;
+    margin-bottom:8px;
 
     font-size:12px;
-
     text-transform:uppercase;
 
-    opacity:.7;
-
-    margin-top:18px;
-
-    margin-bottom:8px;
+    opacity:.8;
 }
 
 .nav-item{
-
     width:100%;
 
     border:none;
-
     background:none;
 
     color:white;
@@ -163,30 +115,21 @@ body{
     text-align:left;
 
     padding:12px;
-
     margin-bottom:5px;
 
     border-radius:8px;
 
     cursor:pointer;
-
-    transition:.2s;
 }
 
 .nav-item:hover{
-
-    background:
-    rgba(255,255,255,.08);
+    background:rgba(255,255,255,.08);
 }
 
-/* =====================
-   CARDS
-===================== */
+/* CARDS */
 
 .card{
-
-    background:
-    var(--card);
+    background:var(--card);
 
     border-radius:12px;
 
@@ -199,40 +142,30 @@ body{
 }
 
 .card-title{
-
     font-size:18px;
-
     font-weight:600;
 
     margin-bottom:20px;
 }
 
-/* =====================
-   FORMULARIOS
-===================== */
+/* FORM */
 
 .form-grid{
-
     display:grid;
 
     grid-template-columns:
-    repeat(2,1fr);
+        repeat(2,1fr);
 
     gap:15px;
 }
 
 .form-group{
-
     display:flex;
-
     flex-direction:column;
 }
 
 .form-group label{
-
     margin-bottom:6px;
-
-    font-size:14px;
 }
 
 .form-group input{
@@ -240,19 +173,15 @@ body{
     height:42px;
 
     border:
-    1px solid var(--border);
+        1px solid var(--border);
 
     border-radius:8px;
 
     padding:0 12px;
-
-    font-size:14px;
 }
 
 .dark .form-group input{
-
     background:#374151;
-
     color:white;
 }
 
@@ -264,138 +193,97 @@ body{
     border:2px solid var(--danger)!important;
 }
 
-/* =====================
-   BOTONES
-===================== */
+/* BUTTONS */
 
 .actions{
-
     display:flex;
-
     gap:10px;
-
     flex-wrap:wrap;
 }
 
 .btn{
+    padding:12px 18px;
 
     border:none;
-
     border-radius:8px;
-
-    padding:12px 18px;
 
     cursor:pointer;
 }
 
 .btn-primary{
-
-    background:
-    var(--primary);
-
+    background:var(--primary);
     color:white;
 }
 
 .btn-primary:hover{
-
-    background:
-    var(--primary-hover);
+    background:var(--primary-hover);
 }
 
 .btn-secondary{
-
     background:#e5e7eb;
 }
 
-#btnUsers{
-
-    display:none;
-}
-
-#btnClearHistory{
-    display:none;
-}
-
-/* =====================
-   RESULTADO
-===================== */
+/* RESULT */
 
 .output{
 
     width:100%;
 
     min-height:45px;
-
     height:45px;
+
+    resize:none;
+    overflow:hidden;
 
     padding:15px;
 
     border:
-    1px solid var(--border);
+        1px solid var(--border);
 
     border-radius:8px;
 
-    resize:none;
-
-    overflow:hidden;
-
     font-family:
-    Consolas,
-    monospace;
+        Consolas,
+        monospace;
 }
 
-/* =====================
-   MENSAJES
-===================== */
+/* MESSAGES */
 
 .message{
-
     display:none;
 
     margin-top:15px;
-
     padding:12px;
 
     border-radius:8px;
 }
 
 .message.success{
-
     display:block;
-
     background:#e8f5e9;
-
     color:#1b5e20;
 }
 
 .message.error{
-
     display:block;
-
     background:#ffebee;
-
     color:#b71c1c;
 }
 
-/* =====================
-   LOGIN
-===================== */
+/* LOGIN */
 
 .login-overlay{
 
     position:fixed;
-
     inset:0;
 
     background:#0f172a;
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
 
-    z-index:99999;
+    z-index:9999;
 }
 
 .login-card{
@@ -404,95 +292,75 @@ body{
 
     background:white;
 
-    border-radius:14px;
+    border-radius:12px;
 
     padding:30px;
 
-    box-shadow:
-    0 20px 40px rgba(0,0,0,.3);
-
     display:flex;
-
     flex-direction:column;
 
     gap:15px;
-}
-
-.login-card h2{
-
-    text-align:center;
 }
 
 .login-card input{
 
     height:42px;
 
+    padding:0 12px;
+
     border:1px solid #ccc;
 
     border-radius:8px;
-
-    padding:0 12px;
 }
 
 .login-error{
-
-    color:#dc2626;
-
+    color:red;
     text-align:center;
-
-    font-size:14px;
 }
 
-/* =====================
-   RESPONSIVE
-===================== */
+#btnUsers{
+    display:none;
+}
+
+#btnClearHistory{
+    display:none;
+}
 
 @media(max-width:900px){
 
     .layout{
-
         flex-direction:column;
     }
 
     .sidebar{
-
         width:100%;
     }
 
     .form-grid{
-
         grid-template-columns:1fr;
     }
+
 }
 
 </style>
-
 </head>
 
 <body>
-
-<!-- LOGIN -->
 
 <div id="loginScreen" class="login-overlay">
 
     <div class="login-card">
 
-        <h2>
-            🛰 Template Generator
-        </h2>
-
-        <p>
-            Ingrese sus credenciales
-        </p>
+        <h2>🛰 Telecentro Template Generator</h2>
 
         <input
-            type="text"
             id="loginUser"
+            type="text"
             placeholder="Usuario">
 
         <input
-            type="password"
             id="loginPassword"
+            type="password"
             placeholder="Contraseña">
 
         <button
@@ -512,14 +380,12 @@ body{
 
 </div>
 
-<!-- TOPBAR -->
-
 <header class="topbar">
 
     <div class="topbar-left">
 
         <h1>
-            🛰 Template Generator
+            🛰 Telecentro Template Generator
         </h1>
 
         <div id="currentUserLabel"></div>
@@ -531,8 +397,7 @@ body{
         <button
             id="btnUsers"
             class="btn btn-secondary"
-            onclick="showUserAdmin()"
-            style="display:none;">
+            onclick="showUserAdmin()">
 
             Usuarios
 
@@ -541,10 +406,9 @@ body{
         <button
             id="btnClearHistory"
             class="btn btn-secondary"
-            onclick="clearHistory()"
-            style="display:none;">
+            onclick="clearHistory()">
 
-           Borrar Historial
+            Borrar Historial
 
         </button>
 
@@ -565,158 +429,150 @@ body{
         </button>
 
     </div>
+
 </header>
 
-<!-- APP -->
-
 <div
-class="layout"
 id="appContent"
+class="layout"
 style="display:none;">
 
-    <aside class="sidebar">
+<aside class="sidebar">
 
-        <div class="sidebar-title">
-            Switches
-        </div>
+<div class="sidebar-title">Switches</div>
 
-        <button class="nav-item"
-        onclick="loadTemplate('sg350')">
-        SG350 ADI/TLS
-        </button>
+<button class="nav-item"
+onclick="loadTemplate('sg350')">
+SG350 ADI/TLS
+</button>
 
-        <button class="nav-item"
-        onclick="loadTemplate('sg3210')">
-        SG3210 ADI
-        </button>
+<button class="nav-item"
+onclick="loadTemplate('sg3210')">
+SG3210 ADI
+</button>
 
-        <button class="nav-item"
-        onclick="loadTemplate('vpn')">
-        SG350 VPN
-        </button>
+<button class="nav-item"
+onclick="loadTemplate('vpn')">
+SG350 VPN
+</button>
 
-        <button class="nav-item"
-        onclick="loadTemplate('qinq')">
-        SG350 QinQ
-        </button>
+<button class="nav-item"
+onclick="loadTemplate('qinq')">
+SG350 QinQ
+</button>
 
-        <div class="sidebar-title">
-            Routers
-        </div>
+<div class="sidebar-title">
+Routers
+</div>
 
-        <button class="nav-item"
-        onclick="loadTemplate('c881ypf')">
-        Cisco 881 YPF
-        </button>
+<button class="nav-item"
+onclick="loadTemplate('c881ypf')">
+Cisco 881 YPF
+</button>
 
-        <button class="nav-item"
-        onclick="loadTemplate('c881dia')">
-        Cisco 881 DIA
-        </button>
+<button class="nav-item"
+onclick="loadTemplate('c881dia')">
+Cisco 881 DIA
+</button>
 
-        <div class="sidebar-title">
-            Voice
-        </div>
+<div class="sidebar-title">
+Voice
+</div>
 
-        <button class="nav-item"
-        onclick="loadTemplate('mediant')">
-        Mediant 800
-        </button>
+<button class="nav-item"
+onclick="loadTemplate('mediant')">
+Mediant 800
+</button>
 
-        <hr style="margin:15px 0;">
+</aside>
 
-        
+<main class="content">
 
-    </aside>
+<div class="card">
 
-    <main class="content">
+<div
+class="card-title"
+id="templateTitle">
 
-        <div class="card">
-
-            <div
-            class="card-title"
-            id="templateTitle">
-
-                Seleccione una plantilla
-
-            </div>
-
-            <div
-            id="formContainer"
-            class="form-grid">
-            </div>
-
-        </div>
-
-        <div class="card">
-
-           <div class="actions">
-
-    <button
-        class="btn btn-primary"
-        onclick="generateCurrentTemplate()">
-        Generar
-    </button>
-
-    <button
-        class="btn btn-secondary"
-        onclick="copyTemplate()">
-        Copiar
-    </button>
-
-    <button
-        class="btn btn-secondary"
-        onclick="downloadTemplate()">
-        Descargar
-    </button>
-
-    <button
-        class="btn btn-secondary"
-        onclick="clearForm()">
-        Limpiar Resultado
-    </button>
-
-    <button
-        id="btnClearHistory"
-        class="btn btn-secondary"
-        onclick="clearHistory()"
-        style="display:none;">
-        Limpiar Historial
-    </button>
+Seleccione una plantilla
 
 </div>
 
-            <div
-            id="message"
-            class="message">
-            </div>
+<div
+id="formContainer"
+class="form-grid">
+</div>
 
-        </div>
+</div>
+<div class="card">
 
-        <div class="card">
+    <div class="actions">
 
-            <div class="card-title">
-                Resultado
-            </div>
+        <button
+            class="btn btn-primary"
+            onclick="generateCurrentTemplate()">
 
-            <textarea
-                id="output"
-                class="output">
-            </textarea>
+            Generar
 
-        </div>
+        </button>
 
-        <div
-            id="historyPanel"
-            class="card">
+        <button
+            class="btn btn-secondary"
+            onclick="copyTemplate()">
 
-            <div class="card-title">
-                Historial
-            </div>
+            Copiar
 
-        </div>
+        </button>
 
-    </main>
+        <button
+            class="btn btn-secondary"
+            onclick="downloadTemplate()">
+
+            Descargar
+
+        </button>
+
+        <button
+            class="btn btn-secondary"
+            onclick="clearForm()">
+
+            Limpiar Resultado
+
+        </button>
+
+    </div>
+
+    <div
+        id="message"
+        class="message">
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="card-title">
+        Resultado
+    </div>
+
+    <textarea
+        id="output"
+        class="output">
+    </textarea>
+
+</div>
+
+<div
+    id="historyPanel"
+    class="card">
+
+    <div class="card-title">
+        Historial
+    </div>
+
+</div>
+
+</main>
 
 </div>
 
@@ -796,6 +652,11 @@ function getUsers(){
                 password:"Telecentro2026",
                 role:"Operador"
             },
+            {
+                user:"jgallego",
+                password:"Telecentro2026",
+                role:"Operador"
+            },
 
             {
                 user:"sgomez",
@@ -811,11 +672,6 @@ function getUsers(){
                 user:"asoto",
                 password:"Telecentro2026",
                 role:"Administrador"
-            },
-            {
-                user:"jgallego",
-                password:"Telecentro2026",
-                role:"Operador"
             }
 
         ];
@@ -835,7 +691,8 @@ function addUser(
     role = "Operador"
 ){
 
-    const users = getUsers();
+    const users =
+        getUsers();
 
     const exists =
         users.some(
@@ -847,9 +704,9 @@ function addUser(
     }
 
     users.push({
-        user: username,
-        password: password,
-        role: role
+        user:username,
+        password:password,
+        role:role
     });
 
     localStorage.setItem(
@@ -882,8 +739,8 @@ function login(){
     const found =
         users.find(
             u =>
-                u.user === user &&
-                u.password === password
+            u.user === user &&
+            u.password === password
         );
 
     if(!found){
@@ -907,18 +764,20 @@ function login(){
     `Usuario: ${found.user}`;
 
     if(
-    found.role ===
-    "Administrador"
-){
+        found.role ===
+        "Administrador"
+    ){
 
-    document.getElementById(
-        "btnUsers"
-    ).style.display = "block";
+        document.getElementById(
+            "btnUsers"
+        ).style.display =
+        "inline-block";
 
-    document.getElementById(
-        "btnClearHistory"
-    ).style.display = "inline-block";
-}
+        document.getElementById(
+            "btnClearHistory"
+        ).style.display =
+        "inline-block";
+    }
 
     document.getElementById(
         "loginScreen"
@@ -937,6 +796,10 @@ function logout(){
 
     location.reload();
 }
+
+/* =====================
+   ADMINISTRACIÓN
+===================== */
 
 function showUserAdmin(){
 
@@ -974,10 +837,17 @@ function showUserAdmin(){
         return;
     }
 
+    const role =
+        prompt(
+            "Rol (Administrador u Operador):",
+            "Operador"
+        );
+
     const created =
         addUser(
             username,
-            password
+            password,
+            role || "Operador"
         );
 
     if(!created){
@@ -1083,7 +953,10 @@ function validateIP(ip){
         }
 
         const n =
-            parseInt(part,10);
+            parseInt(
+                part,
+                10
+            );
 
         if(
             n < 0 ||
@@ -1112,7 +985,9 @@ function validateMask(mask){
 
 function validateVlan(vlan){
 
-    if(!/^\d+$/.test(vlan)){
+    if(
+        !/^\d+$/.test(vlan)
+    ){
         return false;
     }
 
@@ -1159,6 +1034,10 @@ function validateField(
     return true;
 }
 
+/* =====================
+   RESULTADO AUTO SIZE
+===================== */
+
 function autoResizeTextarea(){
 
     const textarea =
@@ -1174,7 +1053,7 @@ function autoResizeTextarea(){
         "px";
 }
 
- /* =====================
+/* =====================
    FORM BUILDER
 ===================== */
 
@@ -1188,7 +1067,7 @@ function createField(field){
     <div class="form-group">
 
         <label>
-        ${field.label}
+            ${field.label}
         </label>
 
         <input
@@ -1211,17 +1090,18 @@ function applyValidators(){
             "input",
             () => {
 
-                /* remplazar espacios */
+                /* reemplazar espacios */
+
                 if(
                     input.id ===
                     "service"
                 ){
 
                     input.value =
-                    input.value.replace(
-                        /\s+/g,
-                        "_"
-                    );
+                        input.value.replace(
+                            /\s+/g,
+                            "_"
+                        );
                 }
 
                 const value =
@@ -1288,7 +1168,7 @@ function getData(){
 }
 
 /* =====================
-   TEMPLATES
+   DEFINICIÓN TEMPLATES
 ===================== */
 
 const templates = {
@@ -1313,8 +1193,7 @@ const templates = {
             {
                 id:"maskMon",
                 label:"Mascara",
-                placeholder:
-                "255.255.255.240"
+                placeholder:"255.255.255.240"
             },
 
             {
@@ -1335,8 +1214,7 @@ const templates = {
             {
                 id:"service",
                 label:"Servicio",
-                placeholder:
-                "ADI_100MB"
+                placeholder:"ADI_100MB"
             }
 
         ]
@@ -1377,8 +1255,7 @@ const templates = {
             {
                 id:"service",
                 label:"Servicio",
-                placeholder:
-                "ADI_100MB"
+                placeholder:"ADI_100MB"
             }
 
         ]
@@ -1387,7 +1264,7 @@ const templates = {
     vpn:{
 
         title:
-        "SG350 L3VPN",
+        "SG350 VPN",
 
         fields:[
 
@@ -1429,8 +1306,7 @@ const templates = {
             {
                 id:"service",
                 label:"Servicio",
-                placeholder:
-                "L3VPN_10MB"
+                placeholder:"L3VPN_10MB"
             }
 
         ]
@@ -1481,8 +1357,7 @@ const templates = {
             {
                 id:"service",
                 label:"Servicio",
-                placeholder:
-                "QINQ_100MB"
+                placeholder:"QINQ_100MB"
             }
 
         ]
@@ -1563,8 +1438,7 @@ const templates = {
             {
                 id:"service",
                 label:"Servicio",
-                placeholder:
-                "L3VPN_10MB"
+                placeholder:"L3VPN_10MB"
             }
 
         ]
@@ -1635,8 +1509,7 @@ const templates = {
             {
                 id:"service",
                 label:"Servicio",
-                placeholder:
-                "DIA_50MB"
+                placeholder:"DIA_50MB"
             }
 
         ]
@@ -1686,6 +1559,7 @@ const templates = {
 
         ]
     }
+
 };
 
 /* =====================
@@ -1702,7 +1576,8 @@ function loadTemplate(
                 "#formContainer input"
             )
         ).some(
-            i => i.value.trim() !== ""
+            input =>
+            input.value.trim() !== ""
         );
 
     const hayResultado =
@@ -1710,22 +1585,19 @@ function loadTemplate(
         .getElementById(
             "output"
         )
-        .value
-        .trim() !== "";
+        .value.trim() !== "";
 
     if(
         hayDatos ||
         hayResultado
     ){
 
-        const continuar =
+        const confirmar =
             confirm(
                 "Hay datos cargados. ¿Desea descartarlos?"
             );
 
-        if(
-            !continuar
-        ){
+        if(!confirmar){
             return;
         }
 
@@ -1753,9 +1625,9 @@ function loadTemplate(
         field => {
 
             html +=
-            createField(
-                field
-            );
+                createField(
+                    field
+                );
 
         }
     );
@@ -1770,9 +1642,9 @@ function loadTemplate(
     applyValidators();
 }
 
-/* ==========
-GENERADOR SG350 ADI
-========== */
+/* =====================
+   GENERADOR SG350 ADI
+===================== */
 
 function generateSG350(d){
 
@@ -1844,13 +1716,12 @@ sntp server 192.168.15.74
 clock source sntp
 clock timezone 1 -3
 
-exit
-`;
+exit`;
 }
 
-/* ==========
-GENERADOR SG3210
-========== */
+/* =====================
+   GENERADOR SG3210
+===================== */
 
 function generateSG3210(d){
 
@@ -1889,45 +1760,24 @@ ip address ${d.ipMon} ${d.maskMon}
 exit
 
 interface gigabitEthernet 1/0/1
+
 description ${d.clientId}-${d.service}
+
 switchport general allowed vlan ${d.vlan} untagged
 switchport pvid ${d.vlan}
+
 spanning-tree bpduguard
 exit
 
 interface gigabitEthernet 1/0/9
+
 description UPLINK-A-HUB
+
 switchport general allowed vlan 152,${d.vlan} tagged
+
 switchport pvid ${d.vlan}
+
 spanning-tree
-exit
-
-interface gigabitEthernet 1/0/2
-shutdown
-exit
-
-interface gigabitEthernet 1/0/3
-shutdown
-exit
-
-interface gigabitEthernet 1/0/4
-shutdown
-exit
-
-interface gigabitEthernet 1/0/5
-shutdown
-exit
-
-interface gigabitEthernet 1/0/6
-shutdown
-exit
-
-interface gigabitEthernet 1/0/7
-shutdown
-exit
-
-interface gigabitEthernet 1/0/8
-shutdown
 exit
 
 interface vlan 1
@@ -1941,13 +1791,12 @@ system-time ntp UTC-03:00 192.168.15.74 192.168.15.74 12
 
 end
 
-copy running-config startup-config
-`;
+copy running-config startup-config`;
 }
 
-/* ==========
-GENERADOR SG350 L3VPN
-========== */
+/* =====================
+   GENERADOR SG350 VPN
+===================== */
 
 function generateVPN(d){
 
@@ -1975,11 +1824,8 @@ vlan 152
 vlan ${d.vlan}
 
 interface vlan 152
-
 name MONITORIA-CPE
-
 ip address ${d.ipMon} ${d.maskMon}
-
 exit
 
 ip default-gateway ${d.gatewayMon}
@@ -1992,7 +1838,6 @@ switchport mode trunk
 switchport trunk allowed vlan add 152,${d.vlan}
 
 no shutdown
-
 exit
 
 interface gigabitethernet1
@@ -2003,30 +1848,23 @@ switchport mode trunk
 switchport trunk allowed vlan add 152,${d.vlan}
 
 no shutdown
-
 exit
 
 interface vlan 1
 shutdown
-
 exit
 
-snmp-server server
-
 snmp-server community TELECENTRO-${d.clientId} ro view Default
-snmp-server community CpeSnmpTlc!! ro view Default
 
 sntp server 192.168.15.74
 clock source sntp
-clock timezone 1 -3
 
-exit
-`;
+exit`;
 }
 
-/* ==========
-GENERADOR SG350 QINQ
-========== */
+/* =====================
+   GENERADOR SG350 QINQ
+===================== */
 
 function generateQinQ(d){
 
@@ -2040,15 +1878,6 @@ username backups privilege 15 password c0rp0backup!
 enable password Inst4l4c10n3s
 
 ip ssh server
-
-ip ssh-client username telecentro
-ip ssh-client password Inst4l4c10n3s
-
-ip access-list extended 152
-
-permit ip 192.168.0.0 0.0.255.255 any
-permit ip 10.210.0.0 0.0.255.255 any
-deny ip any any
 
 vlan 152
 vlan ${d.customerVlan}
@@ -2092,22 +1921,14 @@ shutdown
 
 exit
 
-snmp-server server
-
 snmp-server community TELECENTRO-${d.clientId} ro view Default
-snmp-server community CpeSnmpTlc!! ro view Default
 
-sntp server 192.168.15.74
-clock source sntp
-clock timezone 1 -3
-
-exit
-`;
+exit`;
 }
 
-/* ==========
-GENERADOR CISCO 881 YPF
-========== */
+/* =====================
+   GENERADOR CISCO 881 YPF
+===================== */
 
 function generateCisco881YPF(d){
 
@@ -2116,72 +1937,57 @@ return `conf t
 hostname ${d.clientId}-${d.clientName}
 
 vrf definition MONITORIA-CPE
-address-family ipv4
-exit-address-family
+ address-family ipv4
+ exit-address-family
 
 logging buffered 200000
 
 ip domain name telecentro.net.ar
-no ip domain-lookup
-
-username telecentro privilege 15 password Inst4l4c10n3s
-username backups privilege 15 password c0rp0backup!
-
-service password-encryption
 
 vlan 10
-name LAN
+ name LAN
 
 vlan 152
-name MONITORIA
+ name MONITORIA
 
 vlan ${d.vlan}
-name L3VPN
+ name L3VPN
 
 ip ssh version 2
 
 interface vlan 10
-
-ip address ${d.lanIp} 255.255.255.252
-
-exit
-
-interface Fa4
-
-no shutdown
-
+ ip address ${d.lanIp} 255.255.255.252
 exit
 
 interface Fa4.152
 
-description MONITORIA-CPE
+ encapsulation dot1Q 152
 
-encapsulation dot1Q 152
+ vrf forwarding MONITORIA-CPE
 
-vrf forwarding MONITORIA-CPE
-
-ip address ${d.ipMon} ${d.maskMon}
+ ip address ${d.ipMon} ${d.maskMon}
 
 exit
 
 interface Fa4.${d.vlan}
 
-description ##CLIENTE##${d.service}
+ description ##CLIENTE##${d.service}
 
-encapsulation dot1Q ${d.vlan}
+ encapsulation dot1Q ${d.vlan}
 
-ip address ${d.wanIp} 255.255.255.252
+ ip address ${d.wanIp} ${d.wanMask}
 
-ip ospf network point-to-point
-ip ospf hello-interval 5
+ ip ospf network point-to-point
+
+ ip ospf hello-interval 5
 
 exit
 
 router ospf 10
 
-router-id ${d.wanIp}
+ router-id ${d.wanIp}
 
-network ${d.wanIp} 0.0.0.0 area 0
+ network ${d.wanIp} 0.0.0.0 area 0
 
 redistribute bgp 27747 subnets
 
@@ -2189,29 +1995,22 @@ ip route 0.0.0.0 0.0.0.0 ${d.wanGateway}
 
 ip route vrf MONITORIA-CPE 0.0.0.0 0.0.0.0 ${d.gatewayMon}
 
-logging host 192.168.15.100
-
-snmp-server community TELECENTRO-${d.clientId} RO SNMP
-
-snmp-server community CpeSnmpTlc!! ro
-
 router bgp 27747
 
-network ${d.bgpIp} mask 255.255.255.252
+ network ${d.bgpIp} mask ${d.bgpMask}
 
-neighbor ${d.neighborIp} remote-as 65103
+ neighbor ${d.neighborIp} remote-as 65103
 
-redistribute ospf 10 match internal external 1 external 2
+snmp-server community TELECENTRO-${d.clientId} RO
 
 ntp server vrf MONITORIA-CPE 192.168.15.74
 
-clock timezone GMT -3
-`;
+clock timezone GMT -3`;
 }
-
-/* ==========
-GENERADOR CISCO 881 DIA
-========== */
+``
+/* =====================
+   GENERADOR CISCO 881 DIA
+===================== */
 
 function generateCisco881DIA(d){
 
@@ -2245,80 +2044,51 @@ ip ssh version 2
 
 interface Loopback1
 
-description NAT
+ description NAT
 
-ip address ${d.loopbackIp} ${d.loopbackMask}
-
-interface FastEthernet4
-
-no shutdown
+ ip address ${d.loopbackIp} ${d.loopbackMask}
 
 interface FastEthernet4.152
 
-description MONITORIA-CPE
+ description MONITORIA-CPE
 
-encapsulation dot1Q 152
+ encapsulation dot1Q 152
 
-ip vrf forwarding MONITORIA-CPE
+ ip vrf forwarding MONITORIA-CPE
 
-ip address ${d.monitorIp} ${d.monitorMask}
+ ip address ${d.monitorIp} ${d.monitorMask}
 
 interface FastEthernet4.${d.vlan}
 
-description VPN
+ description VPN
 
-encapsulation dot1Q ${d.vlan}
+ encapsulation dot1Q ${d.vlan}
 
-ip address ${d.wanIp} ${d.wanMask}
+ ip address ${d.wanIp} ${d.wanMask}
 
-ip nat outside
-
-interface Vlan10
-
-ip address 10.10.10.252 255.255.255.0
-
-ip nat inside
+ ip nat outside
 
 ip route 0.0.0.0 0.0.0.0 ${d.wanGateway}
 
 ip route vrf MONITORIA-CPE 0.0.0.0 0.0.0.0 ${d.monitorGateway}
 
-ip access-list standard DIA-LAN
-
-permit 10.10.10.0 0.0.0.255
-
-ip nat inside source list DIA-LAN interface Loopback1 overload
-
-snmp-server community DIA-RO RO
 snmp-server community TELECENTRO-${d.clientId} RO
-snmp-server community CpeSnmpTlc!! ro
-
-banner motd ^C
-
------------------------------------------------------
-Este sistema es propiedad de Telecentro S.A.
-ESTA PROHIBIDO EL ACCESO A PERSONAL NO AUTORIZADO.
-Ud. debe tener permiso explicito para acceder.
------------------------------------------------------
-
-^C
 
 ntp server vrf MONITORIA-CPE 192.168.15.74
 
 clock timezone GMT -3
 
-end
-`;
+end`;
 }
 
-/* ==========
-GENERADOR MEDIANT 800
-========== */
+/* =====================
+   GENERADOR MEDIANT800
+===================== */
 
 function generateMediant800(d){
 
 return `;****************
-;** Ini File **
+; AudioCodes Mediant 800
 ;****************
 
 [SYSTEM Params]
@@ -2327,85 +2097,46 @@ NTPServerUTCOffset = -10800
 
 [InterfaceTable]
 
-FORMAT InterfaceTable_Index =
-InterfaceTable_ApplicationTypes,
-InterfaceTable_InterfaceMode,
-InterfaceTable_IPAddress,
-InterfaceTable_PrefixLength,
-InterfaceTable_Gateway,
-InterfaceTable_InterfaceName,
-InterfaceTable_PrimaryDNSServerIPAddress,
-InterfaceTable_SecondaryDNSServerIPAddress,
-InterfaceTable_UnderlyingDevice;
-
 InterfaceTable 0 =
 5,
 10,
 ${d.hostIp},
 30,
 ${d.gatewayIp},
-"Voice",
-0.0.0.0,
-0.0.0.0,
-"vlan 1";
+"Voice"
 
 [ProxyIp]
-
-FORMAT ProxyIp_Index =
-ProxyIp_ProxySetId,
-ProxyIp_ProxyIpIndex,
-ProxyIp_IpAddress,
-ProxyIp_TransportType;
 
 ProxyIp 0 =
 "1",
 0,
 "${d.sipTrunk}",
-0;
+0
 
 [TrunkGroup]
-
-FORMAT TrunkGroup_Index =
-TrunkGroup_TrunkGroupNum,
-TrunkGroup_FirstTrunkId,
-TrunkGroup_FirstBChannel,
-TrunkGroup_LastBChannel,
-TrunkGroup_FirstPhoneNumber,
-TrunkGroup_ProfileName,
-TrunkGroup_LastTrunkId,
-TrunkGroup_Module;
 
 TrunkGroup 2 =
 21,
 255,
 1,
 1,
-"${d.linea1}",
-"",
-255,
-2;
+"${d.linea1}"
 
 TrunkGroup 3 =
 22,
 255,
 2,
 2,
-"${d.linea2}",
-"",
-255,
-2;
+"${d.linea2}"
 
 TrunkGroup 4 =
 23,
 255,
 3,
 3,
-"${d.linea3}",
-"",
-255,
-2;
-`;
+"${d.linea3}"`;
 }
+
 /* =====================
    GENERADOR PRINCIPAL
 ===================== */
@@ -2421,14 +2152,11 @@ function generateCurrentTemplate(){
         return;
     }
 
-    const data =
-        getData();
+    const data = getData();
 
     for(const key in data){
 
-        if(
-            data[key] === ""
-        ){
+        if(data[key] === ""){
 
             showError(
                 "Complete todos los campos."
@@ -2443,39 +2171,39 @@ function generateCurrentTemplate(){
     switch(currentTemplate){
 
         case "sg350":
-            output =
-            generateSG350(data);
+            output = generateSG350(data);
         break;
 
         case "sg3210":
-            output =
-            generateSG3210(data);
+            output = generateSG3210(data);
         break;
 
         case "vpn":
-            output =
-            generateVPN(data);
+            output = generateVPN(data);
         break;
 
         case "qinq":
-            output =
-            generateQinQ(data);
+            output = generateQinQ(data);
         break;
 
         case "c881ypf":
-            output =
-            generateCisco881YPF(data);
+            output = generateCisco881YPF(data);
         break;
 
         case "c881dia":
-            output =
-            generateCisco881DIA(data);
+            output = generateCisco881DIA(data);
         break;
 
         case "mediant":
-            output =
-            generateMediant800(data);
+            output = generateMediant800(data);
         break;
+
+        default:
+
+            showError(
+                "Template no soportado."
+            );
+            return;
     }
 
     const outputArea =
@@ -2483,8 +2211,7 @@ function generateCurrentTemplate(){
             "output"
         );
 
-    outputArea.value =
-        output;
+    outputArea.value = output;
 
     autoResizeTextarea();
 
@@ -2512,21 +2239,20 @@ function copyTemplate(){
     if(!txt.trim()){
 
         showError(
-            "No hay resultado para copiar."
+            "No existe contenido para copiar."
         );
 
         return;
     }
 
     navigator.clipboard
-    .writeText(txt)
-    .then(() => {
+        .writeText(txt)
+        .then(()=>{
 
-        showSuccess(
-            "Copiado al portapapeles."
-        );
-
-    });
+            showSuccess(
+                "Copiado al portapapeles."
+            );
+        });
 }
 
 /* =====================
@@ -2543,7 +2269,7 @@ function downloadTemplate(){
     if(!txt.trim()){
 
         showError(
-            "No hay template generado."
+            "No existe template generado."
         );
 
         return;
@@ -2563,9 +2289,7 @@ function downloadTemplate(){
         );
 
     link.href =
-        URL.createObjectURL(
-            blob
-        );
+        URL.createObjectURL(blob);
 
     link.download =
         `${currentTemplate}.txt`;
@@ -2584,31 +2308,27 @@ function downloadTemplate(){
 function clearFormSilent(){
 
     document
-    .querySelectorAll(
-        "#formContainer input"
-    )
-    .forEach(input => {
+        .querySelectorAll(
+            "#formContainer input"
+        )
+        .forEach(input => {
 
-        input.value = "";
+            input.value = "";
 
-        input.classList.remove(
-            "valid",
-            "invalid"
-        );
-    });
+            input.classList.remove(
+                "valid",
+                "invalid"
+            );
 
-    document
-    .getElementById(
-        "output"
-    )
-    .value = "";
+        });
 
     document
-    .getElementById(
-        "message"
-    )
-    .className =
-    "message";
+        .getElementById("output")
+        .value = "";
+
+    document
+        .getElementById("message")
+        .className = "message";
 }
 
 function clearForm(){
@@ -2619,14 +2339,17 @@ function clearForm(){
                 "#formContainer input"
             )
         ).some(
-            e =>
-            e.value.trim() !== ""
+            input =>
+            input.value.trim() !== ""
         );
 
     const hayResultado =
-        document.getElementById(
-            "output"
-        ).value.trim() !== "";
+        document
+            .getElementById(
+                "output"
+            )
+            .value
+            .trim() !== "";
 
     if(
         !hayDatos &&
@@ -2635,11 +2358,12 @@ function clearForm(){
         return;
     }
 
-    if(
-        !confirm(
-            "¿Desea limpiar el formulario?"
-        )
-    ){
+    const confirmar =
+        confirm(
+            "¿Desea limpiar el formulario y el resultado?"
+        );
+
+    if(!confirmar){
         return;
     }
 
@@ -2674,11 +2398,10 @@ function saveHistory(
 
         template,
         client
+
     });
 
-    if(
-        history.length > 20
-    ){
+    if(history.length > 20){
         history.length = 20;
     }
 
@@ -2700,44 +2423,44 @@ function renderHistory(){
         );
 
     let html = `
-        <div class="card-title">
-            Historial
-        </div>
+    <div class="card-title">
+        Historial
+    </div>
     `;
 
     history.forEach(item => {
 
-    html += `
-    <div style="
-        margin-bottom:15px;
-        padding:10px;
-        border-bottom:1px solid #ddd;
-    ">
+        html += `
+        <div style="
+            margin-bottom:15px;
+            padding:10px;
+            border-bottom:1px solid #ddd;
+        ">
 
-        <div>
-            <strong>Fecha:</strong>
-            ${item.date}
+            <div>
+                <strong>Fecha:</strong>
+                ${item.date}
+            </div>
+
+            <div>
+                <strong>Plantilla:</strong>
+                ${item.template}
+            </div>
+
+            <div>
+                <strong>Cliente:</strong>
+                ${item.client}
+            </div>
+
         </div>
+        `;
+    });
 
-        <div>
-            <strong>Plantilla:</strong>
-            ${item.template}
-        </div>
-
-        <div>
-            <strong>Cliente:</strong>
-            ${item.client}
-        </div>
-
-    </div>
-    `;
-
-});
-
-document.getElementById(
-    "historyPanel"
-).innerHTML = html;
-`
+    document.getElementById(
+        "historyPanel"
+    ).innerHTML =
+    html;
+}
 
 function clearHistory(){
 
@@ -2780,6 +2503,7 @@ function clearHistory(){
         "Historial eliminado."
     );
 }
+
 /* =====================
    INICIO
 ===================== */
@@ -2788,21 +2512,37 @@ window.onload = () => {
 
     renderHistory();
 
-    currentTemplate =
-        "sg350";
+    currentTemplate = "sg350";
 
-    loadTemplate(
-        "sg350"
-    );
+    const tpl =
+        templates["sg350"];
+
+    document.getElementById(
+        "templateTitle"
+    ).innerText =
+    tpl.title;
+
+    let html = "";
+
+    tpl.fields.forEach(field => {
+
+        html += createField(field);
+
+    });
+
+    document.getElementById(
+        "formContainer"
+    ).innerHTML =
+    html;
+
+    applyValidators();
 
     document
-    .getElementById(
-        "output"
-    )
-    .addEventListener(
-        "input",
-        autoResizeTextarea
-    );
+        .getElementById("output")
+        .addEventListener(
+            "input",
+            autoResizeTextarea
+        );
 };
 
 </script>
