@@ -544,7 +544,7 @@ body{
             onclick="clearHistory()"
             style="display:none;">
 
-            Historial
+           Borrar Historial
 
         </button>
 
@@ -650,50 +650,41 @@ style="display:none;">
 
         <div class="card">
 
-            <div class="actions">
+           <div class="actions">
 
-                <button
-                    class="btn btn-primary"
-                    onclick="generateCurrentTemplate()">
+    <button
+        class="btn btn-primary"
+        onclick="generateCurrentTemplate()">
+        Generar
+    </button>
 
-                    Generar
+    <button
+        class="btn btn-secondary"
+        onclick="copyTemplate()">
+        Copiar
+    </button>
 
-                </button>
+    <button
+        class="btn btn-secondary"
+        onclick="downloadTemplate()">
+        Descargar
+    </button>
 
-                <button
-                    class="btn btn-secondary"
-                    onclick="copyTemplate()">
+    <button
+        class="btn btn-secondary"
+        onclick="clearForm()">
+        Limpiar Resultado
+    </button>
 
-                    Copiar
+    <button
+        id="btnClearHistory"
+        class="btn btn-secondary"
+        onclick="clearHistory()"
+        style="display:none;">
+        Limpiar Historial
+    </button>
 
-                </button>
-
-                <button
-                    class="btn btn-secondary"
-                    onclick="downloadTemplate()">
-
-                    Descargar
-
-                </button>
-
-                <button
-                    id="btnClearHistory"
-                    class="btn btn-secondary"
-                    onclick="clearForm()">
-
-                    Limpiar Resultado
-
-                </button>
-
-                <button
-                    class="btn btn-secondary"
-                    onclick="clearHistory()">
-
-                    Limpiar Historial
-
-                </button>
-
-            </div>
+</div>
 
             <div
             id="message"
