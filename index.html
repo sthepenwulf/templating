@@ -2707,37 +2707,37 @@ function renderHistory(){
 
     history.forEach(item => {
 
-        html += `
-<div style="
-    margin-bottom:15px;
-    padding:10px;
-    border-bottom:1px solid #ddd;
-">
+    html += `
+    <div style="
+        margin-bottom:15px;
+        padding:10px;
+        border-bottom:1px solid #ddd;
+    ">
 
-    <div>
-        <strong>Fecha:</strong>
-        ${item.date}
+        <div>
+            <strong>Fecha:</strong>
+            ${item.date}
+        </div>
+
+        <div>
+            <strong>Plantilla:</strong>
+            ${item.template}
+        </div>
+
+        <div>
+            <strong>Cliente:</strong>
+            ${item.client}
+        </div>
+
     </div>
+    `;
 
-    <div>
-        <strong>Plantilla:</strong>
-        ${item.template}
-    </div>
+});
 
-    <div>
-        <strong>Cliente:</strong>
-        ${item.client}
-    </div>
-
-</div>
-;
-
-    document
-    .getElementById(
-        "historyPanel"
-    )
-    .innerHTML = html;
-}
+document.getElementById(
+    "historyPanel"
+).innerHTML = html;
+`
 
 function clearHistory(){
 
