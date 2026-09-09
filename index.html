@@ -90,6 +90,18 @@ body{
     margin-top:4px;
 }
 
+.topbar-left{
+    display:flex;
+    flex-direction:column;
+}
+
+.topbar-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-left:auto;
+}
+    
 /* =====================
    LAYOUT
 ===================== */
@@ -504,60 +516,55 @@ body{
 
 <header class="topbar">
 
-    <div>
+    <div class="topbar-left">
 
         <h1>
-            🛰 Template Generator
+            🛰 Telecentro Template Generator
         </h1>
 
         <div id="currentUserLabel"></div>
 
-    <div
-style="
-display:flex;
-gap:10px;
-align-items:left;
-justify-content:flex-end;
-margin-left:auto;
-">
+    </div>
 
-    <button
-    id="btnUsers"
-    class="btn btn-secondary"
-    onclick="showUserAdmin()"
-    style="display:none;">
+    <div class="topbar-right">
 
-        Usuarios
+        <button
+            id="btnUsers"
+            class="btn btn-secondary"
+            onclick="showUserAdmin()"
+            style="display:none;">
 
-    </button>
+            Usuarios
 
-    <button
-    id="btnClearHistory"
-    class="btn btn-secondary"
-    onclick="clearHistory()"
-    style="display:none;">
+        </button>
 
-        Historial
+        <button
+            id="btnClearHistory"
+            class="btn btn-secondary"
+            onclick="clearHistory()"
+            style="display:none;">
 
-    </button>
+            Historial
 
-    <button
-    class="btn btn-secondary"
-    onclick="toggleDarkMode()">
+        </button>
 
-        🌙 Tema
+        <button
+            class="btn btn-secondary"
+            onclick="toggleDarkMode()">
 
-    </button>
+            🌙 Tema
 
-    <button
-    class="btn btn-secondary"
-    onclick="logout()">
+        </button>
 
-        Salir
+        <button
+            class="btn btn-secondary"
+            onclick="logout()">
 
-    </button>
+            Salir
 
-</div>
+        </button>
+
+    </div>
 </header>
 
 <!-- APP -->
