@@ -512,33 +512,50 @@ body{
 
         <div id="currentUserLabel"></div>
 
-    </div>
+    <div
+style="
+display:flex;
+gap:10px;
+align-items:center;
+">
 
     <button
-            id="btnUsers"
-            class="btn btn-secondary"
-            onclick="showUserAdmin()">
+    id="btnUsers"
+    class="btn btn-secondary"
+    onclick="showUserAdmin()"
+    style="display:none;">
 
-            Usuarios
+        Usuarios
 
-        </button>
-
-        <button
-            class="btn btn-secondary"
-            onclick="logout()">
-
-            Salir
-
-        </button>
+    </button>
 
     <button
-        class="btn btn-secondary"
-        onclick="toggleDarkMode()">
+    id="btnClearHistory"
+    class="btn btn-secondary"
+    onclick="clearHistory()"
+    style="display:none;">
+
+        Historial
+
+    </button>
+
+    <button
+    class="btn btn-secondary"
+    onclick="toggleDarkMode()">
 
         🌙 Tema
 
     </button>
 
+    <button
+    class="btn btn-secondary"
+    onclick="logout()">
+
+        Salir
+
+    </button>
+
+</div>
 </header>
 
 <!-- APP -->
