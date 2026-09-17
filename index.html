@@ -1283,41 +1283,12 @@ function showUserAdmin(){
     
 function createNewUser(){
 
-    const username =
-        prompt("Nuevo usuario:");
-
-    if(!username){
-        return;
-    }
-
-    const cleanUsername =
-        username.trim();
-
-    if(!cleanUsername){
-        return;
-    }
-
-    const password =
-        prompt("Contraseña inicial:");
-
-    if(!password){
-        return;
-    }
-
-    if(password.length < 8){
-
-        alert(
-            "La contraseña debe tener al menos 8 caracteres."
-        );
-
-        return;
-    }
-
-    // Crear ventana para seleccionar el rol
-    const roleOverlay =
+    const overlay =
         document.createElement("div");
 
-    roleOverlay.style.cssText = `
+    overlay.id = "createUserOverlay";
+
+    overlay.style.cssText = `
         position:fixed;
         inset:0;
         background:rgba(0,0,0,.65);
@@ -1327,10 +1298,10 @@ function createNewUser(){
         z-index:10001;
     `;
 
-    roleOverlay.innerHTML = `
+    overlay.innerHTML = `
 
         <div style="
-            width:360px;
+            width:400px;
             max-width:90%;
             background:var(--card);
             color:var(--text);
@@ -1339,185 +1310,262 @@ function createNewUser(){
             box-shadow:0 10px 40px rgba(0,0,0,.3);
         ">
 
-            <h3 style="
+            <h2 style="
                 margin-bottom:20px;
             ">
-                Seleccionar rol
-            </h3>
-
-            <label style="
-                display:block;
-                margin-bottom:8px;
-            ">
-                Rol del usuario
-            </label>
-
-            <select
-                id="newUserRole"
-                style="
-                    width:100%;
-                    height:42px;
-                    padding:0 10px;
-                    border:1px solid var(--border);
-                    border-radius:8px;
-                    background:var(--card);
-                    color:var(--text);
-                    margin-bottom:20px;
-                ">
-
-                <option value="Operador">
-                    Operador
-                </option>
-
-                <option value="Administrador">
-                    Administrador
-                </option>
-
-            </select>
+                Crear nuevo usuario
+            </h2>
 
             <div style="
                 display:flex;
-                gap:10px;
-                justify-content:flex-end;
+                flex-direction:column;
+                gap:15px;
             ">
 
-                <button
-                    class="btn btn-secondary"
-                    id="cancelRoleButton">
+                <!-- USUARIO -->
 
-                    Cancelar
+                <div>
+                    <label style="
+                        display:block;
+                        margin-bottom:6px;
+                        font-weight:600;
+                    ">
+                        Usuario
+                    </label>
 
-                </button>
+                    <input
+                        id="newUsername"
+                        type="text"
+                        placeholder="Nombre de usuario"
+                        autocomplete="off"
+                        style="
+                            width:100%;
+                            height:42px;
+                            padding:0 12px;
+                            border:1px solid var(--border);
+                            border-radius:8px;
+                            background:var(--card);
+                            color:var(--text);
+                        ">
+                </div>
 
-                <button
-                    class="btn btn-primary"
-                    id="confirmRoleButton">
 
-                    Crear usuario
+                <!-- CONTRASEÑA -->
 
-                </button>
+                <div>
+                    <label style="
+                        display:block;
+                        margin-bottom:6px;
+                        font-weight:600;
+                    ">
+                        Contraseña inicial
+                    </label>
+
+                    <input
+                        id="newUserPassword"
+                        type="password"
+                        placeholder="Mínimo 8 caracteres"
+                        autocomplete="new-password"
+                        style="
+                            width:100%;
+                            height:42px;
+                            padding:0 12px;
+                            border:1px solid var(--border);
+                            border-radius:8px;
+                            background:var(--card);
+                            color:var(--text);
+                        ">
+                </div>
+
+
+                <!-- ROL -->
+
+                <div>
+                    <label style="
+                        display:block;
+                        margin-bottom:6px;
+                        font-weight:600;
+                    ">
+                        Rol
+                    </label>
+
+                    <select
+                        id="newUserRole"
+                        style="
+                            width:100%;
+                            height:42px;
+                            padding:0 10px;
+                            border:1px solid var(--border);
+                            border-radius:8px;
+                            background:var(--card);
+                            color:var(--text);
+                            cursor:pointer;
+                        ">
+
+                        <option value="Operador">
+                            Operador
+                        </option>
+
+                        <option value="Administrador">
+                            Administrador
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <!-- BOTONES -->
+
+                <div style="
+                    display:flex;
+                    gap:10px;
+                    justify-content:flex-end;
+                    margin-top:10px;
+                ">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        id="cancelCreateUser">
+
+                        Cancelar
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="confirmCreateUser">
+
+                        Crear usuario
+
+                    </button>
+
+                </div>
 
             </div>
 
         </div>
     `;
 
-    document.body.appendChild(roleOverlay);
+    document.body.appendChild(overlay);
 
 
-    // Cancelar
+    // Poner foco en usuario
     document
-        .getElementById("cancelRoleButton")
+        .getElementById("newUsername")
+        .focus();
+
+
+    // CANCELAR
+
+    document
+        .getElementById("cancelCreateUser")
         .onclick = () => {
 
-            roleOverlay.remove();
+            overlay.remove();
 
         };
 
 
-    // Confirmar
+    // CREAR USUARIO
+
     document
-        .getElementById("confirmRoleButton")
+        .getElementById("confirmCreateUser")
         .onclick = () => {
 
+            const username =
+                document
+                    .getElementById("newUsername")
+                    .value
+                    .trim();
+
+            const password =
+                document
+                    .getElementById("newUserPassword")
+                    .value;
+
             const role =
-                document.getElementById(
-                    "newUserRole"
-                ).value;
+                document
+                    .getElementById("newUserRole")
+                    .value;
 
-            const created =
-                addUser(
-                    cleanUsername,
-                    password,
-                    role
-                );
 
-            if(!created){
+            // Validar usuario
 
-                roleOverlay.remove();
+            if(!username){
 
                 alert(
-                    "El usuario ya existe."
+                    "Debe ingresar un nombre de usuario."
                 );
 
                 return;
             }
 
-            roleOverlay.remove();
+
+            // Validar contraseña
+
+            if(!password){
+
+                alert(
+                    "Debe ingresar una contraseña."
+                );
+
+                return;
+            }
+
+
+            if(password.length < 8){
+
+                alert(
+                    "La contraseña debe tener al menos 8 caracteres."
+                );
+
+                return;
+            }
+
+
+            // Crear usuario
+
+            const created =
+                addUser(
+                    username,
+                    password,
+                    role
+                );
+
+
+            if(!created){
+
+                alert(
+                    `El usuario "${username}" ya existe.`
+                );
+
+                return;
+            }
+
 
             alert(
-                `Usuario "${cleanUsername}" creado correctamente.`
+                `Usuario "${username}" creado correctamente.`
             );
 
-            // Actualizar lista
+
+            // Cerrar formulario de creación
+
+            overlay.remove();
+
+
+            // Actualizar ventana de administración
+
             closeUserAdmin();
+
             showUserAdmin();
+
         };
+
 }
 
-    function deleteUser(index){
 
-    const users = getUsers();
-
-    if(!users[index]){
-
-        alert(
-            "El usuario no existe."
-        );
-
-        return;
-    }
-
-    const currentUser =
-        JSON.parse(
-            sessionStorage.getItem(
-                "currentUser"
-            )
-        );
-
-    const userToDelete =
-        users[index].user;
-
-    // No permitir eliminar al usuario actual
-    if(
-        currentUser &&
-        userToDelete === currentUser.user
-    ){
-
-        alert(
-            "No podés eliminar el usuario con el que estás logueado."
-        );
-
-        return;
-    }
-
-    const confirmar =
-        confirm(
-            `¿Deseás eliminar al usuario "${userToDelete}"?`
-        );
-
-    if(!confirmar){
-        return;
-    }
-
-    // Eliminar
-    users.splice(
-        index,
-        1
-    );
-
-    // Guardar
-    localStorage.setItem(
-        "telecentro_users",
-        JSON.stringify(users)
-    );
-
-    // Cerrar ventana actual
-    closeUserAdmin();
-
-    // Volver a mostrar la lista actualizada
-    showUserAdmin();
-}
 
 /* =====================
    UTILIDADES
