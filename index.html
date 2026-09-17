@@ -789,17 +789,12 @@ function addUser(
 function login(){
 
     const user =
-        document.getElementById(
-            "loginUser"
-        ).value.trim();
+        document.getElementById("loginUser").value.trim();
 
     const password =
-        document.getElementById(
-            "loginPassword"
-        ).value;
+        document.getElementById("loginPassword").value;
 
-    const users =
-        getUsers();
+    const users = getUsers();
 
     const found =
         users.find(
@@ -810,44 +805,70 @@ function login(){
 
     if(!found){
 
-        document.getElementById(
-            "loginError"
-        ).innerText =
-        "Usuario o contraseña incorrectos.";
+        document.getElementById("loginError").innerText =
+            "Usuario o contraseña incorrectos.";
 
         return;
     }
 
-    // Guardamos temporalmente el usuario
+    // Si el usuario no tiene definido el campo,
+    // lo consideramos como que NO debe cambiar contraseña.
+    if(typeof found.mustChangePassword === "undefined"){
+        found.mustChangePassword = false;
+    }
+
     sessionStorage.setItem(
         "currentUser",
         JSON.stringify(found)
     );
 
-    /*
-     * Si es el primer ingreso,
-     * obligamos a cambiar la contraseña.
-     */
+    // Primer ingreso
     if(found.mustChangePassword === true){
 
-        document.getElementById(
-            "loginScreen"
-        ).style.display = "none";
+        document.getElementById("loginScreen").style.display =
+            "none";
 
-        document.getElementById(
-            "changePasswordScreen"
-        ).style.display = "flex";
+        document.getElementById("changePasswordScreen").style.display =
+            "flex";
 
-        document.getElementById(
-            "newPassword"
-        ).focus();
+        document.getElementById("newPassword").focus();
 
         return;
     }
 
+    // Ingreso normal
     enterApplication(found);
 }
 
+    function enterApplication(found){
+
+    document.getElementById("currentUserLabel").innerText =
+        `Usuario: ${found.user}`;
+
+    // Ocultar login
+    document.getElementById("loginScreen").style.display =
+        "none";
+
+    // Ocultar cambio de contraseña
+    document.getElementById("changePasswordScreen").style.display =
+        "none";
+
+    // Mostrar aplicación
+    document.getElementById("appContent").style.display =
+        "flex";
+
+    // Opciones de administrador
+    if(found.role === "Administrador"){
+
+        document.getElementById("btnUsers").style.display =
+            "inline-block";
+
+        document.getElementById("btnClearHistory").style.display =
+            "inline-block";
+    }
+}
+
+    
     /* =====================
    CAMBIAR PASS PRIMER LOGIN
 ===================== */
@@ -855,89 +876,74 @@ function login(){
 function changePassword(){
 
     const newPassword =
-        document.getElementById(
-            "newPassword"
-        ).value;
+        document.getElementById("newPassword").value;
 
     const confirmPassword =
-        document.getElementById(
-            "confirmPassword"
-        ).value;
+        document.getElementById("confirmPassword").value;
 
     const error =
-        document.getElementById(
-            "changePasswordError"
-        );
+        document.getElementById("changePasswordError");
 
     error.innerText = "";
 
-    // Validar longitud
     if(newPassword.length < 8){
 
         error.innerText =
-        "La contraseña debe tener al menos 8 caracteres.";
+            "La contraseña debe tener al menos 8 caracteres.";
 
         return;
     }
 
-    // Validar coincidencia
     if(newPassword !== confirmPassword){
 
         error.innerText =
-        "Las contraseñas no coinciden.";
+            "Las contraseñas no coinciden.";
 
         return;
     }
 
     const currentUser =
         JSON.parse(
-            sessionStorage.getItem(
-                "currentUser"
-            )
+            sessionStorage.getItem("currentUser")
         );
 
     if(!currentUser){
 
         error.innerText =
-        "Sesión inválida. Inicie sesión nuevamente.";
+            "Sesión inválida.";
 
         return;
     }
 
-    const users =
-        getUsers();
+    const users = getUsers();
 
     const index =
         users.findIndex(
-            u =>
-            u.user === currentUser.user
+            u => u.user === currentUser.user
         );
 
     if(index === -1){
 
         error.innerText =
-        "No se encontró el usuario.";
+            "No se encontró el usuario.";
 
         return;
     }
 
-    // Actualizar contraseña
-    users[index].password =
-        newPassword;
+    // Cambiar contraseña
+    users[index].password = newPassword;
 
-    // Ya no debe solicitar cambio
-    users[index].mustChangePassword =
-        false;
+    // Ya no solicitar cambio
+    users[index].mustChangePassword = false;
 
-    // Guardar usuarios
+    // Guardar
     localStorage.setItem(
         "telecentro_users",
         JSON.stringify(users)
     );
 
-    // Actualizar usuario de sesión
-    const updatedUser =
-        users[index];
+    // Actualizar sesión
+    const updatedUser = users[index];
 
     sessionStorage.setItem(
         "currentUser",
@@ -947,7 +953,6 @@ function changePassword(){
     // Entrar a la aplicación
     enterApplication(updatedUser);
 }
-
 
 /* =====================
    INGRESAR A LA APP
