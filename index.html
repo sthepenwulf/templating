@@ -347,48 +347,56 @@ body{
 
 <body>
 
+
 <div id="loginScreen" class="login-overlay">
 
-    
-<form class="login-card" onsubmit="login(); return false;">
+    <form class="login-card" onsubmit="login(); return false;">
 
-    <h2>Template Generator</h2>
+        <h2>Template Generator</h2>
 
-    <input
-        id="loginUser"
-        type="text"
-        placeholder="Usuario"
-        autocomplete="username"
-        required>
+        <input
+            id="loginUser"
+            type="text"
+            placeholder="Usuario"
+            autocomplete="username"
+            required>
 
-    <input
-        id="loginPassword"
-        type="password"
-        placeholder="Contraseña"
-        autocomplete="current-password"
-        required>
+        <input
+            id="loginPassword"
+            type="password"
+            placeholder="Contraseña"
+            autocomplete="current-password"
+            required>
 
-    <button
-        type="submit"
-        class="btn btn-primary">
+        <button
+            type="submit"
+            class="btn btn-primary">
 
-        Ingresar
+            Ingresar
 
-    </button>
+        </button>
 
-    <div
-        id="loginError"
-        class="login-error">
-    </div>
+        <div
+            id="loginError"
+            class="login-error">
+        </div>
 
-</form>
+    </form>
 
+</div>
+
+
+<!-- =========================
+     CAMBIO DE CONTRASEÑA
+========================= -->
 
 <div id="changePasswordScreen"
      class="login-overlay"
      style="display:none;">
 
-    <div class="login-card">
+    <form
+        class="login-card"
+        onsubmit="changePassword(); return false;">
 
         <h2>Cambiar contraseña</h2>
 
@@ -401,17 +409,19 @@ body{
             id="newPassword"
             type="password"
             placeholder="Nueva contraseña"
-            autocomplete="new-password">
+            autocomplete="new-password"
+            required>
 
         <input
             id="confirmPassword"
             type="password"
             placeholder="Confirmar nueva contraseña"
-            autocomplete="new-password">
+            autocomplete="new-password"
+            required>
 
         <button
-            class="btn btn-primary"
-            onclick="changePassword()">
+            type="submit"
+            class="btn btn-primary">
 
             Cambiar contraseña
 
@@ -422,10 +432,7 @@ body{
             class="login-error">
         </div>
 
-    </div>
-
-</div>
-
+    </form>
 
 </div>
 
@@ -746,13 +753,29 @@ function getUsers(){
         );
     }
 
-    return users;
+    users.forEach(u => {
+
+    if(typeof u.mustChangePassword === "undefined"){
+
+        u.mustChangePassword = true;
+
+    }
+
+});
+
+localStorage.setItem(
+    "telecentro_users",
+    JSON.stringify(users)
+);
+
+return users;
 }
 
 function addUser(
     username,
     password,
     role = "Operador"
+    
 ){
 
     const users =
@@ -770,7 +793,8 @@ function addUser(
     users.push({
         user:username,
         password:password,
-        role:role
+        role:role,
+        mustChangePassword:true
     });
 
     localStorage.setItem(
@@ -840,33 +864,6 @@ function login(){
     enterApplication(found);
 }
 
-    function enterApplication(found){
-
-    document.getElementById("currentUserLabel").innerText =
-        `Usuario: ${found.user}`;
-
-    // Ocultar login
-    document.getElementById("loginScreen").style.display =
-        "none";
-
-    // Ocultar cambio de contraseña
-    document.getElementById("changePasswordScreen").style.display =
-        "none";
-
-    // Mostrar aplicación
-    document.getElementById("appContent").style.display =
-        "flex";
-
-    // Opciones de administrador
-    if(found.role === "Administrador"){
-
-        document.getElementById("btnUsers").style.display =
-            "inline-block";
-
-        document.getElementById("btnClearHistory").style.display =
-            "inline-block";
-    }
-}
 
     
     /* =====================
@@ -963,38 +960,39 @@ function enterApplication(found){
     document.getElementById(
         "currentUserLabel"
     ).innerText =
-    `Usuario: ${found.user}`;
+        `Usuario: ${found.user}`;
 
-    if(
-        found.role ===
-        "Administrador"
-    ){
+    // Ocultar pantalla de login
+    document.getElementById(
+        "loginScreen"
+    ).style.display =
+        "none";
+
+    // Ocultar pantalla de cambio de contraseña
+    document.getElementById(
+        "changePasswordScreen"
+    ).style.display =
+        "none";
+
+    // Mostrar aplicación
+    document.getElementById(
+        "appContent"
+    ).style.display =
+        "flex";
+
+    // Mostrar opciones de administrador
+    if(found.role === "Administrador"){
 
         document.getElementById(
             "btnUsers"
         ).style.display =
-        "inline-block";
+            "inline-block";
 
         document.getElementById(
             "btnClearHistory"
         ).style.display =
-        "inline-block";
+            "inline-block";
     }
-
-    document.getElementById(
-        "loginScreen"
-    ).style.display =
-    "none";
-
-    document.getElementById(
-        "changePasswordScreen"
-    ).style.display =
-    "none";
-
-    document.getElementById(
-        "appContent"
-    ).style.display =
-    "flex";
 }
 
 
