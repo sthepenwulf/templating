@@ -355,57 +355,19 @@ body{
     background:#b91c1c;
 }
 
+/* =========================
+   SG3210 - INTERFACES
+========================= */
+
 .sg3210-interface-selector{
     grid-column:1 / -1;
+    width:100%;
+    margin-top:15px;
     padding:15px;
     border:1px solid var(--border);
     border-radius:10px;
     background:var(--background);
-}
-
-.sg3210-interface-selector select{
-    width:100%;
-    height:42px;
-    padding:0 10px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    background:var(--card);
-    color:var(--text);
-}
-
-.sg3210-interface-list{
-    margin-top:15px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-}
-
-.sg3210-interface-item{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:8px;
-    border:1px solid var(--border);
-    border-radius:6px;
-    background:var(--card);
-}
-
-.sg3210-interface-item input{
-    width:18px;
-    height:18px;
-}
-
-@media(max-width:900px){
-
-    .sg3210-interface-list{
-        grid-template-columns:1fr;
-    }
-
-}
-
-.sg3210-interface-selector{
-    grid-column:1 / -1;
-    margin-top:15px;
+    box-sizing:border-box;
 }
 
 .sg3210-interface-list{
@@ -413,11 +375,11 @@ body{
     flex-direction:column;
     gap:12px;
     margin-top:10px;
+    width:100%;
 }
 
 .sg3210-interface-item{
     width:100%;
-    max-width:900px;
     padding:15px;
     border:1px solid var(--border);
     border-radius:10px;
@@ -437,21 +399,23 @@ body{
     display:flex;
     flex-direction:column;
     gap:6px;
+    width:100%;
 }
 
 .sg3210-interface-config select{
     width:100%;
-    height:40px;
+    height:42px;
     padding:0 10px;
     border:1px solid var(--border);
     border-radius:7px;
     background:var(--card);
     color:var(--text);
+    box-sizing:border-box;
 }
 
 .sg3210-custom-config{
     display:grid;
-    grid-template-columns:220px minmax(400px, 1fr);
+    grid-template-columns:160px minmax(0,1fr);
     gap:15px;
     margin-top:15px;
     width:100%;
@@ -465,6 +429,10 @@ body{
     min-width:0;
 }
 
+.sg3210-custom-config label{
+    font-weight:600;
+}
+
 .sg3210-custom-config input{
     width:100%;
     height:42px;
@@ -474,10 +442,6 @@ body{
     background:var(--card);
     color:var(--text);
     box-sizing:border-box;
-}
-
-.sg3210-custom-config label{
-    font-weight:600;
 }
 
 .sg3210-remove-interface{
@@ -496,6 +460,23 @@ body{
 
 .sg3210-add-button{
     margin-top:12px;
+}
+
+
+/* =========================
+   SG3210 - RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .sg3210-custom-config{
+        grid-template-columns:1fr;
+    }
+
+    .sg3210-interface-list{
+        width:100%;
+    }
+
 }
     
 </style>
