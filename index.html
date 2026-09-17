@@ -2948,12 +2948,9 @@ exit
         config += `
 
 interface gigabitEthernet ${intf.port}
-
 description ${d.clientId}-${description}
-
 switchport general allowed vlan ${vlan} untagged
 switchport pvid ${vlan}
-
 spanning-tree bpduguard
 exit
 `;
@@ -2969,13 +2966,9 @@ exit
     config += `
 
 interface gigabitEthernet 1/0/9
-
 description UPLINK-A-HUB
-
 switchport general allowed vlan 152,${d.vlan} tagged
-
 switchport pvid ${d.vlan}
-
 spanning-tree
 exit
 
