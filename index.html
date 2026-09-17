@@ -384,6 +384,48 @@ body{
 </form>
 
 
+<div id="changePasswordScreen"
+     class="login-overlay"
+     style="display:none;">
+
+    <div class="login-card">
+
+        <h2>Cambiar contraseña</h2>
+
+        <p style="text-align:center;">
+            Por seguridad, debe cambiar su contraseña
+            antes de continuar.
+        </p>
+
+        <input
+            id="newPassword"
+            type="password"
+            placeholder="Nueva contraseña"
+            autocomplete="new-password">
+
+        <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirmar nueva contraseña"
+            autocomplete="new-password">
+
+        <button
+            class="btn btn-primary"
+            onclick="changePassword()">
+
+            Cambiar contraseña
+
+        </button>
+
+        <div
+            id="changePasswordError"
+            class="login-error">
+        </div>
+
+    </div>
+
+</div>
+
 
 </div>
 
@@ -607,78 +649,93 @@ function getUsers(){
             {
                 user:"ccerignale",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"felopez",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"mquinones",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"pponce",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"nfreire",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"cmarin",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"maramburu",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"mmsilva",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"esalado",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"aalvarado",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"vocchipinti",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
             {
                 user:"jgallego",
                 password:"Telecentro2026",
-                role:"Operador"
+                role:"Operador",
+                mustChangePassword:true
             },
 
             {
                 user:"sgomez",
                 password:"Telecentro2026",
-                role:"Administrador"
+                role:"Administrador",
+                mustChangePassword:true
             },
             {
                 user:"gbarrientos",
                 password:"Telecentro2026",
-                role:"Administrador"
+                role:"Administrador",
+                mustChangePassword:true
             },
             {
                 user:"asoto",
                 password:"Telecentro2026",
-                role:"Administrador"
+                role:"Administrador",
+                mustChangePassword:true
             }
 
         ];
@@ -728,6 +785,7 @@ function addUser(
    LOGIN
 ===================== */
 
+
 function login(){
 
     const user =
@@ -760,10 +818,142 @@ function login(){
         return;
     }
 
+    // Guardamos temporalmente el usuario
     sessionStorage.setItem(
         "currentUser",
         JSON.stringify(found)
     );
+
+    /*
+     * Si es el primer ingreso,
+     * obligamos a cambiar la contraseña.
+     */
+    if(found.mustChangePassword === true){
+
+        document.getElementById(
+            "loginScreen"
+        ).style.display = "none";
+
+        document.getElementById(
+            "changePasswordScreen"
+        ).style.display = "flex";
+
+        document.getElementById(
+            "newPassword"
+        ).focus();
+
+        return;
+    }
+
+    enterApplication(found);
+}
+
+    /* =====================
+   CAMBIAR PASS PRIMER LOGIN
+===================== */
+ 
+function changePassword(){
+
+    const newPassword =
+        document.getElementById(
+            "newPassword"
+        ).value;
+
+    const confirmPassword =
+        document.getElementById(
+            "confirmPassword"
+        ).value;
+
+    const error =
+        document.getElementById(
+            "changePasswordError"
+        );
+
+    error.innerText = "";
+
+    // Validar longitud
+    if(newPassword.length < 8){
+
+        error.innerText =
+        "La contraseña debe tener al menos 8 caracteres.";
+
+        return;
+    }
+
+    // Validar coincidencia
+    if(newPassword !== confirmPassword){
+
+        error.innerText =
+        "Las contraseñas no coinciden.";
+
+        return;
+    }
+
+    const currentUser =
+        JSON.parse(
+            sessionStorage.getItem(
+                "currentUser"
+            )
+        );
+
+    if(!currentUser){
+
+        error.innerText =
+        "Sesión inválida. Inicie sesión nuevamente.";
+
+        return;
+    }
+
+    const users =
+        getUsers();
+
+    const index =
+        users.findIndex(
+            u =>
+            u.user === currentUser.user
+        );
+
+    if(index === -1){
+
+        error.innerText =
+        "No se encontró el usuario.";
+
+        return;
+    }
+
+    // Actualizar contraseña
+    users[index].password =
+        newPassword;
+
+    // Ya no debe solicitar cambio
+    users[index].mustChangePassword =
+        false;
+
+    // Guardar usuarios
+    localStorage.setItem(
+        "telecentro_users",
+        JSON.stringify(users)
+    );
+
+    // Actualizar usuario de sesión
+    const updatedUser =
+        users[index];
+
+    sessionStorage.setItem(
+        "currentUser",
+        JSON.stringify(updatedUser)
+    );
+
+    // Entrar a la aplicación
+    enterApplication(updatedUser);
+}
+
+
+/* =====================
+   INGRESAR A LA APP
+===================== */
+
+function enterApplication(found){
 
     document.getElementById(
         "currentUserLabel"
@@ -788,12 +978,21 @@ function login(){
 
     document.getElementById(
         "loginScreen"
-    ).style.display = "none";
+    ).style.display =
+    "none";
+
+    document.getElementById(
+        "changePasswordScreen"
+    ).style.display =
+    "none";
 
     document.getElementById(
         "appContent"
-    ).style.display = "flex";
+    ).style.display =
+    "flex";
 }
+
+
 
 function logout(){
 
