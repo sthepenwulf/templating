@@ -342,6 +342,19 @@ body{
 
 }
 
+.btn-secondary{
+    background:#e5e7eb;
+}
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+.btn-danger:hover{
+    background:#b91c1c;
+}
+    
 </style>
 </head>
 
@@ -805,6 +818,40 @@ function addUser(
     return true;
 }
 
+    function deleteUser(index) {
+    const users = getUsers();
+
+    if (!users[index]) {
+        alert("El usuario no existe.");
+        return;
+    }
+
+    const currentUser = sessionStorage.getItem("telecentro_user");
+    const userToDelete = users[index].user;
+
+    // No permitir eliminarse a sí mismo
+    if (userToDelete === currentUser) {
+        alert("No podés eliminar el usuario con el que estás logueado.");
+        return;
+    }
+
+    if (!confirm(`¿Deseás eliminar al usuario "${userToDelete}"?`)) {
+        return;
+    }
+
+    users.splice(index, 1);
+
+    localStorage.setItem(
+        "telecentro_users",
+        JSON.stringify(users)
+    );
+
+    alert(`Usuario "${userToDelete}" eliminado correctamente.`);
+
+    // Volver a mostrar la pantalla de usuarios
+    showUsers();
+}
+
 /* =====================
    LOGIN
 ===================== */
@@ -1014,15 +1061,12 @@ function showUserAdmin(){
 
     const currentUser =
         JSON.parse(
-            sessionStorage.getItem(
-                "currentUser"
-            )
+            sessionStorage.getItem("currentUser")
         );
 
     if(
         !currentUser ||
-        currentUser.role !==
-        "Administrador"
+        currentUser.role !== "Administrador"
     ){
 
         showError(
@@ -1032,6 +1076,213 @@ function showUserAdmin(){
         return;
     }
 
+    const users = getUsers();
+
+    // Crear ventana
+    const overlay =
+        document.createElement("div");
+
+    overlay.id = "userAdminOverlay";
+
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.65);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        z-index:10000;
+    `;
+
+    let rows = "";
+
+    users.forEach((u, index) => {
+
+        const isCurrentUser =
+            u.user === currentUser.user;
+
+        rows += `
+            <tr>
+
+                <td style="
+                    padding:10px;
+                    border-bottom:1px solid #ddd;
+                ">
+                    ${u.user}
+                </td>
+
+                <td style="
+                    padding:10px;
+                    border-bottom:1px solid #ddd;
+                ">
+                    ${u.role}
+                </td>
+
+                <td style="
+                    padding:10px;
+                    border-bottom:1px solid #ddd;
+                    text-align:center;
+                ">
+
+                    ${
+                        isCurrentUser
+
+                        ? `
+                            <span style="
+                                color:#777;
+                                font-size:13px;
+                            ">
+                                Usuario actual
+                            </span>
+                          `
+
+                        : `
+                            <button
+                                class="btn btn-danger"
+                                onclick="deleteUser(${index})">
+
+                                🗑 Eliminar
+
+                            </button>
+                          `
+                    }
+
+                </td>
+
+            </tr>
+        `;
+    });
+
+    overlay.innerHTML = `
+
+        <div style="
+            width:700px;
+            max-width:90%;
+            max-height:85vh;
+            overflow:auto;
+            background:var(--card);
+            color:var(--text);
+            border-radius:12px;
+            padding:25px;
+            box-shadow:0 10px 40px rgba(0,0,0,.3);
+        ">
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:20px;
+            ">
+
+                <h2>
+                    Administración de usuarios
+                </h2>
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="closeUserAdmin()">
+
+                    ✕ Cerrar
+
+                </button>
+
+            </div>
+
+
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                margin-bottom:20px;
+            ">
+
+                <thead>
+
+                    <tr>
+
+                        <th style="
+                            text-align:left;
+                            padding:10px;
+                            border-bottom:2px solid #ccc;
+                        ">
+                            Usuario
+                        </th>
+
+                        <th style="
+                            text-align:left;
+                            padding:10px;
+                            border-bottom:2px solid #ccc;
+                        ">
+                            Rol
+                        </th>
+
+                        <th style="
+                            padding:10px;
+                            border-bottom:2px solid #ccc;
+                        ">
+                            Acción
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${rows}
+
+                </tbody>
+
+            </table>
+
+
+            <div style="
+                display:flex;
+                gap:10px;
+                justify-content:flex-end;
+            ">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="createNewUser()">
+
+                    + Crear usuario
+
+                </button>
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="closeUserAdmin()">
+
+                    Cerrar
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+}
+
+    function closeUserAdmin(){
+
+    const overlay =
+        document.getElementById(
+            "userAdminOverlay"
+        );
+
+    if(overlay){
+        overlay.remove();
+    }
+}
+
+    /* =====================
+   ADMINISTRACIÓN
+===================== */
+    
+    function createNewUser(){
+
     const username =
         prompt("Nuevo usuario:");
 
@@ -1039,10 +1290,26 @@ function showUserAdmin(){
         return;
     }
 
+    const cleanUsername =
+        username.trim();
+
+    if(!cleanUsername){
+        return;
+    }
+
     const password =
-        prompt("Contraseña:");
+        prompt("Contraseña inicial:");
 
     if(!password){
+        return;
+    }
+
+    if(password.length < 8){
+
+        alert(
+            "La contraseña debe tener al menos 8 caracteres."
+        );
+
         return;
     }
 
@@ -1052,25 +1319,105 @@ function showUserAdmin(){
             "Operador"
         );
 
+    if(
+        role !== "Administrador" &&
+        role !== "Operador"
+    ){
+
+        alert(
+            "El rol debe ser Administrador u Operador."
+        );
+
+        return;
+    }
+
     const created =
         addUser(
-            username,
+            cleanUsername,
             password,
-            role || "Operador"
+            role
         );
 
     if(!created){
 
-        showError(
+        alert(
             "El usuario ya existe."
         );
 
         return;
     }
 
-    showSuccess(
-        "Usuario creado correctamente."
+    alert(
+        `Usuario "${cleanUsername}" creado correctamente.`
     );
+
+    // Actualizar la lista
+    closeUserAdmin();
+    showUserAdmin();
+}
+
+    function deleteUser(index){
+
+    const users = getUsers();
+
+    if(!users[index]){
+
+        alert(
+            "El usuario no existe."
+        );
+
+        return;
+    }
+
+    const currentUser =
+        JSON.parse(
+            sessionStorage.getItem(
+                "currentUser"
+            )
+        );
+
+    const userToDelete =
+        users[index].user;
+
+    // No permitir eliminar al usuario actual
+    if(
+        currentUser &&
+        userToDelete === currentUser.user
+    ){
+
+        alert(
+            "No podés eliminar el usuario con el que estás logueado."
+        );
+
+        return;
+    }
+
+    const confirmar =
+        confirm(
+            `¿Deseás eliminar al usuario "${userToDelete}"?`
+        );
+
+    if(!confirmar){
+        return;
+    }
+
+    // Eliminar
+    users.splice(
+        index,
+        1
+    );
+
+    // Guardar
+    localStorage.setItem(
+        "telecentro_users",
+        JSON.stringify(users)
+    );
+
+    // Cerrar ventana actual
+    closeUserAdmin();
+
+    // Volver a mostrar la lista actualizada
+    showUserAdmin();
 }
 
 /* =====================
@@ -2216,7 +2563,7 @@ ntp server vrf MONITORIA-CPE 192.168.15.74
 
 clock timezone GMT -3`;
 }
-``
+
 /* =====================
    GENERADOR CISCO 881 DIA
 ===================== */
