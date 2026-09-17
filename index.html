@@ -405,35 +405,70 @@ body{
 
 .sg3210-interface-selector{
     grid-column:1 / -1;
-    margin-top:10px;
+    margin-top:15px;
 }
 
 .sg3210-interface-list{
     display:flex;
     flex-direction:column;
-    gap:8px;
-    margin-top:8px;
+    gap:12px;
+    margin-top:10px;
 }
 
 .sg3210-interface-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
     width:100%;
-    max-width:600px;
-    min-height:50px;
-    padding:10px 14px;
+    max-width:700px;
+    padding:15px;
     border:1px solid var(--border);
-    border-radius:8px;
+    border-radius:10px;
     background:var(--card);
     color:var(--text);
     box-sizing:border-box;
 }
 
-.sg3210-interface-info{
-    margin-top:4px;
-    font-size:13px;
-    opacity:.75;
+.sg3210-interface-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+}
+
+.sg3210-interface-config{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.sg3210-interface-config select{
+    width:100%;
+    height:40px;
+    padding:0 10px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    background:var(--card);
+    color:var(--text);
+}
+
+.sg3210-custom-config{
+    grid-template-columns:150px 1fr;
+    gap:12px;
+    margin-top:12px;
+}
+
+.sg3210-custom-config > div{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.sg3210-custom-config input{
+    height:40px;
+    padding:0 10px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    background:var(--card);
+    color:var(--text);
+    box-sizing:border-box;
 }
 
 .sg3210-remove-interface{
@@ -443,15 +478,15 @@ body{
     font-size:18px;
     font-weight:bold;
     cursor:pointer;
-    padding:4px 8px;
 }
 
-.sg3210-remove-interface:hover{
-    opacity:.7;
+.sg3210-remove-interface:disabled{
+    opacity:.25;
+    cursor:not-allowed;
 }
 
-.sg3210-remove-interface:hover{
-    opacity:.7;
+.sg3210-add-button{
+    margin-top:12px;
 }
     
 </style>
@@ -1957,6 +1992,19 @@ function getData(){
         .querySelectorAll("#formContainer input")
         .forEach(field => {
 
+            /*
+             * No tomar los campos internos
+             * de configuración de interfaces
+             * como campos principales.
+             */
+
+            if(
+                field.classList.contains("sg3210-custom-vlan") ||
+                field.classList.contains("sg3210-custom-description")
+            ){
+                return;
+            }
+
             data[field.id] =
                 field.value.trim();
 
@@ -1974,20 +2022,43 @@ function getData(){
             )
             .forEach(item => {
 
+                const port =
+                    item.dataset.port;
+
+                const mode =
+                    item.querySelector(
+                        ".sg3210-config-mode"
+                    ).value;
+
+
+                const customVlan =
+                    item.querySelector(
+                        ".sg3210-custom-vlan"
+                    );
+
+
+                const customDescription =
+                    item.querySelector(
+                        ".sg3210-custom-description"
+                    );
+
+
                 data.interfaces.push({
 
-                    port:
-                        item.dataset.port,
+                    port: port,
 
                     same:
-                        item.dataset.same === "true",
+                        mode === "same",
 
                     vlan:
-                        item.dataset.vlan || data.vlan,
+                        mode === "same"
+                            ? data.vlan
+                            : customVlan.value.trim(),
 
                     description:
-                        item.dataset.description ||
-                        data.service
+                        mode === "same"
+                            ? data.service
+                            : customDescription.value.trim()
 
                 });
 
@@ -2496,17 +2567,67 @@ function createSG3210InterfaceSelector(){
                  class="sg3210-interface-list">
 
                 <div class="sg3210-interface-item"
-                     data-port="1/0/1"
-                     data-same="true">
+                     data-port="1/0/1">
 
-                    <div>
+                    <div class="sg3210-interface-header">
+
                         <strong>
                             GigabitEthernet 1/0/1
                         </strong>
 
-                        <div class="sg3210-interface-info">
-                            VLAN y descripción tomadas del formulario principal
+                        <button
+                            type="button"
+                            class="sg3210-remove-interface"
+                            disabled
+                            title="La interfaz principal no se puede eliminar">
+
+                            ✕
+
+                        </button>
+
+                    </div>
+
+                    <div class="sg3210-interface-config">
+
+                        <label>
+                            Configuración
+                        </label>
+
+                        <select class="sg3210-config-mode">
+                            <option value="same">
+                                Usar VLAN y descripción del formulario principal
+                            </option>
+
+                            <option value="different">
+                                Configuración diferente
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <div class="sg3210-custom-config"
+                         style="display:none;">
+
+                        <div>
+                            <label>VLAN</label>
+
+                            <input
+                                type="number"
+                                class="sg3210-custom-vlan"
+                                min="1"
+                                max="4094"
+                                placeholder="VLAN">
                         </div>
+
+                        <div>
+                            <label>Descripción</label>
+
+                            <input
+                                type="text"
+                                class="sg3210-custom-description"
+                                placeholder="Descripción">
+                        </div>
+
                     </div>
 
                 </div>
@@ -2516,8 +2637,7 @@ function createSG3210InterfaceSelector(){
             <button
                 type="button"
                 id="btnAddSG3210Interface"
-                class="btn btn-secondary"
-                style="margin-top:10px; width:max-content;">
+                class="btn btn-secondary sg3210-add-button">
 
                 + Agregar interfaz
 
@@ -2526,10 +2646,51 @@ function createSG3210InterfaceSelector(){
         </div>
     `;
 
+
     document
         .getElementById("formContainer")
         .appendChild(container);
 
+
+    /*
+     * Cambiar entre misma configuración
+     * y configuración diferente
+     */
+
+    container
+        .querySelectorAll(".sg3210-config-mode")
+        .forEach(select => {
+
+            select.addEventListener("change", function(){
+
+                const item =
+                    this.closest(
+                        ".sg3210-interface-item"
+                    );
+
+                const custom =
+                    item.querySelector(
+                        ".sg3210-custom-config"
+                    );
+
+                if(this.value === "different"){
+
+                    custom.style.display = "grid";
+
+                }else{
+
+                    custom.style.display = "none";
+
+                }
+
+            });
+
+        });
+
+
+    /*
+     * Agregar nueva interfaz
+     */
 
     document
         .getElementById("btnAddSG3210Interface")
@@ -2556,9 +2717,13 @@ function createSG3210InterfaceSelector(){
 
 
             /*
-             * Buscar próxima interfaz disponible.
-             * Solamente 1/0/1 hasta 1/0/8.
-             * 1/0/9 queda reservado para el uplink.
+             * Buscar la siguiente interfaz.
+             *
+             * IMPORTANTE:
+             * solamente 1/0/1 a 1/0/8.
+             *
+             * 1/0/9 NO se agrega porque
+             * es el uplink.
              */
 
             let nextPort = null;
@@ -2568,7 +2733,9 @@ function createSG3210InterfaceSelector(){
                 const port = `1/0/${i}`;
 
                 if(!usedPorts.includes(port)){
+
                     nextPort = port;
+
                     break;
                 }
             }
@@ -2577,131 +2744,7 @@ function createSG3210InterfaceSelector(){
             if(!nextPort){
 
                 alert(
-                    "Ya se agregaron todas las interfaces disponibles (1/0/1 a 1/0/8)."
-                );
-
-                return;
-            }
-
-
-            /*
-             * Preguntar si utiliza la misma VLAN
-             * y descripción.
-             */
-
-            const sameConfig =
-                confirm(
-                    `¿La interfaz GigabitEthernet ${nextPort} utiliza la MISMA VLAN y descripción que la interfaz anterior?\n\n` +
-                    `Aceptar = misma VLAN y descripción\n` +
-                    `Cancelar = configurar VLAN y descripción diferentes`
-                );
-
-
-            if(sameConfig){
-
-                /*
-                 * Misma configuración.
-                 */
-
-                const item =
-                    document.createElement("div");
-
-                item.className =
-                    "sg3210-interface-item";
-
-                item.dataset.port =
-                    nextPort;
-
-                item.dataset.same =
-                    "true";
-
-
-                item.innerHTML = `
-
-                    <div>
-                        <strong>
-                            GigabitEthernet ${nextPort}
-                        </strong>
-
-                        <div class="sg3210-interface-info">
-                            Misma VLAN y descripción
-                        </div>
-                    </div>
-
-                    <button
-                        type="button"
-                        class="sg3210-remove-interface"
-                        title="Quitar interfaz">
-
-                        ✕
-
-                    </button>
-                `;
-
-
-                list.appendChild(item);
-
-
-                item
-                    .querySelector(
-                        ".sg3210-remove-interface"
-                    )
-                    .addEventListener(
-                        "click",
-                        function(){
-                            item.remove();
-                        }
-                    );
-
-
-                return;
-            }
-
-
-            /*
-             * Configuración diferente.
-             */
-
-            const vlan =
-                prompt(
-                    `Ingrese la VLAN para GigabitEthernet ${nextPort}:`
-                );
-
-
-            if(vlan === null){
-                return;
-            }
-
-
-            if(
-                !/^\d+$/.test(vlan.trim()) ||
-                Number(vlan) < 1 ||
-                Number(vlan) > 4094
-            ){
-
-                alert(
-                    "La VLAN ingresada no es válida."
-                );
-
-                return;
-            }
-
-
-            const description =
-                prompt(
-                    `Ingrese la descripción para GigabitEthernet ${nextPort}:`
-                );
-
-
-            if(description === null){
-                return;
-            }
-
-
-            if(!description.trim()){
-
-                alert(
-                    "La descripción no puede quedar vacía."
+                    "No hay más interfaces disponibles. Las interfaces permitidas son 1/0/1 a 1/0/8."
                 );
 
                 return;
@@ -2711,55 +2754,134 @@ function createSG3210InterfaceSelector(){
             const item =
                 document.createElement("div");
 
+
             item.className =
                 "sg3210-interface-item";
+
 
             item.dataset.port =
                 nextPort;
 
-            item.dataset.same =
-                "false";
-
-            item.dataset.vlan =
-                vlan.trim();
-
-            item.dataset.description =
-                description.trim();
-
 
             item.innerHTML = `
 
-                <div>
+                <div class="sg3210-interface-header">
 
                     <strong>
                         GigabitEthernet ${nextPort}
                     </strong>
 
-                    <div class="sg3210-interface-info">
+                    <button
+                        type="button"
+                        class="sg3210-remove-interface"
+                        title="Eliminar interfaz">
 
-                        VLAN: ${vlan.trim()}
-                        <br>
+                        ✕
 
-                        Descripción:
-                        ${description.trim()}
+                    </button>
+
+                </div>
+
+
+                <div class="sg3210-interface-config">
+
+                    <label>
+                        Configuración
+                    </label>
+
+                    <select class="sg3210-config-mode">
+
+                        <option value="same">
+                            Usar VLAN y descripción del formulario principal
+                        </option>
+
+                        <option value="different">
+                            Configuración diferente
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="sg3210-custom-config"
+                     style="display:none;">
+
+                    <div>
+
+                        <label>
+                            VLAN
+                        </label>
+
+                        <input
+                            type="number"
+                            class="sg3210-custom-vlan"
+                            min="1"
+                            max="4094"
+                            placeholder="VLAN">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            Descripción
+                        </label>
+
+                        <input
+                            type="text"
+                            class="sg3210-custom-description"
+                            placeholder="Descripción">
 
                     </div>
 
                 </div>
-
-                <button
-                    type="button"
-                    class="sg3210-remove-interface"
-                    title="Quitar interfaz">
-
-                    ✕
-
-                </button>
             `;
 
 
             list.appendChild(item);
 
+
+            /*
+             * Selector de configuración
+             */
+
+            const select =
+                item.querySelector(
+                    ".sg3210-config-mode"
+                );
+
+
+            select.addEventListener(
+                "change",
+                function(){
+
+                    const custom =
+                        item.querySelector(
+                            ".sg3210-custom-config"
+                        );
+
+
+                    if(this.value === "different"){
+
+                        custom.style.display =
+                            "grid";
+
+                    }else{
+
+                        custom.style.display =
+                            "none";
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * Botón eliminar
+             */
 
             item
                 .querySelector(
@@ -2768,7 +2890,9 @@ function createSG3210InterfaceSelector(){
                 .addEventListener(
                     "click",
                     function(){
+
                         item.remove();
+
                     }
                 );
 
