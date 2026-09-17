@@ -354,6 +354,95 @@ body{
 .btn-danger:hover{
     background:#b91c1c;
 }
+
+.sg3210-interface-selector{
+    grid-column:1 / -1;
+    padding:15px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--background);
+}
+
+.sg3210-interface-selector select{
+    width:100%;
+    height:42px;
+    padding:0 10px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--card);
+    color:var(--text);
+}
+
+.sg3210-interface-list{
+    margin-top:15px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.sg3210-interface-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    background:var(--card);
+}
+
+.sg3210-interface-item input{
+    width:18px;
+    height:18px;
+}
+
+@media(max-width:900px){
+
+    .sg3210-interface-list{
+        grid-template-columns:1fr;
+    }
+
+}
+
+.sg3210-interface-selector{
+    grid-column:1 / -1;
+    margin-top:10px;
+}
+
+.sg3210-interface-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:8px;
+}
+
+.sg3210-interface-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    max-width:500px;
+    min-height:42px;
+    padding:8px 12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--card);
+    color:var(--text);
+    box-sizing:border-box;
+}
+
+.sg3210-remove-interface{
+    border:none;
+    background:transparent;
+    color:var(--danger);
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    padding:4px 8px;
+}
+
+.sg3210-remove-interface:hover{
+    opacity:.7;
+}
     
 </style>
 </head>
@@ -1855,17 +1944,30 @@ function getData(){
     const data = {};
 
     document
-    .querySelectorAll(
-        "#formContainer input"
-    )
-    .forEach(field => {
+        .querySelectorAll("#formContainer input")
+        .forEach(field => {
 
-        data[
-            field.id
-        ] =
-        field.value.trim();
+            if(field.classList.contains("sg3210-interface")){
+                return;
+            }
 
-    });
+            data[field.id] =
+                field.value.trim();
+        });
+
+
+    if(currentTemplate === "sg3210"){
+
+        data.interfaces =
+            Array.from(
+                document.querySelectorAll(
+                    ".sg3210-interface"
+                )
+            ).map(
+                field => field.value
+            );
+    }
+
 
     return data;
 }
@@ -2336,13 +2438,156 @@ function loadTemplate(
     );
 
     document
-    .getElementById(
-        "formContainer"
-    )
-    .innerHTML =
-        html;
+.getElementById(
+    "formContainer"
+)
+.innerHTML =
+    html;
 
-    applyValidators();
+if(templateName === "sg3210"){
+    createSG3210InterfaceSelector();
+}
+
+applyValidators();
+
+}
+
+function createSG3210InterfaceSelector(){
+
+    const container = document.createElement("div");
+
+    container.className = "sg3210-interface-selector";
+
+    container.innerHTML = `
+        <div class="form-group">
+
+            <label>
+                Interfaces a configurar
+            </label>
+
+            <div id="sg3210InterfaceList"
+                 class="sg3210-interface-list">
+
+                <div class="sg3210-interface-item">
+
+                    <span>
+                        GigabitEthernet 1/0/1
+                    </span>
+
+                    <input
+                        type="hidden"
+                        value="1/0/1"
+                        class="sg3210-interface">
+
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                id="btnAddSG3210Interface"
+                class="btn btn-secondary"
+                style="margin-top:10px; width:max-content;">
+
+                + Agregar interfaz
+
+            </button>
+
+        </div>
+    `;
+
+    document
+        .getElementById("formContainer")
+        .appendChild(container);
+
+
+    document
+        .getElementById("btnAddSG3210Interface")
+        .addEventListener("click", function(){
+
+            const list =
+                document.getElementById(
+                    "sg3210InterfaceList"
+                );
+
+            const interfaces =
+                Array.from(
+                    document.querySelectorAll(
+                        ".sg3210-interface"
+                    )
+                ).map(el => el.value);
+
+
+            /*
+             * Buscar la próxima interfaz disponible.
+             * Solamente 1/0/1 hasta 1/0/8.
+             * 1/0/9 NO se utiliza.
+             */
+
+            let nextPort = null;
+
+            for(let i = 1; i <= 8; i++){
+
+                const port = `1/0/${i}`;
+
+                if(!interfaces.includes(port)){
+                    nextPort = port;
+                    break;
+                }
+            }
+
+
+            if(!nextPort){
+
+                alert(
+                    "Ya se agregaron todas las interfaces disponibles (1/0/1 a 1/0/8)."
+                );
+
+                return;
+            }
+
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "sg3210-interface-item";
+
+
+            item.innerHTML = `
+
+                <span>
+                    GigabitEthernet ${nextPort}
+                </span>
+
+                <input
+                    type="hidden"
+                    value="${nextPort}"
+                    class="sg3210-interface">
+
+                <button
+                    type="button"
+                    class="sg3210-remove-interface"
+                    title="Quitar interfaz">
+
+                    ✕
+
+                </button>
+            `;
+
+
+            list.appendChild(item);
+
+
+            item
+                .querySelector(".sg3210-remove-interface")
+                .addEventListener("click", function(){
+
+                    item.remove();
+
+                });
+
+        });
 }
 
 /* =====================
@@ -2428,7 +2673,7 @@ exit`;
 
 function generateSG3210(d){
 
-return `enable
+    let config = `enable
 configure
 
 jumbo-size 9216
@@ -2447,9 +2692,7 @@ user name telecentro privilege admin secret Inst4l4c10n3s
 user name backups privilege admin secret c0rp0backup!
 
 service password-encryption
-
 ip ssh server
-
 telnet disable
 
 snmp-server community CpeSnmpTlc read-only
@@ -2461,25 +2704,36 @@ interface vlan 152
 description MONITORIA
 ip address ${d.ipMon} ${d.maskMon}
 exit
+`;
 
-interface gigabitEthernet 1/0/1
 
+    /*
+     * Configurar las interfaces seleccionadas
+     */
+
+    d.interfaces.forEach(port => {
+
+        config += `
+interface gigabitEthernet ${port}
 description ${d.clientId}-${d.service}
-
 switchport general allowed vlan ${d.vlan} untagged
 switchport pvid ${d.vlan}
-
 spanning-tree bpduguard
 exit
+`;
 
+    });
+
+
+    /*
+     * 1/0/9 queda siempre como uplink
+     */
+
+    config += `
 interface gigabitEthernet 1/0/9
-
 description UPLINK-A-HUB
-
 switchport general allowed vlan 152,${d.vlan} tagged
-
 switchport pvid ${d.vlan}
-
 spanning-tree
 exit
 
@@ -2495,6 +2749,9 @@ system-time ntp UTC-03:00 192.168.15.74 192.168.15.74 12
 end
 
 copy running-config startup-config`;
+
+
+    return config;
 }
 
 /* =====================
@@ -2533,23 +2790,18 @@ exit
 
 ip default-gateway ${d.gatewayMon}
 
-interface gigabitethernet9
-
-description ##CLIENTE##${d.description}
-
+interface gigabitethernet 1/0/9
+description ##UPLINK-A-HUB##$
 switchport mode trunk
 switchport trunk allowed vlan add 152,${d.vlan}
-
 no shutdown
 exit
 
-interface gigabitethernet1
+interface gigabitEthernet 1/0/1
 
 description ##CLIENTE##${d.service}
-
 switchport mode trunk
 switchport trunk allowed vlan add 152,${d.vlan}
-
 no shutdown
 exit
 
