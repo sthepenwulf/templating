@@ -420,14 +420,20 @@ body{
     align-items:center;
     justify-content:space-between;
     width:100%;
-    max-width:500px;
-    min-height:42px;
-    padding:8px 12px;
+    max-width:600px;
+    min-height:50px;
+    padding:10px 14px;
     border:1px solid var(--border);
     border-radius:8px;
     background:var(--card);
     color:var(--text);
     box-sizing:border-box;
+}
+
+.sg3210-interface-info{
+    margin-top:4px;
+    font-size:13px;
+    opacity:.75;
 }
 
 .sg3210-remove-interface{
@@ -438,6 +444,10 @@ body{
     font-weight:bold;
     cursor:pointer;
     padding:4px 8px;
+}
+
+.sg3210-remove-interface:hover{
+    opacity:.7;
 }
 
 .sg3210-remove-interface:hover{
@@ -1947,25 +1957,42 @@ function getData(){
         .querySelectorAll("#formContainer input")
         .forEach(field => {
 
-            if(field.classList.contains("sg3210-interface")){
-                return;
-            }
-
             data[field.id] =
                 field.value.trim();
+
         });
 
 
     if(currentTemplate === "sg3210"){
 
-        data.interfaces =
-            Array.from(
-                document.querySelectorAll(
-                    ".sg3210-interface"
-                )
-            ).map(
-                field => field.value
-            );
+        data.interfaces = [];
+
+
+        document
+            .querySelectorAll(
+                "#sg3210InterfaceList .sg3210-interface-item"
+            )
+            .forEach(item => {
+
+                data.interfaces.push({
+
+                    port:
+                        item.dataset.port,
+
+                    same:
+                        item.dataset.same === "true",
+
+                    vlan:
+                        item.dataset.vlan || data.vlan,
+
+                    description:
+                        item.dataset.description ||
+                        data.service
+
+                });
+
+            });
+
     }
 
 
@@ -2468,16 +2495,19 @@ function createSG3210InterfaceSelector(){
             <div id="sg3210InterfaceList"
                  class="sg3210-interface-list">
 
-                <div class="sg3210-interface-item">
+                <div class="sg3210-interface-item"
+                     data-port="1/0/1"
+                     data-same="true">
 
-                    <span>
-                        GigabitEthernet 1/0/1
-                    </span>
+                    <div>
+                        <strong>
+                            GigabitEthernet 1/0/1
+                        </strong>
 
-                    <input
-                        type="hidden"
-                        value="1/0/1"
-                        class="sg3210-interface">
+                        <div class="sg3210-interface-info">
+                            VLAN y descripción tomadas del formulario principal
+                        </div>
+                    </div>
 
                 </div>
 
@@ -2510,18 +2540,25 @@ function createSG3210InterfaceSelector(){
                     "sg3210InterfaceList"
                 );
 
-            const interfaces =
+
+            const items =
                 Array.from(
-                    document.querySelectorAll(
-                        ".sg3210-interface"
+                    list.querySelectorAll(
+                        ".sg3210-interface-item"
                     )
-                ).map(el => el.value);
+                );
+
+
+            const usedPorts =
+                items.map(
+                    item => item.dataset.port
+                );
 
 
             /*
-             * Buscar la próxima interfaz disponible.
+             * Buscar próxima interfaz disponible.
              * Solamente 1/0/1 hasta 1/0/8.
-             * 1/0/9 NO se utiliza.
+             * 1/0/9 queda reservado para el uplink.
              */
 
             let nextPort = null;
@@ -2530,7 +2567,7 @@ function createSG3210InterfaceSelector(){
 
                 const port = `1/0/${i}`;
 
-                if(!interfaces.includes(port)){
+                if(!usedPorts.includes(port)){
                     nextPort = port;
                     break;
                 }
@@ -2547,23 +2584,168 @@ function createSG3210InterfaceSelector(){
             }
 
 
+            /*
+             * Preguntar si utiliza la misma VLAN
+             * y descripción.
+             */
+
+            const sameConfig =
+                confirm(
+                    `¿La interfaz GigabitEthernet ${nextPort} utiliza la MISMA VLAN y descripción que la interfaz anterior?\n\n` +
+                    `Aceptar = misma VLAN y descripción\n` +
+                    `Cancelar = configurar VLAN y descripción diferentes`
+                );
+
+
+            if(sameConfig){
+
+                /*
+                 * Misma configuración.
+                 */
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "sg3210-interface-item";
+
+                item.dataset.port =
+                    nextPort;
+
+                item.dataset.same =
+                    "true";
+
+
+                item.innerHTML = `
+
+                    <div>
+                        <strong>
+                            GigabitEthernet ${nextPort}
+                        </strong>
+
+                        <div class="sg3210-interface-info">
+                            Misma VLAN y descripción
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="sg3210-remove-interface"
+                        title="Quitar interfaz">
+
+                        ✕
+
+                    </button>
+                `;
+
+
+                list.appendChild(item);
+
+
+                item
+                    .querySelector(
+                        ".sg3210-remove-interface"
+                    )
+                    .addEventListener(
+                        "click",
+                        function(){
+                            item.remove();
+                        }
+                    );
+
+
+                return;
+            }
+
+
+            /*
+             * Configuración diferente.
+             */
+
+            const vlan =
+                prompt(
+                    `Ingrese la VLAN para GigabitEthernet ${nextPort}:`
+                );
+
+
+            if(vlan === null){
+                return;
+            }
+
+
+            if(
+                !/^\d+$/.test(vlan.trim()) ||
+                Number(vlan) < 1 ||
+                Number(vlan) > 4094
+            ){
+
+                alert(
+                    "La VLAN ingresada no es válida."
+                );
+
+                return;
+            }
+
+
+            const description =
+                prompt(
+                    `Ingrese la descripción para GigabitEthernet ${nextPort}:`
+                );
+
+
+            if(description === null){
+                return;
+            }
+
+
+            if(!description.trim()){
+
+                alert(
+                    "La descripción no puede quedar vacía."
+                );
+
+                return;
+            }
+
+
             const item =
                 document.createElement("div");
 
             item.className =
                 "sg3210-interface-item";
 
+            item.dataset.port =
+                nextPort;
+
+            item.dataset.same =
+                "false";
+
+            item.dataset.vlan =
+                vlan.trim();
+
+            item.dataset.description =
+                description.trim();
+
 
             item.innerHTML = `
 
-                <span>
-                    GigabitEthernet ${nextPort}
-                </span>
+                <div>
 
-                <input
-                    type="hidden"
-                    value="${nextPort}"
-                    class="sg3210-interface">
+                    <strong>
+                        GigabitEthernet ${nextPort}
+                    </strong>
+
+                    <div class="sg3210-interface-info">
+
+                        VLAN: ${vlan.trim()}
+                        <br>
+
+                        Descripción:
+                        ${description.trim()}
+
+                    </div>
+
+                </div>
 
                 <button
                     type="button"
@@ -2580,12 +2762,15 @@ function createSG3210InterfaceSelector(){
 
 
             item
-                .querySelector(".sg3210-remove-interface")
-                .addEventListener("click", function(){
-
-                    item.remove();
-
-                });
+                .querySelector(
+                    ".sg3210-remove-interface"
+                )
+                .addEventListener(
+                    "click",
+                    function(){
+                        item.remove();
+                    }
+                );
 
         });
 }
@@ -2692,7 +2877,9 @@ user name telecentro privilege admin secret Inst4l4c10n3s
 user name backups privilege admin secret c0rp0backup!
 
 service password-encryption
+
 ip ssh server
+
 telnet disable
 
 snmp-server community CpeSnmpTlc read-only
@@ -2708,16 +2895,36 @@ exit
 
 
     /*
-     * Configurar las interfaces seleccionadas
+     * Configuración de interfaces de cliente
      */
 
-    d.interfaces.forEach(port => {
+    d.interfaces.forEach(intf => {
+
+        /*
+         * Si utiliza la misma configuración,
+         * toma VLAN y descripción del formulario principal.
+         */
+
+        const vlan =
+            intf.same
+                ? d.vlan
+                : intf.vlan;
+
+        const description =
+            intf.same
+                ? d.service
+                : intf.description;
+
 
         config += `
-interface gigabitEthernet ${port}
-description ${d.clientId}-${d.service}
-switchport general allowed vlan ${d.vlan} untagged
-switchport pvid ${d.vlan}
+
+interface gigabitEthernet ${intf.port}
+
+description ${d.clientId}-${description}
+
+switchport general allowed vlan ${vlan} untagged
+switchport pvid ${vlan}
+
 spanning-tree bpduguard
 exit
 `;
@@ -2726,14 +2933,20 @@ exit
 
 
     /*
-     * 1/0/9 queda siempre como uplink
+     * Uplink 1/0/9
+     * NO se modifica mediante el selector.
      */
 
     config += `
+
 interface gigabitEthernet 1/0/9
+
 description UPLINK-A-HUB
+
 switchport general allowed vlan 152,${d.vlan} tagged
+
 switchport pvid ${d.vlan}
+
 spanning-tree
 exit
 
@@ -2749,7 +2962,6 @@ system-time ntp UTC-03:00 192.168.15.74 192.168.15.74 12
 end
 
 copy running-config startup-config`;
-
 
     return config;
 }
