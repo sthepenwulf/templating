@@ -349,34 +349,41 @@ body{
 
 <div id="loginScreen" class="login-overlay">
 
-    <div class="login-card">
+    
+<form class="login-card" onsubmit="login(); return false;">
 
-        <h2>Template Generator</h2>
+    <h2>Template Generator</h2>
 
-        <input
-            id="loginUser"
-            type="text"
-            placeholder="Usuario">
+    <input
+        id="loginUser"
+        type="text"
+        placeholder="Usuario"
+        autocomplete="username"
+        required>
 
-        <input
-            id="loginPassword"
-            type="password"
-            placeholder="Contraseña">
+    <input
+        id="loginPassword"
+        type="password"
+        placeholder="Contraseña"
+        autocomplete="current-password"
+        required>
 
-        <button
-            class="btn btn-primary"
-            onclick="login()">
+    <button
+        type="submit"
+        class="btn btn-primary">
 
-            Ingresar
+        Ingresar
 
-        </button>
+    </button>
 
-        <div
-            id="loginError"
-            class="login-error">
-        </div>
-
+    <div
+        id="loginError"
+        class="login-error">
     </div>
+
+</form>
+
+
 
 </div>
 
