@@ -3565,6 +3565,20 @@ function clearForm(){
     );
 }
 
+function clearOutput(){
+
+    const output = document.getElementById("output");
+
+    output.value = "";
+
+    // Elimina cualquier tamaño aplicado dinámicamente
+    output.style.removeProperty("height");
+    output.style.removeProperty("min-height");
+    output.style.removeProperty("max-height");
+
+    output.focus();
+}
+    
 /* =====================
    HISTORIAL
 ===================== */
