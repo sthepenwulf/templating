@@ -3513,9 +3513,27 @@ function clearFormSilent(){
 
         });
 
-    document
-        .getElementById("output")
-        .value = "";
+
+    const output =
+        document.getElementById("output");
+
+
+    // Limpiar resultado
+    output.value = "";
+
+
+    // Restaurar tamaño original del textarea
+    output.style.height = "45px";
+
+
+    // Mantener los valores originales del CSS
+    output.style.minHeight = "45px";
+    output.style.maxHeight = "";
+
+
+    // Restaurar comportamiento original
+    output.style.overflow = "hidden";
+
 
     document
         .getElementById("message")
@@ -3565,19 +3583,6 @@ function clearForm(){
     );
 }
 
-function clearOutput(){
-
-    const output = document.getElementById("output");
-
-    output.value = "";
-
-    // Elimina cualquier tamaño aplicado dinámicamente
-    output.style.removeProperty("height");
-    output.style.removeProperty("min-height");
-    output.style.removeProperty("max-height");
-
-    output.focus();
-}
     
 /* =====================
    HISTORIAL
