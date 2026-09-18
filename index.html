@@ -972,8 +972,7 @@ function addUser(
 
     alert(`Usuario "${userToDelete}" eliminado correctamente.`);
 
-    // Volver a mostrar la pantalla de usuarios
-    showUsers();
+    
 }
 
 /* =====================
@@ -2076,6 +2075,49 @@ function getData(){
 
 const templates = {
 
+    
+
+ sg3210:{
+
+        title:
+        "SG3210 ADI",
+
+        fields:[
+
+            {
+                id:"clientId",
+                label:"ID Cliente"
+            },
+
+            {
+                id:"ipMon",
+                label:"IP Monitoria"
+            },
+
+            {
+                id:"maskMon",
+                label:"Mascara"
+            },
+
+            {
+                id:"gatewayMon",
+                label:"Gateway Monitoria"
+            },
+
+            {
+                id:"vlan",
+                label:"VLAN"
+            },
+
+            {
+                id:"service",
+                label:"Servicio",
+                placeholder:"ADI_100MB"
+            }
+
+        ]
+    },
+
     sg350:{
 
         title:
@@ -2123,46 +2165,6 @@ const templates = {
         ]
     },
 
-    sg3210:{
-
-        title:
-        "SG3210 ADI",
-
-        fields:[
-
-            {
-                id:"clientId",
-                label:"ID Cliente"
-            },
-
-            {
-                id:"ipMon",
-                label:"IP Monitoria"
-            },
-
-            {
-                id:"maskMon",
-                label:"Mascara"
-            },
-
-            {
-                id:"gatewayMon",
-                label:"Gateway Monitoria"
-            },
-
-            {
-                id:"vlan",
-                label:"VLAN"
-            },
-
-            {
-                id:"service",
-                label:"Servicio",
-                placeholder:"ADI_100MB"
-            }
-
-        ]
-    },
 
     vpn:{
 
