@@ -3558,6 +3558,7 @@ function downloadTemplate(){
 
 function clearFormSilent(){
 
+    // Limpiar campos del formulario
     document
         .querySelectorAll(
             "#formContainer input"
@@ -3574,27 +3575,36 @@ function clearFormSilent(){
         });
 
 
-    const output =
-        document.getElementById("output");
+    // Eliminar interfaces adicionales SG3210
+    const interfaceList =
+        document.getElementById(
+            "sg3210InterfaceList"
+        );
+
+    if(interfaceList){
+
+        interfaceList.innerHTML = "";
+
+    }
 
 
     // Limpiar resultado
+    const output =
+        document.getElementById(
+            "output"
+        );
+
     output.value = "";
 
 
-    // Restaurar tamaño original del textarea
-    output.style.height = "45px";
-
-
-    // Mantener los valores originales del CSS
-    output.style.minHeight = "45px";
+    // Restaurar tamaño original del resultado
+    output.style.height = "";
+    output.style.minHeight = "";
     output.style.maxHeight = "";
+    output.style.overflow = "";
 
 
-    // Restaurar comportamiento original
-    output.style.overflow = "hidden";
-
-
+    // Limpiar mensajes
     document
         .getElementById("message")
         .className = "message";
