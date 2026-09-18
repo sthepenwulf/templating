@@ -2967,12 +2967,36 @@ exit
 
     config += `
 
+// VLANs que deben viajar por el uplink
+const uplinkVlans = [];
+
+d.interfaces.forEach(intf => {
+
+    const vlan = String(intf.vlan).trim();
+
+    if(
+        vlan !== "" &&
+        !uplinkVlans.includes(vlan)
+    ){
+        uplinkVlans.push(vlan);
+    }
+
+});
+
+// Agregar VLANs al uplink
+const uplinkVlanList =
+    ["152", ...uplinkVlans].join(",");
+
+
+// Interface uplink
+output += `
 interface gigabitEthernet 1/0/9
 description UPLINK-A-HUB
-switchport general allowed vlan 152,${d.vlan} tagged
+switchport general allowed vlan ${uplinkVlanList} tagged
 switchport pvid ${d.vlan}
 spanning-tree
 exit
+`;
 
 interface vlan 1
 shutdown
