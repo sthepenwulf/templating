@@ -2931,11 +2931,6 @@ exit
 
     d.interfaces.forEach(intf => {
 
-        /*
-         * Si utiliza la misma configuración,
-         * toma VLAN y descripción del formulario principal.
-         */
-
         const vlan =
             intf.same
                 ? d.vlan
@@ -2961,35 +2956,69 @@ exit
 
 
     /*
+     * VLANs que deben viajar por el uplink 1/0/9
+     */
+
+    const uplinkVlans = [];
+
+
+    /*
+     * Agregar VLAN principal
+     */
+
+    const mainVlan =
+        String(d.vlan).trim();
+
+    if(
+        mainVlan !== "" &&
+        !uplinkVlans.includes(mainVlan)
+    ){
+
+        uplinkVlans.push(mainVlan);
+
+    }
+
+
+    /*
+     * Agregar VLANs de las interfaces
+     */
+
+    d.interfaces.forEach(intf => {
+
+        const vlan =
+            String(
+                intf.same
+                    ? d.vlan
+                    : intf.vlan
+            ).trim();
+
+
+        if(
+            vlan !== "" &&
+            !uplinkVlans.includes(vlan)
+        ){
+
+            uplinkVlans.push(vlan);
+
+        }
+
+    });
+
+
+    /*
+     * VLAN 152 + VLANs de servicio
+     */
+
+    const uplinkVlanList =
+        ["152", ...uplinkVlans].join(",");
+
+
+    /*
      * Uplink 1/0/9
-     * NO se modifica mediante el selector.
      */
 
     config += `
 
-// VLANs que deben viajar por el uplink
-const uplinkVlans = [];
-
-d.interfaces.forEach(intf => {
-
-    const vlan = String(intf.vlan).trim();
-
-    if(
-        vlan !== "" &&
-        !uplinkVlans.includes(vlan)
-    ){
-        uplinkVlans.push(vlan);
-    }
-
-});
-
-// Agregar VLANs al uplink
-const uplinkVlanList =
-    ["152", ...uplinkVlans].join(",");
-
-
-// Interface uplink
-output += `
 interface gigabitEthernet 1/0/9
 description UPLINK-A-HUB
 switchport general allowed vlan ${uplinkVlanList} tagged
@@ -2997,6 +3026,13 @@ switchport pvid ${d.vlan}
 spanning-tree
 exit
 `;
+
+
+    /*
+     * Configuración final
+     */
+
+    config += `
 
 interface vlan 1
 shutdown
