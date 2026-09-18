@@ -3581,13 +3581,26 @@ function saveHistory(
             ) || "[]"
         );
 
+    const currentUser =
+        JSON.parse(
+            sessionStorage.getItem(
+                "currentUser"
+            )
+        );
+
     history.unshift({
 
         date:
         new Date()
         .toLocaleString(),
 
+        username:
+            currentUser
+                ? currentUser.user
+                : "Desconocido",
+
         template,
+
         client
 
     });
