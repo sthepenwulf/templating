@@ -2042,27 +2042,37 @@ function getData(){
                     item.querySelector(
                         ".sg3210-custom-description"
                     );
+                
+                const interfaceType =
+                    item.querySelector(
+                        ".sg3210-interface-type"
+                    ).value;
 
 
-                data.interfaces.push({
+data.interfaces.push({
 
-                    port:
-                        item.dataset.port,
+    port:
+        item.dataset.port,
 
-                    same:
-                        mode === "same",
+    type:
+        item.querySelector(
+            ".sg3210-interface-type"
+        ).value,
 
-                    vlan:
-                        mode === "same"
-                            ? data.vlan
-                            : customVlan.value.trim(),
+    same:
+        mode === "same",
 
-                    description:
-                        mode === "same"
-                            ? data.service
-                            : customDescription.value.trim()
+    vlan:
+        mode === "same"
+            ? data.vlan
+            : customVlan.value.trim(),
 
-                });
+    description:
+        mode === "same"
+            ? data.service
+            : customDescription.value.trim()
+
+});
 
             });
 
@@ -2700,25 +2710,80 @@ function createSG3210InterfaceSelector(){
                 </div>
 
 
-                <div
-                    class="sg3210-interface-config">
+                <div class="sg3210-interface-config">
 
-                    <label>
-                        Configuración
-                    </label>
+    <label>
+        Tipo de interfaz
+    </label>
 
-                    <select
-                        class="sg3210-config-mode">
+    <select class="sg3210-interface-type">
 
-                        <option value="same">
-                            Misma VLAN y descripción
-                        </option>
+        <option value="ACCESS">
+            ACCESS
+        </option>
 
-                        <option value="different">
-                            VLAN y descripción diferentes
-                        </option>
+        <option value="TRUNK">
+            TRUNK
+        </option>
 
-                    </select>
+        <option value="QINQ">
+            QINQ
+        </option>
+
+    </select>
+
+
+    <label>
+        Configuración
+    </label>
+
+    <select class="sg3210-config-mode">
+
+        <option value="same">
+            Misma VLAN y descripción
+        </option>
+
+        <option value="different">
+            VLAN y descripción diferentes
+        </option>
+
+    </select>
+
+
+    <div
+        class="sg3210-custom-config"
+        style="display:none;">
+
+        <div>
+
+            <label>
+                VLAN
+            </label>
+
+            <input
+                type="text"
+                class="sg3210-custom-vlan"
+                placeholder="Ej: 2000">
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Descripción
+            </label>
+
+            <input
+                type="text"
+                class="sg3210-custom-description"
+                placeholder="Descripción">
+
+        </div>
+
+    </div>
+
+</div>
 
 
                     <div
@@ -2890,11 +2955,41 @@ exit`;
 
 function generateSG3210(d){
 
+    /*
+     * Detectar si existe alguna interfaz QINQ
+     */
+
+    const hasQinq =
+        d.interfaces.some(
+            intf => intf.type === "QINQ"
+        );
+
+
+    /*
+     * Configuración inicial
+     */
+
     let config = `enable
 configure
 
 jumbo-size 9216
+`;
 
+
+    /*
+     * QINQ global
+     */
+
+    if(hasQinq){
+
+        config += `
+dot1q-tunnel
+`;
+
+    }
+
+
+    config += `
 hostname CPE-SG3210-${d.clientId}
 
 vlan 152
@@ -2947,11 +3042,57 @@ exit
 
 interface gigabitEthernet ${intf.port}
 description ${d.clientId}-${description}
-switchport general allowed vlan ${vlan} untagged
+`;
+
+
+        /*
+         * ACCESS
+         */
+
+        if(intf.type === "ACCESS"){
+
+            config +=
+`switchport general allowed vlan ${vlan} untagged
 switchport pvid ${vlan}
 spanning-tree bpduguard
 exit
 `;
+
+        }
+
+
+        /*
+         * TRUNK
+         */
+
+        else if(intf.type === "TRUNK"){
+
+            config +=
+`switchport general allowed vlan ${vlan} tagged
+switchport pvid ${vlan}
+spanning-tree bpduguard
+exit
+`;
+
+        }
+
+
+        /*
+         * QINQ
+         */
+
+        else if(intf.type === "QINQ"){
+
+            config +=
+`switchport general allowed vlan ${vlan} untagged
+switchport general allowed vlan all
+switchport pvid ${vlan}
+switchport dot1q-tunnel mode uni
+spanning-tree bpduguard
+exit
+`;
+
+        }
 
     });
 
@@ -2964,7 +3105,7 @@ exit
 
 
     /*
-     * Agregar VLAN principal
+     * VLAN principal
      */
 
     const mainVlan =
@@ -2981,7 +3122,7 @@ exit
 
 
     /*
-     * Agregar VLANs de las interfaces
+     * VLANs de todas las interfaces
      */
 
     d.interfaces.forEach(intf => {
@@ -3024,7 +3165,25 @@ interface gigabitEthernet 1/0/9
 description UPLINK-A-HUB
 switchport general allowed vlan ${uplinkVlanList} tagged
 switchport pvid ${d.vlan}
-spanning-tree
+`;
+
+
+    /*
+     * Si existe alguna interfaz QINQ,
+     * el uplink funciona como NNI
+     */
+
+    if(hasQinq){
+
+        config +=
+`switchport dot1q-tunnel mode nni
+`;
+
+    }
+
+
+    config +=
+`spanning-tree
 exit
 `;
 
@@ -3047,6 +3206,7 @@ system-time ntp UTC-03:00 192.168.15.74 192.168.15.74 12
 end
 
 copy running-config startup-config`;
+
 
     return config;
 }
