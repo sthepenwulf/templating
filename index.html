@@ -638,6 +638,11 @@ body{
 
     </div>
 
+    <div class="hdr-clock">
+      <div class="time" id="clock">00:14:40</div>
+      <div class="date" id="cdate">25 de sept de 2026</div>
+    </div>
+
 </header>
 
 <div
@@ -4063,6 +4068,16 @@ window.onload = () => {
             autoResizeTextarea
         );
 };
+
+/* =====================
+   RELOJ
+===================== */
+function upClock(){
+  const n=new Date();
+  document.getElementById('clock').textContent=n.toTimeString().slice(0,8);
+  document.getElementById('cdate').textContent=n.toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric'});
+}
+setInterval(upClock,1000); upClock();
 
 </script>
 
