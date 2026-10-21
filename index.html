@@ -479,20 +479,6 @@ body{
 
 }
 
-#interfaceType{
-    width:100%;
-    height:42px;
-    padding:0 12px;
-    border:1px solid var(--border);
-    border-radius:7px;
-    background:var(--card);
-    color:var(--text);
-    box-sizing:border-box;
-}
-
-.form-group:has(#interfaceType){
-    grid-column:1 / -1;
-}
 
 </style>
 </head>
@@ -1908,36 +1894,6 @@ function autoResizeTextarea(){
 
 function createField(field){
 
-    // TIPO DE INTERFAZ
-    if(field.id === "interfaceType"){
-
-        return `
-            <div class="form-group">
-
-                <label>
-                    ${field.label}
-                </label>
-
-                <select id="${field.id}">
-
-                    <option value="ACCESS">
-                        ACCESS
-                    </option>
-
-                    <option value="TRUNK">
-                        TRUNK
-                    </option>
-
-                    <option value="QINQ">
-                        QINQ
-                    </option>
-
-                </select>
-
-            </div>
-        `;
-    }
-
     // CAMPOS NORMALES
     const placeholder =
         field.placeholder ||
@@ -2031,13 +1987,27 @@ function getData(){
 
     const data = {};
 
+    /*
+     * Obtener campos generales del formulario
+     */
+
     document
         .querySelectorAll("#formContainer input")
         .forEach(field => {
 
+            /*
+             * Estos campos pertenecen a las
+             * interfaces SG3210 y se procesan
+             * por separado.
+             */
+
             if(
-                field.classList.contains("sg3210-custom-vlan") ||
-                field.classList.contains("sg3210-custom-description")
+                field.classList.contains(
+                    "sg3210-custom-vlan"
+                ) ||
+                field.classList.contains(
+                    "sg3210-custom-description"
+                )
             ){
                 return;
             }
@@ -2048,66 +2018,131 @@ function getData(){
         });
 
 
+    /*
+     * SG3210
+     */
+
     if(currentTemplate === "sg3210"){
 
-    data.interfaces = [];
-
-    document
-        .querySelectorAll(
-            "#sg3210InterfaceList .sg3210-interface-item"
-        )
-        .forEach(item => {
-
-            const mode =
-                item.querySelector(
-                    ".sg3210-config-mode"
-                ).value;
+        data.interfaces = [];
 
 
-            const interfaceType =
-                item.querySelector(
-                    ".sg3210-interface-type"
-                ).value;
+        document
+            .querySelectorAll(
+                "#sg3210InterfaceList .sg3210-interface-item"
+            )
+            .forEach(item => {
+
+                /*
+                 * Tipo de interfaz
+                 */
+
+                const typeSelect =
+                    item.querySelector(
+                        ".sg3210-interface-type"
+                    );
 
 
-            const customVlan =
-                item.querySelector(
-                    ".sg3210-custom-vlan"
-                );
+                const interfaceType =
+                    typeSelect
+                        ? typeSelect.value
+                        : "ACCESS";
 
 
-            const customDescription =
-                item.querySelector(
-                    ".sg3210-custom-description"
-                );
+                /*
+                 * Configuración
+                 *
+                 * 1/0/1 no tiene selector,
+                 * por lo tanto utiliza siempre
+                 * la VLAN y Servicio generales.
+                 */
+
+                const modeSelect =
+                    item.querySelector(
+                        ".sg3210-config-mode"
+                    );
 
 
-            data.interfaces.push({
+                const mode =
+                    modeSelect
+                        ? modeSelect.value
+                        : "same";
 
-                port:
-                    item.dataset.port,
 
-                type:
-                    interfaceType,
+                /*
+                 * VLAN personalizada
+                 */
 
-                same:
-                    mode === "same",
+                const customVlan =
+                    item.querySelector(
+                        ".sg3210-custom-vlan"
+                    );
 
-                vlan:
+
+                /*
+                 * Descripción personalizada
+                 */
+
+                const customDescription =
+                    item.querySelector(
+                        ".sg3210-custom-description"
+                    );
+
+
+                /*
+                 * VLAN final
+                 */
+
+                const vlan =
                     mode === "same"
                         ? data.vlan
-                        : customVlan.value.trim(),
+                        : (
+                            customVlan
+                                ? customVlan.value.trim()
+                                : ""
+                          );
 
-                description:
+
+                /*
+                 * Descripción final
+                 */
+
+                const description =
                     mode === "same"
                         ? data.service
-                        : customDescription.value.trim()
+                        : (
+                            customDescription
+                                ? customDescription.value.trim()
+                                : ""
+                          );
+
+
+                /*
+                 * Guardar interfaz
+                 */
+
+                data.interfaces.push({
+
+                    port:
+                        item.dataset.port,
+
+                    type:
+                        interfaceType,
+
+                    same:
+                        mode === "same",
+
+                    vlan:
+                        vlan,
+
+                    description:
+                        description
+
+                });
 
             });
 
-        });
-
-}
+    }
 
 
     return data;
@@ -2744,58 +2779,85 @@ function createSG3210InterfaceSelector(){
      */
 
     function createSG3210Interface(
-        port,
-        removable
-    ){
+    port,
+    removable
+){
 
-        const item =
-            document.createElement("div");
-
-        item.className =
-            "sg3210-interface-item";
-
-        item.dataset.port =
-            port;
+    const item =
+        document.createElement("div");
 
 
-        item.innerHTML = `
-
-            <div
-                class="sg3210-interface-header">
-
-                <strong>
-                    GigabitEthernet ${port}
-                </strong>
-
-                ${
-                    removable
-                        ? `
-                            <button
-                                type="button"
-                                class="sg3210-remove-interface">
-
-                                ×
-
-                            </button>
-                          `
-                        : `
-                            <span
-                                style="
-                                    color:var(--success);
-                                    font-weight:600;
-                                ">
-
-                                Obligatoria
-
-                            </span>
-                          `
-                }
-
-            </div>
+    item.className =
+        "sg3210-interface-item";
 
 
-            <div
-                class="sg3210-interface-config">
+    item.dataset.port =
+        port;
+
+
+    /*
+     * 1/0/1 es la interfaz principal.
+     *
+     * No tiene:
+     * - Configuración
+     * - VLAN diferente
+     * - Descripción diferente
+     *
+     * Utiliza siempre:
+     * - VLAN general
+     * - Servicio general
+     */
+
+    const isMainInterface =
+        port === "1/0/1";
+
+
+    item.innerHTML = `
+
+        <div
+            class="sg3210-interface-header">
+
+            <strong>
+                GigabitEthernet ${port}
+            </strong>
+
+
+            ${
+                removable
+                    ? `
+                        <button
+                            type="button"
+                            class="sg3210-remove-interface">
+
+                            ×
+
+                        </button>
+                      `
+                    : `
+                        <span
+                            style="
+                                color:var(--success);
+                                font-weight:600;
+                            ">
+
+                            Obligatoria
+
+                        </span>
+                      `
+            }
+
+        </div>
+
+
+        <div
+            class="sg3210-interface-config">
+
+
+            <!-- =========================
+                 TIPO DE INTERFAZ
+            ========================== -->
+
+            <div>
 
                 <label>
                     Tipo de interfaz
@@ -2818,66 +2880,114 @@ function createSG3210InterfaceSelector(){
 
                 </select>
 
-
-                <label>
-                    Configuración
-                </label>
-
-                ${port !== 1 ? `
-    <div class="interface-config">
-        <label>Configuración</label>
-        <select class="interface-mode" data-port="${port}">
-            <option value="same">Misma VLAN</option>
-            <option value="different">VLAN diferente</option>
-        </select>
-    </div>
-` : ''}
-
-
-                <div
-                    class="sg3210-custom-config"
-                    style="display:none;">
-
-                    <div>
-
-                        <label>
-                            VLAN
-                        </label>
-
-                        <input
-                            type="text"
-                            class="sg3210-custom-vlan"
-                            placeholder="Ej: 2000">
-
-                    </div>
-
-
-                    <div>
-
-                        <label>
-                            Descripción
-                        </label>
-
-                        <input
-                            type="text"
-                            class="sg3210-custom-description"
-                            placeholder="Descripción">
-
-                    </div>
-
-                </div>
-
             </div>
 
-        `;
+
+            ${
+                /*
+                 * CONFIGURACIÓN
+                 *
+                 * Solo desde 1/0/2.
+                 */
+
+                !isMainInterface
+                    ? `
+
+                        <div>
+
+                            <label>
+                                Configuración
+                            </label>
+
+                            <select
+                                class="sg3210-config-mode">
+
+                                <option value="same">
+                                    Misma VLAN
+                                </option>
+
+                                <option value="different">
+                                    VLAN diferente
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                      `
+                    : ""
+            }
 
 
-        list.appendChild(item);
+            ${
+                /*
+                 * VLAN Y DESCRIPCIÓN PERSONALIZADAS
+                 *
+                 * Solo existen para interfaces
+                 * adicionales cuando se selecciona
+                 * VLAN diferente.
+                 */
+
+                !isMainInterface
+                    ? `
+
+                        <div
+                            class="sg3210-custom-config"
+                            style="display:none;">
+
+                            <div>
+
+                                <label>
+                                    VLAN
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="sg3210-custom-vlan"
+                                    placeholder="Ej: 2000">
+
+                            </div>
 
 
-        /*
-         * Mostrar / ocultar VLAN y descripción
-         */
+                            <div>
+
+                                <label>
+                                    Descripción
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="sg3210-custom-description"
+                                    placeholder="Descripción">
+
+                            </div>
+
+                        </div>
+
+                      `
+                    : ""
+            }
+
+        </div>
+
+    `;
+
+
+    /*
+     * Agregar la interfaz al formulario
+     */
+
+    list.appendChild(item);
+
+
+    /*
+     * Configuración para interfaces
+     * adicionales.
+     *
+     * 1/0/1 no tiene este selector.
+     */
+
+    if(!isMainInterface){
 
         const mode =
             item.querySelector(
@@ -2891,43 +3001,60 @@ function createSG3210InterfaceSelector(){
             );
 
 
+        /*
+         * Mostrar / ocultar VLAN
+         * y descripción personalizada
+         */
+
         mode.addEventListener(
             "change",
             function(){
 
-                customConfig.style.display =
-                    this.value === "different"
-                        ? "grid"
-                        : "none";
+                if(this.value === "different"){
+
+                    customConfig.style.display =
+                        "grid";
+
+                }
+                else{
+
+                    customConfig.style.display =
+                        "none";
+
+                }
 
             }
         );
 
-
-        /*
-         * Quitar interfaz adicional
-         */
-
-        if(removable){
-
-            const removeButton =
-                item.querySelector(
-                    ".sg3210-remove-interface"
-                );
+    }
 
 
-            removeButton.addEventListener(
-                "click",
-                function(){
+    /*
+     * Eliminar interfaz adicional
+     *
+     * 1/0/1 nunca puede eliminarse.
+     */
 
-                    item.remove();
+    if(removable){
 
-                }
+        const removeButton =
+            item.querySelector(
+                ".sg3210-remove-interface"
             );
 
-        }
+
+        removeButton.addEventListener(
+            "click",
+            function(){
+
+                item.remove();
+
+            }
+        );
 
     }
+
+}
 
 }
 
@@ -2935,97 +3062,25 @@ function createSG3210InterfaceSelector(){
    GENERADOR SG350
 ===================== */
 
-function generateSG350(d){
-
-return `conf t
-
-hostname CPE-SG350-${d.clientId}
-
-username telecentro privilege 15 password Inst4l4c10n3s
-username backups privilege 15 password c0rp0backup!
-
-enable password Inst4l4c10n3s
-
-ip ssh server
-
-ip ssh-client username telecentro
-ip ssh-client password Inst4l4c10n3s
-
-ip access-list extended 152
-
-permit ip 192.168.0.0 0.0.255.255 any
-permit ip 10.210.0.0 0.0.255.255 any
-deny ip any any
-
-vlan 152
-vlan ${d.vlan}
-
-interface vlan 152
-name MONITORIA-CPE
-ip address ${d.ipMon} ${d.maskMon}
-exit
-
-ip default-gateway ${d.gatewayMon}
-
-interface gigabitethernet9
-
-description ##CLIENTE##${d.description}
-
-switchport mode trunk
-switchport trunk allowed vlan add 152,${d.vlan}
-
-no macro auto smartport
-no shutdown
-
-exit
-
-interface gigabitethernet1
-
-description ##CLIENTE##${d.service}
-
-switchport mode access
-switchport access vlan ${d.vlan}
-
-no macro auto smartport
-no shutdown
-
-exit
-
-interface vlan 1
-shutdown
-
-exit
-
-snmp-server server
-
-snmp-server community TELECENTRO-${d.clientId} ro view Default
-snmp-server community CpeSnmpTlc!! ro view Default
-
-sntp server 192.168.15.74
-clock source sntp
-clock timezone 1 -3
-
-exit`;
-}
-
-/* =====================
-   GENERADOR SG3210
-===================== */
-
 function generateSG3210(d){
 
     /*
-     * Detectar si existe alguna interfaz QINQ
+     * ==========================================
+     * DETECTAR QINQ
+     * ==========================================
      */
 
     const hasQinq =
         d.interfaces.some(
-            intf => intf.type === "QINQ"
+            intf =>
+                intf.type === "QINQ"
         );
 
 
     /*
-     * Configuración inicial
+     * ==========================================
+     * CONFIGURACIÓN INICIAL
+     * ==========================================
      */
 
     let config = `enable
@@ -3036,7 +3091,9 @@ jumbo-size 9216
 
 
     /*
-     * QINQ global
+     * ==========================================
+     * QINQ GLOBAL
+     * ==========================================
      */
 
     if(hasQinq){
@@ -3047,6 +3104,12 @@ dot1q-tunnel
 
     }
 
+
+    /*
+     * ==========================================
+     * CONFIGURACIÓN GENERAL
+     * ==========================================
+     */
 
     config += `
 hostname CPE-SG3210-${d.clientId}
@@ -3081,68 +3144,104 @@ exit
 
 
     /*
-     * Configuración de interfaces de cliente
+     * ==========================================
+     * INTERFACES DE CLIENTE
+     * ==========================================
      */
 
-    d.interfaces.forEach(intf => {
-
-        const vlan =
-            intf.same
-                ? d.vlan
-                : intf.vlan;
-
-        const description =
-            intf.same
-                ? d.service
-                : intf.description;
+    d.interfaces.forEach(
+        intf => {
 
 
-        config += `
+            /*
+             * VLAN utilizada
+             *
+             * 1/0/1:
+             * utiliza siempre d.vlan
+             *
+             * Adicional:
+             * misma VLAN -> d.vlan
+             * diferente -> intf.vlan
+             */
+
+            const vlan =
+                intf.same
+                    ? d.vlan
+                    : intf.vlan;
+
+
+            /*
+             * Descripción utilizada
+             */
+
+            const description =
+                intf.same
+                    ? d.service
+                    : intf.description;
+
+
+            /*
+             * Interfaz
+             */
+
+            config += `
 
 interface gigabitEthernet ${intf.port}
 description ${d.clientId}-${description}
 `;
 
 
-        /*
-         * ACCESS
-         */
+            /*
+             * ==================================
+             * ACCESS
+             * ==================================
+             */
 
-        if(intf.type === "ACCESS"){
+            if(
+                intf.type === "ACCESS"
+            ){
 
-            config +=
+                config +=
 `switchport general allowed vlan ${vlan} untagged
 switchport pvid ${vlan}
 spanning-tree bpduguard
 exit
 `;
 
-        }
+            }
 
 
-        /*
-         * TRUNK
-         */
+            /*
+             * ==================================
+             * TRUNK
+             * ==================================
+             */
 
-        else if(intf.type === "TRUNK"){
+            else if(
+                intf.type === "TRUNK"
+            ){
 
-            config +=
+                config +=
 `switchport general allowed vlan ${vlan} tagged
 switchport pvid ${vlan}
 spanning-tree bpduguard
 exit
 `;
 
-        }
+            }
 
 
-        /*
-         * QINQ
-         */
+            /*
+             * ==================================
+             * QINQ
+             * ==================================
+             */
 
-        else if(intf.type === "QINQ"){
+            else if(
+                intf.type === "QINQ"
+            ){
 
-            config +=
+                config +=
 `switchport general allowed vlan ${vlan} untagged
 switchport general allowed vlan all
 switchport pvid ${vlan}
@@ -3151,13 +3250,16 @@ spanning-tree bpduguard
 exit
 `;
 
-        }
+            }
 
-    });
+        }
+    );
 
 
     /*
-     * VLANs que deben viajar por el uplink 1/0/9
+     * ==========================================
+     * VLANs PARA EL UPLINK 1/0/9
+     * ==========================================
      */
 
     const uplinkVlans = [];
@@ -3170,40 +3272,51 @@ exit
     const mainVlan =
         String(d.vlan).trim();
 
+
     if(
         mainVlan !== "" &&
-        !uplinkVlans.includes(mainVlan)
+        !uplinkVlans.includes(
+            mainVlan
+        )
     ){
 
-        uplinkVlans.push(mainVlan);
+        uplinkVlans.push(
+            mainVlan
+        );
 
     }
 
 
     /*
-     * VLANs de todas las interfaces
+     * VLANs de las interfaces
      */
 
-    d.interfaces.forEach(intf => {
+    d.interfaces.forEach(
+        intf => {
 
-        const vlan =
-            String(
-                intf.same
-                    ? d.vlan
-                    : intf.vlan
-            ).trim();
+            const vlan =
+                String(
+                    intf.same
+                        ? d.vlan
+                        : intf.vlan
+                ).trim();
 
 
-        if(
-            vlan !== "" &&
-            !uplinkVlans.includes(vlan)
-        ){
+            if(
+                vlan !== "" &&
+                !uplinkVlans.includes(
+                    vlan
+                )
+            ){
 
-            uplinkVlans.push(vlan);
+                uplinkVlans.push(
+                    vlan
+                );
+
+            }
 
         }
-
-    });
+    );
 
 
     /*
@@ -3211,11 +3324,16 @@ exit
      */
 
     const uplinkVlanList =
-        ["152", ...uplinkVlans].join(",");
+        [
+            "152",
+            ...uplinkVlans
+        ].join(",");
 
 
     /*
-     * Uplink 1/0/9
+     * ==========================================
+     * UPLINK 1/0/9
+     * ==========================================
      */
 
     config += `
@@ -3228,8 +3346,9 @@ switchport pvid ${d.vlan}
 
 
     /*
-     * Si existe alguna interfaz QINQ,
-     * el uplink funciona como NNI
+     * ==========================================
+     * NNI PARA QINQ
+     * ==========================================
      */
 
     if(hasQinq){
@@ -3248,7 +3367,9 @@ exit
 
 
     /*
-     * Configuración final
+     * ==========================================
+     * CONFIGURACIÓN FINAL
+     * ==========================================
      */
 
     config += `
@@ -3257,17 +3378,12 @@ interface vlan 1
 shutdown
 exit
 
-spanning-tree
-spanning-tree mode rstp
-
-system-time ntp UTC-03:00 192.168.15.74 192.168.15.74 12
-
 end
-
-copy running-config startup-config`;
+`;
 
 
     return config;
+
 }
 
 /* =====================
