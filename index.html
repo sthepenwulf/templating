@@ -1336,7 +1336,7 @@ function showUserAdmin(){
 
 
             <table style="
-                width:100%;
+                width:100%;    
                 border-collapse:collapse;
                 margin-bottom:20px;
             ">
@@ -1908,52 +1908,54 @@ function autoResizeTextarea(){
 
 function createField(field){
 
+    // TIPO DE INTERFAZ
+    if(field.id === "interfaceType"){
+
+        return `
+            <div class="form-group">
+
+                <label>
+                    ${field.label}
+                </label>
+
+                <select id="${field.id}">
+
+                    <option value="ACCESS">
+                        ACCESS
+                    </option>
+
+                    <option value="TRUNK">
+                        TRUNK
+                    </option>
+
+                    <option value="QINQ">
+                        QINQ
+                    </option>
+
+                </select>
+
+            </div>
+        `;
+    }
+
+    // CAMPOS NORMALES
     const placeholder =
         field.placeholder ||
         field.label;
 
     return `
-    <div class="form-group">
-
-        <label>
-            ${field.label}
-        </label>
-
-        <input
-            id="${field.id}"
-            placeholder="${placeholder}">
-
-    </div>
-    `;
-    if(field === "interfaceType"){
-
-    return `
         <div class="form-group">
 
             <label>
-                Tipo de interfaz
+                ${field.label}
             </label>
 
-            <select
-                id="interfaceType">
-
-                <option value="ACCESS">
-                    ACCESS
-                </option>
-
-                <option value="TRUNK">
-                    TRUNK
-                </option>
-
-                <option value="QINQ">
-                    QINQ
-                </option>
-
-            </select>
+            <input
+                id="${field.id}"
+                placeholder="${placeholder}">
 
         </div>
     `;
-}
 }
 
 function applyValidators(){
