@@ -2823,18 +2823,15 @@ function createSG3210InterfaceSelector(){
                     Configuración
                 </label>
 
-                <select
-                    class="sg3210-config-mode">
-
-                    <option value="same">
-                        Misma VLAN y descripción
-                    </option>
-
-                    <option value="different">
-                        VLAN y descripción diferentes
-                    </option>
-
-                </select>
+                ${port !== 1 ? `
+    <div class="interface-config">
+        <label>Configuración</label>
+        <select class="interface-mode" data-port="${port}">
+            <option value="same">Misma VLAN</option>
+            <option value="different">VLAN diferente</option>
+        </select>
+    </div>
+` : ''}
 
 
                 <div
