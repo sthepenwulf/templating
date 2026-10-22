@@ -914,11 +914,35 @@ localStorage.setItem(
 return users;
 }
 
+function generateTemporaryPassword(length = 10){
+
+    const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ" +
+        "abcdefghijkmnopqrstuvwxyz" +
+        "23456789";
+
+    const array =
+        new Uint32Array(length);
+
+    crypto.getRandomValues(array);
+
+    let password = "";
+
+    for(let i = 0; i < length; i++){
+
+        password +=
+            chars[
+                array[i] % chars.length
+            ];
+    }
+
+    return password;
+}
+
+
 function addUser(
     username,
-    password,
     role = "Operador"
-    
 ){
 
     const users =
@@ -933,9 +957,12 @@ function addUser(
         return false;
     }
 
+    const temporaryPassword =
+        generateTemporaryPassword();
+
     users.push({
         user:username,
-        password:password,
+        password:temporaryPassword,
         role:role,
         mustChangePassword:true
     });
@@ -945,7 +972,7 @@ function addUser(
         JSON.stringify(users)
     );
 
-    return true;
+    return temporaryPassword;
 }
 
     function deleteUser(index) {
@@ -1482,32 +1509,7 @@ function createNewUser(){
                 </div>
 
 
-                <!-- CONTRASEÑA -->
-
-                <div>
-                    <label style="
-                        display:block;
-                        margin-bottom:6px;
-                        font-weight:600;
-                    ">
-                        Contraseña inicial
-                    </label>
-
-                    <input
-                        id="newUserPassword"
-                        type="password"
-                        placeholder="Mínimo 8 caracteres - cambiar en 1er login"
-                        autocomplete="new-password"
-                        style="
-                            width:100%;
-                            height:42px;
-                            padding:0 12px;
-                            border:1px solid var(--border);
-                            border-radius:8px;
-                            background:var(--card);
-                            color:var(--text);
-                        ">
-                </div>
+                
 
 
                 <!-- ROL -->
@@ -1602,99 +1604,282 @@ function createNewUser(){
 
     // CREAR USUARIO
 
-    document
-        .getElementById("confirmCreateUser")
-        .onclick = () => {
+document
+    .getElementById("confirmCreateUser")
+    .onclick = () => {
 
-            const username =
-                document
-                    .getElementById("newUsername")
-                    .value
-                    .trim();
+        const username =
+            document
+                .getElementById("newUsername")
+                .value
+                .trim();
 
-            const password =
-                document
-                    .getElementById("newUserPassword")
-                    .value;
-
-            const role =
-                document
-                    .getElementById("newUserRole")
-                    .value;
+        const role =
+            document
+                .getElementById("newUserRole")
+                .value;
 
 
-            // Validar usuario
+        // Validar usuario
 
-            if(!username){
-
-                alert(
-                    "Debe ingresar un nombre de usuario."
-                );
-
-                return;
-            }
-
-
-            // Validar contraseña
-
-            if(!password){
-
-                alert(
-                    "Debe ingresar una contraseña."
-                );
-
-                return;
-            }
-
-
-            if(password.length < 8){
-
-                alert(
-                    "La contraseña debe tener al menos 8 caracteres."
-                );
-
-                return;
-            }
-
-
-            // Crear usuario
-
-            const created =
-                addUser(
-                    username,
-                    password,
-                    role
-                );
-
-
-            if(!created){
-
-                alert(
-                    `El usuario "${username}" ya existe.`
-                );
-
-                return;
-            }
-
+        if(!username){
 
             alert(
-                `Usuario "${username}" creado correctamente.`
+                "Debe ingresar un nombre de usuario."
+            );
+
+            return;
+        }
+
+
+        // Crear usuario con contraseña aleatoria
+
+        const temporaryPassword =
+            addUser(
+                username,
+                role
             );
 
 
-            // Cerrar formulario de creación
+        if(!temporaryPassword){
+
+            alert(
+                `El usuario "${username}" ya existe.`
+            );
+
+            return;
+        }
+
+
+        // Cerrar formulario de creación
+
+        overlay.remove();
+
+
+        // Mostrar contraseña temporal
+
+        showTemporaryPassword(
+            username,
+            temporaryPassword
+        );
+    };
+
+}
+
+    function showTemporaryPassword(
+    username,
+    temporaryPassword
+){
+
+    const overlay =
+        document.createElement("div");
+
+    overlay.id =
+        "temporaryPasswordOverlay";
+
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.65);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        z-index:10002;
+    `;
+
+
+    overlay.innerHTML = `
+
+        <div style="
+            width:450px;
+            max-width:90%;
+            background:var(--card);
+            color:var(--text);
+            border-radius:12px;
+            padding:25px;
+            box-shadow:0 10px 40px rgba(0,0,0,.3);
+        ">
+
+            <h2 style="
+                margin-bottom:15px;
+            ">
+                Usuario creado
+            </h2>
+
+
+            <p style="
+                margin-bottom:20px;
+            ">
+                El usuario fue creado correctamente.
+                Guarde la contraseña temporal.
+            </p>
+
+
+            <div style="
+                margin-bottom:15px;
+            ">
+
+                <label style="
+                    display:block;
+                    margin-bottom:6px;
+                    font-weight:600;
+                ">
+                    Usuario
+                </label>
+
+                <input
+                    type="text"
+                    value="${username}"
+                    readonly
+                    style="
+                        width:100%;
+                        height:42px;
+                        padding:0 12px;
+                        border:1px solid var(--border);
+                        border-radius:8px;
+                        background:var(--card);
+                        color:var(--text);
+                    ">
+
+            </div>
+
+
+            <div style="
+                margin-bottom:15px;
+            ">
+
+                <label style="
+                    display:block;
+                    margin-bottom:6px;
+                    font-weight:600;
+                ">
+                    Contraseña temporal
+                </label>
+
+                <input
+                    id="temporaryPasswordValue"
+                    type="text"
+                    value="${temporaryPassword}"
+                    readonly
+                    style="
+                        width:100%;
+                        height:42px;
+                        padding:0 12px;
+                        border:1px solid var(--border);
+                        border-radius:8px;
+                        background:var(--card);
+                        color:var(--text);
+                        font-family:monospace;
+                        font-size:18px;
+                        font-weight:bold;
+                        letter-spacing:1px;
+                    ">
+
+            </div>
+
+
+            <div style="
+                padding:12px;
+                margin-bottom:20px;
+                border:1px solid var(--border);
+                border-radius:8px;
+            ">
+
+                El usuario deberá cambiar esta contraseña
+                en su primer inicio de sesión.
+
+            </div>
+
+
+            <div style="
+                display:flex;
+                gap:10px;
+                justify-content:flex-end;
+            ">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="copyTemporaryPassword">
+
+                    Copiar contraseña
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="closeTemporaryPassword">
+
+                    Cerrar
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    // COPIAR CONTRASEÑA
+
+    document
+        .getElementById(
+            "copyTemporaryPassword"
+        )
+        .onclick = async () => {
+
+            try{
+
+                await navigator.clipboard.writeText(
+                    temporaryPassword
+                );
+
+                alert(
+                    "Contraseña copiada al portapapeles."
+                );
+
+            }
+            catch{
+
+                const input =
+                    document.getElementById(
+                        "temporaryPasswordValue"
+                    );
+
+                input.select();
+
+                document.execCommand(
+                    "copy"
+                );
+
+                alert(
+                    "Contraseña copiada al portapapeles."
+                );
+            }
+        };
+
+
+    // CERRAR
+
+    document
+        .getElementById(
+            "closeTemporaryPassword"
+        )
+        .onclick = () => {
 
             overlay.remove();
-
-
-            // Actualizar ventana de administración
 
             closeUserAdmin();
 
             showUserAdmin();
-
         };
-
 }
 
 
