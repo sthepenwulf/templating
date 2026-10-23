@@ -479,6 +479,81 @@ body{
 
 }
 
+    /* =========================
+   FERIADOS
+========================= */
+
+.holiday-container{
+    grid-column:1 / -1;
+    width:100%;
+}
+
+.holiday-toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.holiday-toolbar label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:600;
+}
+
+.holiday-toolbar select{
+    min-width:120px;
+    height:42px;
+    padding:0 12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--card);
+    color:var(--text);
+}
+
+.holiday-table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+.holiday-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.holiday-table th{
+    padding:12px;
+    text-align:left;
+    border-bottom:2px solid var(--border);
+    white-space:nowrap;
+}
+
+.holiday-cell{
+    padding:10px;
+    border-bottom:1px solid var(--border);
+    vertical-align:middle;
+}
+
+.holiday-date{
+    white-space:nowrap;
+    font-weight:600;
+}
+
+.holiday-name{
+    min-width:260px;
+}
+
+.holiday-operator{
+    width:100%;
+    min-width:150px;
+    height:38px;
+    padding:0 8px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    background:var(--card);
+    color:var(--text);
+}
 
 </style>
 </head>
@@ -683,6 +758,16 @@ onclick="loadTemplate('mediant')">
 Mediant 800
 </button>
 
+    <div class="sidebar-title">
+Operaciones
+</div>
+
+<button
+    class="nav-item"
+    onclick="showHolidays()">
+    📅 Feriados
+</button>
+
 </aside>
 
 <main class="content">
@@ -703,7 +788,9 @@ class="form-grid">
 </div>
 
 </div>
-<div class="card">
+<div
+    class="card"
+    id="templateActionsCard">
 
     <div class="actions">
 
@@ -1882,7 +1969,495 @@ document
         };
 }
 
+/* =====================
+   FERIADOS
+===================== */
 
+const holidays = {
+
+    2026: [
+
+        {
+            date:"2026-01-01",
+            name:"Año Nuevo"
+        },
+
+        {
+            date:"2026-02-16",
+            name:"Carnaval"
+        },
+
+        {
+            date:"2026-02-17",
+            name:"Carnaval"
+        },
+
+        {
+            date:"2026-03-23",
+            name:"Día no laborable con fines turísticos"
+        },
+
+        {
+            date:"2026-03-24",
+            name:"Día Nacional de la Memoria por la Verdad y la Justicia"
+        },
+
+        {
+            date:"2026-04-02",
+            name:"Día del Veterano y de los Caídos en la Guerra de Malvinas"
+        },
+
+        {
+            date:"2026-04-03",
+            name:"Viernes Santo"
+        },
+
+        {
+            date:"2026-05-01",
+            name:"Día del Trabajador"
+        },
+
+        {
+            date:"2026-05-25",
+            name:"Día de la Revolución de Mayo"
+        },
+
+        {
+            date:"2026-06-15",
+            name:"Paso a la Inmortalidad del Gral. Martín Miguel de Güemes"
+        },
+
+        {
+            date:"2026-06-20",
+            name:"Paso a la Inmortalidad del Gral. Manuel Belgrano"
+        },
+
+        {
+            date:"2026-07-09",
+            name:"Día de la Independencia"
+        },
+
+        {
+            date:"2026-07-10",
+            name:"Día no laborable con fines turísticos"
+        },
+
+        {
+            date:"2026-08-17",
+            name:"Paso a la Inmortalidad del Gral. José de San Martín"
+        },
+
+        {
+            date:"2026-10-12",
+            name:"Día del Respeto a la Diversidad Cultural"
+        },
+
+        {
+            date:"2026-11-09",
+            name:"Visita de Su Santidad el Papa León XIV"
+        },
+
+        {
+            date:"2026-11-11",
+            name:"Visita de Su Santidad el Papa León XIV - Provincia de Buenos Aires"
+        },
+
+        {
+            date:"2026-11-23",
+            name:"Día de la Soberanía Nacional"
+        },
+
+        {
+            date:"2026-12-07",
+            name:"Día no laborable con fines turísticos"
+        },
+
+        {
+            date:"2026-12-08",
+            name:"Inmaculada Concepción de María"
+        },
+
+        {
+            date:"2026-12-25",
+            name:"Navidad"
+        }
+
+    ]
+
+};
+
+    function getHolidayShifts(){
+
+    return JSON.parse(
+        localStorage.getItem(
+            "telecentro_holiday_shifts"
+        )
+    ) || {};
+}
+
+
+function saveHolidayShifts(data){
+
+    localStorage.setItem(
+        "telecentro_holiday_shifts",
+        JSON.stringify(data)
+    );
+}
+
+    function getOperators(){
+
+    return getUsers()
+        .filter(
+            user =>
+                user.role === "Operador"
+        )
+        .sort(
+            (a, b) =>
+                a.user.localeCompare(b.user)
+        );
+}
+
+    function createOperatorOptions(selectedUser){
+
+    const operators =
+        getOperators();
+
+    let options = `
+        <option value="">
+            Sin asignar
+        </option>
+    `;
+
+    operators.forEach(operator => {
+
+        const selected =
+            operator.user === selectedUser
+                ? "selected"
+                : "";
+
+        options += `
+            <option
+                value="${operator.user}"
+                ${selected}>
+                ${operator.user}
+            </option>
+        `;
+    });
+
+    return options;
+}
+
+    function getHolidayDay(dateString){
+
+    const date =
+        new Date(
+            dateString + "T12:00:00"
+        );
+
+    const days = [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado"
+    ];
+
+    return days[
+        date.getDay()
+    ];
+}
+
+
+function formatHolidayDate(dateString){
+
+    const [
+        year,
+        month,
+        day
+    ] = dateString.split("-");
+
+    return `${day}/${month}/${year}`;
+}
+
+    function showHolidays(year = 2026){
+
+    currentTemplate = null;
+
+document
+    .getElementById("templateActionsCard")
+    .style.display = "none";
+        
+    const container =
+        document.getElementById(
+            "formContainer"
+        );
+
+    const title =
+        document.getElementById(
+            "templateTitle"
+        );
+
+    title.innerText =
+        "📅 Feriados";
+
+
+    const yearHolidays =
+        holidays[year] || [];
+
+    const saved =
+        getHolidayShifts();
+
+
+    let rows = "";
+
+
+    yearHolidays.forEach(holiday => {
+
+        const assignment =
+            saved[holiday.date] || {
+                am:"",
+                pm:"",
+                night:""
+            };
+
+
+        rows += `
+
+            <tr>
+
+                <td class="holiday-cell">
+                    ${getHolidayDay(holiday.date)}
+                </td>
+
+                <td class="holiday-cell holiday-date">
+                    ${formatHolidayDate(holiday.date)}
+                </td>
+
+                <td class="holiday-cell holiday-name">
+                    ${holiday.name}
+                </td>
+
+                <td class="holiday-cell">
+
+                    <select
+                        class="holiday-operator"
+                        data-date="${holiday.date}"
+                        data-shift="am">
+
+                        ${createOperatorOptions(
+                            assignment.am
+                        )}
+
+                    </select>
+
+                </td>
+
+
+                <td class="holiday-cell">
+
+                    <select
+                        class="holiday-operator"
+                        data-date="${holiday.date}"
+                        data-shift="pm">
+
+                        ${createOperatorOptions(
+                            assignment.pm
+                        )}
+
+                    </select>
+
+                </td>
+
+
+                <td class="holiday-cell">
+
+                    <select
+                        class="holiday-operator"
+                        data-date="${holiday.date}"
+                        data-shift="night">
+
+                        ${createOperatorOptions(
+                            assignment.night
+                        )}
+
+                    </select>
+
+                </td>
+
+            </tr>
+        `;
+    });
+
+
+    container.innerHTML = `
+
+        <div class="holiday-container">
+
+            <div class="holiday-toolbar">
+
+                <div>
+
+                    <label>
+                        Año
+                    </label>
+
+                    <select
+                        id="holidayYear"
+                        onchange="
+                            showHolidays(
+                                Number(this.value)
+                            )
+                        ">
+
+                        <option
+                            value="2026"
+                            ${
+                                year === 2026
+                                    ? "selected"
+                                    : ""
+                            }>
+                            2026
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    class="btn btn-primary"
+                    onclick="saveHolidayAssignments()">
+
+                    Guardar cambios
+
+                </button>
+
+            </div>
+
+
+            <div class="holiday-table-wrapper">
+
+                <table class="holiday-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Día
+                            </th>
+
+                            <th>
+                                Fecha
+                            </th>
+
+                            <th>
+                                Feriado
+                            </th>
+
+                            <th>
+                                Turno AM
+                            </th>
+
+                            <th>
+                                Turno PM
+                            </th>
+
+                            <th>
+                                Turno Noche
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${rows}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div
+                id="holidayMessage"
+                class="message">
+            </div>
+
+        </div>
+    `;
+}
+
+    function saveHolidayAssignments(){
+
+    const saved =
+        getHolidayShifts();
+
+
+    document
+        .querySelectorAll(
+            ".holiday-operator"
+        )
+        .forEach(select => {
+
+            const date =
+                select.dataset.date;
+
+            const shift =
+                select.dataset.shift;
+
+
+            if(!saved[date]){
+
+                saved[date] = {
+                    am:"",
+                    pm:"",
+                    night:""
+                };
+            }
+
+
+            saved[date][shift] =
+                select.value;
+
+        });
+
+
+    saveHolidayShifts(
+        saved
+    );
+
+
+    const message =
+        document.getElementById(
+            "holidayMessage"
+        );
+
+
+    message.className =
+        "message success";
+
+    message.innerText =
+        "Asignaciones guardadas correctamente.";
+
+
+    setTimeout(() => {
+
+        message.innerText = "";
+
+        message.className =
+            "message";
+
+    }, 3000);
+}
+
+    
 
 /* =====================
    UTILIDADES
