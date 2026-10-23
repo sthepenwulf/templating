@@ -2117,10 +2117,11 @@ function saveHolidayShifts(data){
         );
 }
 
-    function createOperatorOptions(selectedUser){
-
-    const operators =
-        getOperators();
+    function createOperatorOptions(
+    selectedUser,
+    isAdmin,
+    currentUsername
+){
 
     let options = `
         <option value="">
@@ -2128,21 +2129,55 @@ function saveHolidayShifts(data){
         </option>
     `;
 
-    operators.forEach(operator => {
 
-        const selected =
-            operator.user === selectedUser
-                ? "selected"
-                : "";
+    // ADMINISTRADOR
+    // Puede seleccionar cualquier operador
 
-        options += `
-            <option
-                value="${operator.user}"
-                ${selected}>
-                ${operator.user}
-            </option>
-        `;
-    });
+    if(isAdmin){
+
+        const operators =
+            getOperators();
+
+        operators.forEach(operator => {
+
+            const selected =
+                operator.user === selectedUser
+                    ? "selected"
+                    : "";
+
+            options += `
+                <option
+                    value="${operator.user}"
+                    ${selected}>
+
+                    ${operator.user}
+
+                </option>
+            `;
+        });
+
+        return options;
+    }
+
+
+    // OPERADOR
+    // Solamente puede seleccionarse a sí mismo
+
+    const selected =
+        currentUsername === selectedUser
+            ? "selected"
+            : "";
+
+    options += `
+        <option
+            value="${currentUsername}"
+            ${selected}>
+
+            ${currentUsername}
+
+        </option>
+    `;
+
 
     return options;
 }
@@ -2185,6 +2220,20 @@ function formatHolidayDate(dateString){
 
     currentTemplate = null;
 
+        const currentUser =
+    JSON.parse(
+        sessionStorage.getItem(
+            "currentUser"
+        )
+    );
+
+if(!currentUser){
+    return;
+}
+
+const isAdmin =
+    currentUser.role === "Administrador";
+
 document
     .getElementById("templateActionsCard")
     .style.display = "none";
@@ -2222,6 +2271,17 @@ document
                 night:""
             };
 
+        const amLocked =
+    !isAdmin &&
+    assignment.am !== "";
+
+const pmLocked =
+    !isAdmin &&
+    assignment.pm !== "";
+
+const nightLocked =
+    !isAdmin &&
+    assignment.night !== "";
 
         rows += `
 
@@ -2242,47 +2302,59 @@ document
                 <td class="holiday-cell">
 
                     <select
-                        class="holiday-operator"
-                        data-date="${holiday.date}"
-                        data-shift="am">
+    class="holiday-operator"
+    data-date="${holiday.date}"
+    data-shift="am"
+    data-original="${assignment.am}"
+    ${amLocked ? "disabled" : ""}>
 
-                        ${createOperatorOptions(
-                            assignment.am
-                        )}
+    ${createOperatorOptions(
+        assignment.am,
+        isAdmin,
+        currentUser.user
+    )}
 
-                    </select>
-
-                </td>
-
-
-                <td class="holiday-cell">
-
-                    <select
-                        class="holiday-operator"
-                        data-date="${holiday.date}"
-                        data-shift="pm">
-
-                        ${createOperatorOptions(
-                            assignment.pm
-                        )}
-
-                    </select>
+</select>
 
                 </td>
 
 
                 <td class="holiday-cell">
 
-                    <select
-                        class="holiday-operator"
-                        data-date="${holiday.date}"
-                        data-shift="night">
+                 <select
+    class="holiday-operator"
+    data-date="${holiday.date}"
+    data-shift="pm"
+    data-original="${assignment.pm}"
+    ${pmLocked ? "disabled" : ""}>
 
-                        ${createOperatorOptions(
-                            assignment.night
-                        )}
+    ${createOperatorOptions(
+        assignment.pm,
+        isAdmin,
+        currentUser.user
+    )}
 
-                    </select>
+</select>
+
+                </td>
+
+
+                <td class="holiday-cell">
+
+                   <select
+    class="holiday-operator"
+    data-date="${holiday.date}"
+    data-shift="night"
+    data-original="${assignment.night}"
+    ${nightLocked ? "disabled" : ""}>
+
+    ${createOperatorOptions(
+        assignment.night,
+        isAdmin,
+        currentUser.user
+    )}
+
+</select>
 
                 </td>
 
@@ -2392,6 +2464,28 @@ document
 
         </div>
     `;
+
+        if(!isAdmin){
+
+    document
+        .querySelectorAll(
+            ".holiday-operator:not(:disabled)"
+        )
+        .forEach(select => {
+
+            select.addEventListener(
+                "change",
+                function(){
+
+                    confirmOperatorHolidayAssignment(
+                        this
+                    );
+
+                }
+            );
+
+        });
+}
 }
 
     function saveHolidayAssignments(){
@@ -2457,6 +2551,125 @@ document
     }, 3000);
 }
 
+    function confirmOperatorHolidayAssignment(
+    select
+){
+
+    const currentUser =
+        JSON.parse(
+            sessionStorage.getItem(
+                "currentUser"
+            )
+        );
+
+
+    if(
+        !currentUser ||
+        currentUser.role === "Administrador"
+    ){
+        return;
+    }
+
+
+    // Si vuelve a "Sin asignar",
+    // simplemente no hacemos nada.
+
+    if(select.value === ""){
+
+        return;
+    }
+
+
+    const date =
+        select.dataset.date;
+
+    const shift =
+        select.dataset.shift;
+
+
+    const shiftNames = {
+        am:"Turno AM",
+        pm:"Turno PM",
+        night:"Turno Noche"
+    };
+
+
+    const confirmed =
+        confirm(
+            `¿Está seguro de asignarse al ${shiftNames[shift]} ` +
+            `del ${formatHolidayDate(date)}?\n\n` +
+            `Una vez confirmado no podrá modificar esta asignación.`
+        );
+
+
+    if(!confirmed){
+
+        select.value =
+            select.dataset.original || "";
+
+        return;
+    }
+
+
+    // Guardar inmediatamente.
+    // No esperamos al botón "Guardar cambios".
+
+    const saved =
+        getHolidayShifts();
+
+
+    if(!saved[date]){
+
+        saved[date] = {
+            am:"",
+            pm:"",
+            night:""
+        };
+    }
+
+
+    // Verificar nuevamente que siga libre.
+
+    if(saved[date][shift]){
+
+        alert(
+            "Este turno ya fue asignado a otro operador."
+        );
+
+        showHolidays(
+            Number(
+                document.getElementById(
+                    "holidayYear"
+                ).value
+            )
+        );
+
+        return;
+    }
+
+
+    saved[date][shift] =
+        currentUser.user;
+
+
+    saveHolidayShifts(
+        saved
+    );
+
+
+    alert(
+        "Turno asignado correctamente."
+    );
+
+
+    // Recargar para que quede bloqueado
+
+    showHolidays(
+        Number(
+            date.substring(0, 4)
+        )
+    );
+}
     
 
 /* =====================
