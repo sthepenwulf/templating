@@ -3510,12 +3510,12 @@ const templates = {
    LOAD TEMPLATE
 ===================== */
 
-function loadTemplate(
+function loadTemplate(templateName){
 
     if(templateName === "vpn" || templateName === "qinq"){
-    showError("Esta plantilla todavía no está habilitada.");
-    return;
-}
+        showError("Esta plantilla todavía no está habilitada.");
+        return;
+    }
 
     const hayDatos =
         Array.from(
