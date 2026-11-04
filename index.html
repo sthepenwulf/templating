@@ -4027,6 +4027,23 @@ function generateSG350(d){
 
 return `conf t
 
+banner login #
+  _______   _                     _             
+ |__   __| | |                   | |            
+    | | ___| | ___  ___ ___ _ __ | |_ _ __ ___  
+    | |/ _ \ |/ _ \/ __/ _ \ '_ \| __| '__/ _ \ 
+    | |  __/ |  __/ (_|  __/ | | | |_| | | (_) |
+    |_|\___|_|\___|\___\___|_| |_|\__|_|  \___/ 
+                                                
+Este sistema es propiedad de Telecentro S.A.
+ESTA PROHIBIDO EL ACCESO A PERSONAL NO AUTORIZADO.
+Ud. debe  tener permiso explicito para acceder a este
+equipo.  Todas las actividades son monitoreadas y re-
+gistradas. Cualquier violacion de acceso resultara en
+acciones legales.
+-----------------------------------------------------
+#
+
 hostname CPE-SG350-${d.clientId}
 
 username telecentro privilege 15 password Inst4l4c10n3s
