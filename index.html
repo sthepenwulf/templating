@@ -3190,10 +3190,6 @@ const templates = {
                 label:"VLAN"
             },
 
-            {
-                id:"description",
-                label:"Descripcion"
-            },
 
             {
                 id:"service",
@@ -4060,27 +4056,19 @@ exit
 ip default-gateway ${d.gatewayMon}
 
 interface gigabitethernet9
-
-description ##CLIENTE##${d.description}
-
+description ##CLIENTE##LINK-A-PE
 switchport mode trunk
 switchport trunk allowed vlan add 152,${d.vlan}
-
 no macro auto smartport
 no shutdown
-
 exit
 
 interface gigabitethernet1
-
 description ##CLIENTE##${d.service}
-
 switchport mode access
 switchport access vlan ${d.vlan}
-
 no macro auto smartport
 no shutdown
-
 exit
 
 interface vlan 1
