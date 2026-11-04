@@ -555,6 +555,11 @@ body{
     color:var(--text);
 }
 
+.nav-item:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+}
+
 </style>
 </head>
 
@@ -725,14 +730,12 @@ onclick="loadTemplate('sg350')">
 SG350 ADI/TLS
 </button>
 
-<button class="nav-item"
-onclick="loadTemplate('vpn')">
-SG350 VPN
+<button class="nav-item" disabled>
+    SG350 VPN (Pendiente)
 </button>
 
-<button class="nav-item"
-onclick="loadTemplate('qinq')">
-SG350 QinQ
+<button class="nav-item" disabled>
+    SG350 QinQ (Pendiente)
 </button>
 
 <div class="sidebar-title">
@@ -1070,7 +1073,11 @@ function addUser(
         return;
     }
 
-    const currentUser = sessionStorage.getItem("telecentro_user");
+    const session = JSON.parse(
+    sessionStorage.getItem("currentUser") || "null"
+);
+
+const currentUser = session?.user;
     const userToDelete = users[index].user;
 
     // No permitir eliminarse a sí mismo
@@ -1094,6 +1101,9 @@ function addUser(
 
     
 }
+
+    closeUserAdmin();
+showUserAdmin();
 
 /* =====================
    LOGIN
@@ -2488,67 +2498,45 @@ const nightLocked =
 }
 }
 
+
     function saveHolidayAssignments(){
 
-    const saved =
-        getHolidayShifts();
-
-
-    document
-        .querySelectorAll(
-            ".holiday-operator"
-        )
-        .forEach(select => {
-
-            const date =
-                select.dataset.date;
-
-            const shift =
-                select.dataset.shift;
-
-
-            if(!saved[date]){
-
-                saved[date] = {
-                    am:"",
-                    pm:"",
-                    night:""
-                };
-            }
-
-
-            saved[date][shift] =
-                select.value;
-
-        });
-
-
-    saveHolidayShifts(
-        saved
+    const currentUser = JSON.parse(
+        sessionStorage.getItem("currentUser") || "null"
     );
 
+    if(!currentUser || currentUser.role !== "Administrador"){
+        showError("Solo un Administrador puede guardar cambios generales.");
+        return;
+    }
 
-    const message =
-        document.getElementById(
-            "holidayMessage"
-        );
+    const saved = getHolidayShifts();
 
+    document.querySelectorAll(
+        ".holiday-operator:not(:disabled)"
+    ).forEach(select => {
 
-    message.className =
-        "message success";
+        const date = select.dataset.date;
+        const shift = select.dataset.shift;
 
-    message.innerText =
-        "Asignaciones guardadas correctamente.";
+        if(!saved[date]){
+            saved[date] = {
+                am:"",
+                pm:"",
+                night:""
+            };
+        }
 
+        saved[date][shift] = select.value;
+    });
 
-    setTimeout(() => {
+    saveHolidayShifts(saved);
 
-        message.innerText = "";
+    const message = document.getElementById("holidayMessage");
 
-        message.className =
-            "message";
+    message.className = "message success";
+    message.innerText = "Asignaciones guardadas correctamente.";
 
-    }, 3000);
 }
 
     function confirmOperatorHolidayAssignment(
@@ -3524,6 +3512,11 @@ const templates = {
 ===================== */
 
 function loadTemplate(
+
+    if(templateName === "vpn" || templateName === "qinq"){
+    showError("Esta plantilla todavía no está habilitada.");
+    return;
+}
     templateName
 ){
 
@@ -3563,6 +3556,8 @@ function loadTemplate(
 
     currentTemplate =
         templateName;
+
+    document.getElementById("templateActionsCard").style.display = "block";
 
     const tpl =
         templates[
@@ -4032,7 +4027,85 @@ function createSG3210InterfaceSelector(){
 }
 
 /* =====================
-   GENERADOR SG350
+   GENERADOR SG350 ADI/TLS
+===================== */
+
+function generateSG350(d){
+
+return `conf t
+
+hostname CPE-SG350-${d.clientId}
+
+username telecentro privilege 15 password Inst4l4c10n3s
+username backups privilege 15 password c0rp0backup!
+
+enable password Inst4l4c10n3s
+
+ip ssh server
+
+ip ssh-client username telecentro
+ip ssh-client password Inst4l4c10n3s
+
+ip access-list extended 152
+
+permit ip 192.168.0.0 0.0.255.255 any
+permit ip 10.210.0.0 0.0.255.255 any
+deny ip any any
+
+vlan 152
+vlan ${d.vlan}
+
+interface vlan 152
+name MONITORIA-CPE
+ip address ${d.ipMon} ${d.maskMon}
+exit
+
+ip default-gateway ${d.gatewayMon}
+
+interface gigabitethernet9
+
+description ##CLIENTE##${d.description}
+
+switchport mode trunk
+switchport trunk allowed vlan add 152,${d.vlan}
+
+no macro auto smartport
+no shutdown
+
+exit
+
+interface gigabitethernet1
+
+description ##CLIENTE##${d.service}
+
+switchport mode access
+switchport access vlan ${d.vlan}
+
+no macro auto smartport
+no shutdown
+
+exit
+
+interface vlan 1
+shutdown
+
+exit
+
+snmp-server server
+
+snmp-server community TELECENTRO-${d.clientId} ro view Default
+snmp-server community CpeSnmpTlc!! ro view Default
+
+sntp server 192.168.15.74
+clock source sntp
+clock timezone 1 -3
+
+exit
+`;
+}
+    
+/* =====================
+   GENERADOR SG3210
 ===================== */
 
 function generateSG3210(d){
