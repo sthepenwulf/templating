@@ -730,13 +730,6 @@ onclick="loadTemplate('sg350')">
 SG350 ADI/TLS
 </button>
 
-<button class="nav-item" disabled>
-    SG350 VPN (Pendiente)
-</button>
-
-<button class="nav-item" disabled>
-    SG350 QinQ (Pendiente)
-</button>
 
 <div class="sidebar-title">
 Routers
@@ -2225,51 +2218,56 @@ function formatHolidayDate(dateString){
     return `${day}/${month}/${year}`;
 }
 
-    function showHolidays(year = 2026){
+    ```javascript
+function showHolidays(year = 2026){
 
     currentTemplate = null;
 
-        const currentUser =
-    JSON.parse(
-        sessionStorage.getItem(
-            "currentUser"
-        )
-    );
-
-if(!currentUser){
-    return;
-}
-
-const isAdmin =
-    currentUser.role === "Administrador";
-
-document
-    .getElementById("templateActionsCard")
-    .style.display = "none";
-        
-    const container =
-        document.getElementById(
-            "formContainer"
+    const currentUser =
+        JSON.parse(
+            sessionStorage.getItem("currentUser")
         );
+
+    if(!currentUser){
+        return;
+    }
+
+    const isAdmin =
+        currentUser.role === "Administrador";
+
+    document
+        .getElementById("templateActionsCard")
+        .style.display = "none";
+
+    const container =
+        document.getElementById("formContainer");
 
     const title =
-        document.getElementById(
-            "templateTitle"
-        );
+        document.getElementById("templateTitle");
 
-    title.innerText =
-        "📅 Feriados";
+    title.innerText = "📅 Feriados";
 
+    // Obtener fecha actual sin considerar la hora
+    const today = new Date();
 
+    today.setHours(0, 0, 0, 0);
+
+    const todayString = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, "0"),
+        String(today.getDate()).padStart(2, "0")
+    ].join("-");
+
+    // Filtrar feriados: mostrar solamente hoy y fechas futuras
     const yearHolidays =
-        holidays[year] || [];
+        (holidays[year] || []).filter(holiday =>
+            holiday.date >= todayString
+        );
 
     const saved =
         getHolidayShifts();
 
-
     let rows = "";
-
 
     yearHolidays.forEach(holiday => {
 
@@ -2281,16 +2279,13 @@ document
             };
 
         const amLocked =
-    !isAdmin &&
-    assignment.am !== "";
+            !isAdmin && assignment.am !== "";
 
-const pmLocked =
-    !isAdmin &&
-    assignment.pm !== "";
+        const pmLocked =
+            !isAdmin && assignment.pm !== "";
 
-const nightLocked =
-    !isAdmin &&
-    assignment.night !== "";
+        const nightLocked =
+            !isAdmin && assignment.night !== "";
 
         rows += `
 
@@ -2311,66 +2306,63 @@ const nightLocked =
                 <td class="holiday-cell">
 
                     <select
-    class="holiday-operator"
-    data-date="${holiday.date}"
-    data-shift="am"
-    data-original="${assignment.am}"
-    ${amLocked ? "disabled" : ""}>
+                        class="holiday-operator"
+                        data-date="${holiday.date}"
+                        data-shift="am"
+                        data-original="${assignment.am}"
+                        ${amLocked ? "disabled" : ""}>
 
-    ${createOperatorOptions(
-        assignment.am,
-        isAdmin,
-        currentUser.user
-    )}
+                        ${createOperatorOptions(
+                            assignment.am,
+                            isAdmin,
+                            currentUser.user
+                        )}
 
-</select>
-
-                </td>
-
-
-                <td class="holiday-cell">
-
-                 <select
-    class="holiday-operator"
-    data-date="${holiday.date}"
-    data-shift="pm"
-    data-original="${assignment.pm}"
-    ${pmLocked ? "disabled" : ""}>
-
-    ${createOperatorOptions(
-        assignment.pm,
-        isAdmin,
-        currentUser.user
-    )}
-
-</select>
+                    </select>
 
                 </td>
 
+                <td class="holiday-cell">
+
+                    <select
+                        class="holiday-operator"
+                        data-date="${holiday.date}"
+                        data-shift="pm"
+                        data-original="${assignment.pm}"
+                        ${pmLocked ? "disabled" : ""}>
+
+                        ${createOperatorOptions(
+                            assignment.pm,
+                            isAdmin,
+                            currentUser.user
+                        )}
+
+                    </select>
+
+                </td>
 
                 <td class="holiday-cell">
 
-                   <select
-    class="holiday-operator"
-    data-date="${holiday.date}"
-    data-shift="night"
-    data-original="${assignment.night}"
-    ${nightLocked ? "disabled" : ""}>
+                    <select
+                        class="holiday-operator"
+                        data-date="${holiday.date}"
+                        data-shift="night"
+                        data-original="${assignment.night}"
+                        ${nightLocked ? "disabled" : ""}>
 
-    ${createOperatorOptions(
-        assignment.night,
-        isAdmin,
-        currentUser.user
-    )}
+                        ${createOperatorOptions(
+                            assignment.night,
+                            isAdmin,
+                            currentUser.user
+                        )}
 
-</select>
+                    </select>
 
                 </td>
 
             </tr>
         `;
     });
-
 
     container.innerHTML = `
 
@@ -2406,7 +2398,6 @@ const nightLocked =
 
                 </div>
 
-
                 <button
                     class="btn btn-primary"
                     onclick="saveHolidayAssignments()">
@@ -2417,7 +2408,6 @@ const nightLocked =
 
             </div>
 
-
             <div class="holiday-table-wrapper">
 
                 <table class="holiday-table">
@@ -2425,35 +2415,15 @@ const nightLocked =
                     <thead>
 
                         <tr>
-
-                            <th>
-                                Día
-                            </th>
-
-                            <th>
-                                Fecha
-                            </th>
-
-                            <th>
-                                Feriado
-                            </th>
-
-                            <th>
-                                Turno AM
-                            </th>
-
-                            <th>
-                                Turno PM
-                            </th>
-
-                            <th>
-                                Turno Noche
-                            </th>
-
+                            <th>Día</th>
+                            <th>Fecha</th>
+                            <th>Feriado</th>
+                            <th>Turno AM</th>
+                            <th>Turno PM</th>
+                            <th>Turno Noche</th>
                         </tr>
 
                     </thead>
-
 
                     <tbody>
 
@@ -2465,7 +2435,6 @@ const nightLocked =
 
             </div>
 
-
             <div
                 id="holidayMessage"
                 class="message">
@@ -2474,28 +2443,29 @@ const nightLocked =
         </div>
     `;
 
-        if(!isAdmin){
+    if(!isAdmin){
 
-    document
-        .querySelectorAll(
-            ".holiday-operator:not(:disabled)"
-        )
-        .forEach(select => {
+        document
+            .querySelectorAll(
+                ".holiday-operator:not(:disabled)"
+            )
+            .forEach(select => {
 
-            select.addEventListener(
-                "change",
-                function(){
+                select.addEventListener(
+                    "change",
+                    function(){
 
-                    confirmOperatorHolidayAssignment(
-                        this
-                    );
+                        confirmOperatorHolidayAssignment(
+                            this
+                        );
 
-                }
-            );
+                    }
+                );
 
-        });
+            });
+    }
 }
-}
+
 
 
     function saveHolidayAssignments(){
@@ -3201,107 +3171,7 @@ const templates = {
     },
 
 
-    vpn:{
-
-        title:
-        "SG350 VPN",
-
-        fields:[
-
-            {
-                id:"clientId",
-                label:"ID Cliente"
-            },
-
-            {
-                id:"clientName",
-                label:"Razon Social"
-            },
-
-            {
-                id:"ipMon",
-                label:"IP Monitoria"
-            },
-
-            {
-                id:"maskMon",
-                label:"Mascara"
-            },
-
-            {
-                id:"gatewayMon",
-                label:"Gateway Monitoria"
-            },
-
-            {
-                id:"vlan",
-                label:"VLAN"
-            },
-
-            {
-                id:"description",
-                label:"Descripcion"
-            },
-
-            {
-                id:"service",
-                label:"Servicio",
-                placeholder:"L3VPN_10MB"
-            }
-
-        ]
-    },
-
-    qinq:{
-
-        title:
-        "SG350 QinQ",
-
-        fields:[
-
-            {
-                id:"clientId",
-                label:"ID Cliente"
-            },
-
-            {
-                id:"clientName",
-                label:"Razon Social"
-            },
-
-            {
-                id:"ipMon",
-                label:"IP Monitoria"
-            },
-
-            {
-                id:"maskMon",
-                label:"Mascara"
-            },
-
-            {
-                id:"gatewayMon",
-                label:"Gateway Monitoria"
-            },
-
-            {
-                id:"customerVlan",
-                label:"Customer VLAN"
-            },
-
-            {
-                id:"description",
-                label:"Descripcion"
-            },
-
-            {
-                id:"service",
-                label:"Servicio",
-                placeholder:"QINQ_100MB"
-            }
-
-        ]
-    },
+    
 
     c881ypf:{
 
@@ -3507,11 +3377,6 @@ const templates = {
 ===================== */
 
 function loadTemplate(templateName){
-
-    if(templateName === "vpn" || templateName === "qinq"){
-        showError("Esta plantilla todavía no está habilitada.");
-        return;
-    }
 
     const hayDatos =
         Array.from(
@@ -4434,132 +4299,6 @@ end
 
 }
 
-/* =====================
-   GENERADOR SG350 VPN
-===================== */
-
-function generateVPN(d){
-
-return `conf t
-
-hostname ${d.clientName}-${d.clientId}
-
-username telecentro privilege 15 password Inst4l4c10n3s
-username backups privilege 15 password c0rp0backup!
-
-enable password Inst4l4c10n3s
-
-ip ssh server
-
-ip ssh-client username telecentro
-ip ssh-client password Inst4l4c10n3s
-
-ip access-list extended 152
-
-permit ip 192.168.0.0 0.0.255.255 any
-permit ip 10.210.0.0 0.0.255.255 any
-deny ip any any
-
-vlan 152
-vlan ${d.vlan}
-
-interface vlan 152
-name MONITORIA-CPE
-ip address ${d.ipMon} ${d.maskMon}
-exit
-
-ip default-gateway ${d.gatewayMon}
-
-interface gigabitethernet 1/0/9
-description ##UPLINK-A-HUB##$
-switchport mode trunk
-switchport trunk allowed vlan add 152,${d.vlan}
-no shutdown
-exit
-
-interface gigabitEthernet 1/0/1
-
-description ##CLIENTE##${d.service}
-switchport mode trunk
-switchport trunk allowed vlan add 152,${d.vlan}
-no shutdown
-exit
-
-interface vlan 1
-shutdown
-exit
-
-snmp-server community TELECENTRO-${d.clientId} ro view Default
-
-sntp server 192.168.15.74
-clock source sntp
-
-exit`;
-}
-
-/* =====================
-   GENERADOR SG350 QINQ
-===================== */
-
-function generateQinQ(d){
-
-return `conf t
-
-hostname ${d.clientName}-${d.clientId}
-
-username telecentro privilege 15 password Inst4l4c10n3s
-username backups privilege 15 password c0rp0backup!
-
-enable password Inst4l4c10n3s
-
-ip ssh server
-
-vlan 152
-vlan ${d.customerVlan}
-
-interface vlan 152
-
-name MONITORIA-CPE
-
-ip address ${d.ipMon} ${d.maskMon}
-
-exit
-
-ip default-gateway ${d.gatewayMon}
-
-interface gigabitethernet9
-
-description ##CLIENTE##${d.description}
-
-switchport mode trunk
-
-switchport trunk allowed vlan add 152,${d.customerVlan}
-
-no shutdown
-
-exit
-
-interface gigabitethernet1
-
-description ##CLIENTE##${d.service}
-
-switchport mode customer
-
-switchport customer vlan ${d.customerVlan}
-
-no shutdown
-
-exit
-
-interface vlan 1
-shutdown
-
-exit
-
-snmp-server community TELECENTRO-${d.clientId} ro view Default
-
-exit`;
-}
 
 /* =====================
    GENERADOR CISCO 881 YPF
@@ -4811,14 +4550,6 @@ function generateCurrentTemplate(){
 
         case "sg3210":
             output = generateSG3210(data);
-        break;
-
-        case "vpn":
-            output = generateVPN(data);
-        break;
-
-        case "qinq":
-            output = generateQinQ(data);
         break;
 
         case "c881ypf":
